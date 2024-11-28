@@ -3,6 +3,7 @@ package src.Presentation;
 import src.Bussines.*;
 import src.Bussines.Character;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -80,13 +81,31 @@ public class Controller {
         do {
             ui.printAllTeams(teams);
             op = UI.askForInteger("Choose an option: ", sc);
+
             if (op > 0 && op <= teams.size()) {
-                ui.showTeamDetails(teams.get(op - 1));
+                List<Member> members = teams.get(op - 1).getMembers();
+                List<Character> charactersMatch = MatchCharacters(members);
+                ui.showTeamDetails(teams.get(op - 1), charactersMatch);
             } else if (op != 0) {
                 UI.displayMessage("\nInvalid option, please enter an option between 1 and " + teams.size());
             }
         } while (op != 0);
 
+    }
+
+    private List<Character> MatchCharacters(List<Member> members) {
+        List<Character> characters = managerCharacter.UploadCharacters();
+        List<Character> matchCharacters = new ArrayList<>();
+
+        for (Member member : members) {
+            for (Character character : characters) {
+                if (member.getId() == character.getId()) {
+                    character.setStrategy(member.getStrategy());
+                    matchCharacters.add(character);
+                }
+            }
+        }
+        return matchCharacters;
     }
     private void combatSimulator() {
     }

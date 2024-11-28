@@ -8,7 +8,12 @@ public class Character {
     private boolean knockedOut;
     private boolean attacking;
     private boolean defending;
+    private String strategy;
 
+    public Character(long id, String strategy) {
+        this.id = id;
+        this.strategy = strategy;
+    }
     // Getters and setters
     public long getId() {
         return id;
@@ -20,6 +25,12 @@ public class Character {
 
     public String getName() {
         return name;
+    }
+    public String getStrategy() {
+        return strategy;
+    }
+    public void setStrategy(String strategy) {
+        this.strategy = strategy;
     }
 
     public void setName(String name) {

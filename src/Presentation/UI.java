@@ -2,11 +2,13 @@ package src.Presentation;
 
 import src.Bussines.Character;
 import src.Bussines.Item;
+import src.Bussines.Member;
 import src.Bussines.Team;
 import src.Persistence.CharactersJsonDao;
 import src.Persistence.ObjectsJsonDao;
 import src.Persistence.TeamsJsonDao;
 
+import javax.sound.midi.MetaMessage;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -129,9 +131,19 @@ public class UI {
         System.out.println("\n\t0) Back");
     }
 
-    public void showTeamDetails(Team team) {
+    public void showTeamDetails(Team team, List<Character> MatchCharacters) {
+
+        int i=1;
+
         System.out.println("\n\tTeam Name:"+team.getName()+"\n");
-        // funcion para buscar personajes del equipo
+        for(Character character : MatchCharacters) {
+
+            System.out.println("\t"+"Character #"+ i + ": " + character.getName()
+            +"\t" + character.getStrategy());
+            i++;
+        }
+
+        System.out.println();
     }
 
     public void printAllObjects() {

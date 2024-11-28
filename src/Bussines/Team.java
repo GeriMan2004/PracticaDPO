@@ -1,5 +1,7 @@
 package src.Bussines;
 
+import java.util.List;
+
 public class Team {
 
     private String name;
@@ -8,6 +10,9 @@ public class Team {
     private int KO_done;
     private int KO_received;
     private boolean combatDone;
+    private List<Character> Characters;
+    private List<Member> members;
+    private String Strategy;
 
 
     public Team(String name, int games_played, int games_won, int KO_done, int KO_received, boolean combatDone) {
@@ -19,8 +24,17 @@ public class Team {
         this.combatDone = combatDone;
     }
 
-    public String getName (){
-        return name;
+    public void setCharacters(List<Character> characters) {
+        this.Characters = characters;
     }
+    public String getStrategy() {
+        return Strategy;
+    }
+    public List<Member> getMembers() {
+        return members;
+    }
+
+    public String getName() {return name;}
+    public List<Character> getCharacters() {return Characters;}
 
 }
