@@ -73,6 +73,24 @@ public class UI {
         } while (true);
     }
 
+    public void printAllCharacters(List<Character> characters) {
+        int i = 1;
+
+        for(Character character : characters) {
+            System.out.println("\t"+ i + ") " + character.getName());
+            i++;
+        }
+        System.out.println("\n\t0) Back");
+    }
+
+    public void showCharacterDetails(Character character) {
+
+        System.out.println("\n\tID:"+character.getId()+
+                "\n\tNAME:"+character.getName()+
+                "\n\tWEIGHT:"+character.getWeight()+" kg");
+        //función buscar equipos
+    }
+
     private static String MENSAJE_MANAGE_TEAMS = "\nTeam management.\n" +
             "\t1) Create a Team\n" +
             "\t2) List Teams\n" +
@@ -92,40 +110,28 @@ public class UI {
                     return CasesMenu.DELETE_TEAM;
                 case 4:
                     return CasesMenu.EXIT_TEAMS;
+                default:
+                    System.out.println("\nInvalid option, please enter an option between 1 and 4");
             }
         } while (true);
     }
 
-    private static String MENSAJE_GOODBYE = "\nWe hope to see you again!";
-
-    public void displayExit() {
-        System.out.println(MENSAJE_GOODBYE);
-    }
 
 
-    public void printAllTeams(List<Character> characters) {
 
+    public void printAllTeams(List<Team> teams) {
+        int i = 1;
 
-    }
-
-    public void printAllCharacters(List<Character> characters) {
-        int i=1;
-
-        for(Character character : characters) {
-            System.out.println("\t"+ i + ")" + character.getName());
+        for(Team team : teams) {
+            System.out.println("\t"+ i + ") " + team.getName());
             i++;
         }
-
         System.out.println("\n\t0) Back");
-
     }
 
-    public void showCharacterDetails(Character character) {
-
-        System.out.println("\n\tID:"+character.getId()+
-                "\n\tNAME:"+character.getName()+
-                "\n\tWEIGHT:"+character.getWeight()+" kg");
-                //función buscar equipos
+    public void showTeamDetails(Team team) {
+        System.out.println("\n\tTeam Name:"+team.getName()+"\n");
+        // funcion para buscar personajes del equipo
     }
 
     public void printAllObjects() {
@@ -141,11 +147,11 @@ public class UI {
         }
     }
 
-    public void showDetailsCharacter(String nameCharacter){
-        System.out.println("Character details:");
+    private static String MENSAJE_GOODBYE = "\nWe hope to see you again!";
+
+    public void displayExit() {
+        System.out.println(MENSAJE_GOODBYE);
     }
-
-
 
     public static String askForString(String message, Scanner scanner) {
         System.out.print(message);
@@ -176,5 +182,9 @@ public class UI {
                 scanner.nextLine();
             }
         }
+    }
+
+    public static void displayMessage(String message) {
+        System.out.println(message);
     }
 }

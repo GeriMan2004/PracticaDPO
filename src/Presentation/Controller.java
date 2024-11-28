@@ -1,10 +1,7 @@
 package src.Presentation;
 
+import src.Bussines.*;
 import src.Bussines.Character;
-import src.Bussines.ManagerCharacter;
-import src.Bussines.ManagerCombat;
-import src.Bussines.ManagerObject;
-import src.Bussines.ManagerTeam;
 
 import java.util.List;
 import java.util.Scanner;
@@ -46,43 +43,49 @@ public class Controller {
     }
 
     private void listarPersonaje(ManagerCharacter managerCharacter) {
-
         int op;
-
         List<Character> characters = managerCharacter.UploadCharacters();
-
         do {
             ui.printAllCharacters(characters);
-            op = ui.askForInteger("Choose an option: ", sc);
-            if (op > 0 && op < characters.size()) {
-
+            op = UI.askForInteger("Choose an option: ", sc);
+            if (op > 0 && op <= characters.size()) {
                 ui.showCharacterDetails(characters.get(op - 1));
+            } else if (op != 0) {
+                UI.displayMessage("\nInvalid option, please enter an option between 1 and " + characters.size());
             }
-
-        } while (op < 0 && op > characters.size());
-
-
+        } while (op != 0);
     }
 
     private void manageTeams() {
         boolean menu = true;
         while (menu) {
-            ui.displayManageTeamsMenu();
             CasesMenu option = ui.displayManageTeamsMenu();
             switch (option) {
                 case CREATE_TEAM -> createTeam();
-                case LIST_TEAMS -> listTeams();
+                case LIST_TEAMS -> listTeams(managerTeam);
                 case DELETE_TEAM -> deleteTeam();
                 case EXIT_TEAMS -> menu = false;
+                default -> UI.displayMessage("\nInvalid option, please enter an option between 1 and 4");
             }
         }
     }
 
     private void objectsList() {
         ui.printAllObjects();
-        int op  = ui.askForInteger("Choose an option: ", sc);
+        int op  = UI.askForInteger("Choose an option: ", sc);
     }
-    private void listTeams() {
+    private void listTeams(ManagerTeam managerTeam) {
+        int op = 0;
+        List<Team> teams = managerTeam.getAllTeams();
+        do {
+            ui.printAllTeams(teams);
+            op = UI.askForInteger("Choose an option: ", sc);
+            if (op > 0 && op <= teams.size()) {
+                ui.showTeamDetails(teams.get(op - 1));
+            } else if (op != 0) {
+                UI.displayMessage("\nInvalid option, please enter an option between 1 and " + teams.size());
+            }
+        } while (op != 0);
 
     }
     private void combatSimulator() {
