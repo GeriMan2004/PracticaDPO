@@ -1,5 +1,7 @@
 package src.Presentation;
 
+import java.util.Scanner;
+
 public class Controller {
     private UI ui = new UI();
 
@@ -23,6 +25,13 @@ public class Controller {
     }
 
     private void crearPersonaje() {
+        ui.printAllCharacters();
+        Scanner sc = new Scanner(System.in);
+
+        int op  = ui.askForInteger("Choose an option: ", sc);
+
+
+
     }
 
     private void manageTeams() {

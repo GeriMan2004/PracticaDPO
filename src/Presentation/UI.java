@@ -1,6 +1,11 @@
 package src.Presentation;
 
+import src.Bussines.Character;
+import src.Persistence.CharactersJsonDao;
+
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class UI {
@@ -93,12 +98,18 @@ public class UI {
     }
 
 
-    public void printAllTeams() {
-        System.out.println("All teams:");
-    }
+    public void printAllTeams() {System.out.println("All teams:");}
 
     public void printAllCharacters() {
-        System.out.println("All characters:");
+        int i=1;
+        CharactersJsonDao charactersJsonDao = new CharactersJsonDao();
+        List<Character> characters  = charactersJsonDao.readCharacters();
+
+        for(Character character : characters) {
+            System.out.println(i + ")" + character.getName());
+            i++;
+        }
+
     }
 
     public void printAllObjects() {
