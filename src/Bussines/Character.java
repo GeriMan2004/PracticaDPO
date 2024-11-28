@@ -26,7 +26,7 @@ public class Character {
         this.name = name;
     }
 
-    public int weight() {
+    public int getWeight() {
         return weight;
     }
 

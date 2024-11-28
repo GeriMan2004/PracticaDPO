@@ -1,8 +1,13 @@
 package src.Presentation;
 
 import src.Bussines.Character;
+import src.Bussines.Item;
+import src.Bussines.Team;
 import src.Persistence.CharactersJsonDao;
+import src.Persistence.ObjectsJsonDao;
+import src.Persistence.TeamsJsonDao;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -98,22 +103,42 @@ public class UI {
     }
 
 
-    public void printAllTeams() {System.out.println("All teams:");}
+    public void printAllTeams(List<Character> characters) {
 
-    public void printAllCharacters() {
-        int i=1;
-        CharactersJsonDao charactersJsonDao = new CharactersJsonDao();
-        List<Character> characters  = charactersJsonDao.readCharacters();
-
-        for(Character character : characters) {
-            System.out.println(i + ")" + character.getName());
-            i++;
-        }
 
     }
 
+    public void printAllCharacters(List<Character> characters) {
+        int i=1;
+
+        for(Character character : characters) {
+            System.out.println("\t"+ i + ")" + character.getName());
+            i++;
+        }
+
+        System.out.println("\n\t0) Back");
+
+    }
+
+    public void showCharacterDetails(Character character) {
+
+        System.out.println("\n\tID:"+character.getId()+
+                "\n\tNAME:"+character.getName()+
+                "\n\tWEIGHT:"+character.getWeight()+" kg");
+                //función buscar equipos
+    }
+
     public void printAllObjects() {
-        System.out.println("All items:");
+        int i=1;
+
+        ObjectsJsonDao objectsJsonDao = new ObjectsJsonDao();
+        List<Item> items = objectsJsonDao.readObjects();
+        
+        for(Item item: items)
+        {
+            System.out.println(i + ")" + item.getName());
+            i++;
+        }
     }
 
     public void showDetailsCharacter(String nameCharacter){
