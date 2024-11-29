@@ -26,7 +26,7 @@ public class Controller {
 
     public void start() {
         ui.displayWelcome();
-        UI.displayMessage("Loading data...");
+        UI.displayMessage("Verifying local files...");
         boolean menu = verifyLocalFiles();
         if (!menu) {
             UI.displayMessage("Shutting down....");
