@@ -139,7 +139,7 @@ public class UI {
         for(Character character : MatchCharacters) {
 
             System.out.println("\t"+"Character #"+ i + ": " + character.getName()
-            +"\t" + character.getStrategy());
+            +"\t" + character.getStrategy().toUpperCase());
             i++;
         }
 
