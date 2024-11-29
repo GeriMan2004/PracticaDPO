@@ -42,8 +42,6 @@ public class CharactersJsonDao {
         try (FileReader reader = new FileReader(path)) {
             return true;
         } catch (IOException e) {
-            System.out.println("Error: The characters.json file can’t be accessed.\n");
-            System.out.println("Shutting down.\n");
             return false;
         }
     }
