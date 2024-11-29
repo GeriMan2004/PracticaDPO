@@ -2,15 +2,9 @@ package src.Presentation;
 
 import src.Bussines.Character;
 import src.Bussines.Item;
-import src.Bussines.Member;
 import src.Bussines.Team;
-import src.Persistence.CharactersJsonDao;
 import src.Persistence.ObjectsJsonDao;
-import src.Persistence.TeamsJsonDao;
 
-import javax.sound.midi.MetaMessage;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -138,10 +132,15 @@ public class UI {
         System.out.println("\n\tTeam Name:"+team.getName()+"\n");
         for(Character character : MatchCharacters) {
 
-            System.out.println("\t"+"Character #"+ i + ": " + character.getName()
-            +"\t" + character.getStrategy().toUpperCase());
+            System.out.println("\t"+"Character #"+ i + ": "+character.getName()
+            +"\t("+character.getStrategy().toUpperCase()+")");
             i++;
         }
+        System.out.println("\n\tCombats played: "+team.getGames_played()+
+                "\n\tCombats won:\t"+team.getGames_won()+
+                "\n\tWin rate:\t\t" +(team.getGames_won()*100/team.getGames_played())+"%"+
+                "\n\tKOs done:\t\t"+team.getKO_done()+
+                "\n\tKOs received:\t"+team.getKO_received());
 
         System.out.println();
     }

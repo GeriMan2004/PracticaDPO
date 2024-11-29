@@ -11,7 +11,12 @@ public class ManagerCharacter {
     {
         CharactersJsonDao charactersJsonDao = new CharactersJsonDao();
         List<Character> characters = charactersJsonDao.readCharacters();
-
         return characters;
+    }
+
+    public boolean checkCharacterFile()
+    {
+        CharactersJsonDao charactersJsonDao = new CharactersJsonDao();
+        return charactersJsonDao.checkCharactersFile();
     }
 }

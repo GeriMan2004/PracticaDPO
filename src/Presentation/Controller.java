@@ -25,9 +25,13 @@ public class Controller {
     }
 
     public void start() {
-
         ui.displayWelcome();
-        boolean menu = true;
+        UI.displayMessage("Loading data...");
+        boolean menu = verifyLocalFiles();
+        if (!menu) {
+            UI.displayMessage("Shutting down....");
+            return;
+        }
         while (menu) {
             CasesMenu option = ui.displayMainMenu();
             switch (option) {
@@ -41,6 +45,19 @@ public class Controller {
                 }
             }
         }
+    }
+
+    private boolean verifyLocalFiles() {
+        boolean menu = true;
+        if (!managerCharacter.checkCharacterFile()) {
+            menu = false;
+            UI.displayMessage("Error: The characters.json file can’t be accessed.");
+        }
+        if (!managerObject.checkItemFile()) {
+            menu = false;
+            UI.displayMessage("Error: The objects.json file can’t be accessed.");
+        }
+        return menu;
     }
 
     private void listarPersonaje(ManagerCharacter managerCharacter) {
@@ -83,8 +100,8 @@ public class Controller {
             op = UI.askForInteger("Choose an option: ", sc);
 
             if (op > 0 && op <= teams.size()) {
-                List<Member> members = teams.get(op - 1).getMembers();
-                List<Character> charactersMatch = MatchCharacters(members);
+                List<Character> members = teams.get(op - 1).getMembers();
+                List<Character> charactersMatch = matchCharacters(members);
                 ui.showTeamDetails(teams.get(op - 1), charactersMatch);
             } else if (op != 0) {
                 UI.displayMessage("\nInvalid option, please enter an option between 1 and " + teams.size());
@@ -93,11 +110,11 @@ public class Controller {
 
     }
 
-    private List<Character> MatchCharacters(List<Member> members) {
+    private List<Character> matchCharacters(List<Character> members) {
         List<Character> characters = managerCharacter.UploadCharacters();
         List<Character> matchCharacters = new ArrayList<>();
 
-        for (Member member : members) {
+        for (Character member : members) {
             for (Character character : characters) {
                 if (member.getId() == character.getId()) {
                     character.setStrategy(member.getStrategy());
@@ -107,6 +124,7 @@ public class Controller {
         }
         return matchCharacters;
     }
+
     private void combatSimulator() {
     }
 
