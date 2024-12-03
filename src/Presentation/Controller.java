@@ -67,11 +67,11 @@ public class Controller {
             ui.printAllCharacters(characters);
             op = UI.askForInteger("Choose an option: ", sc);
             if (op > 0 && op <= characters.size()) {
-                ui.showCharacterDetails(characters.get(op - 1));
+                ui.showCharacterDetails(characters.get(op - 1), managerTeam.matchTeams(characters.get(op - 1)));
             } else if (op != 0) {
                 UI.displayMessage("\nInvalid option, please enter an option between 1 and " + characters.size());
             }
-        } while (op != 0);
+        } while (op < 0 || op > characters.size());
     }
 
     private void manageTeams() {
@@ -88,21 +88,6 @@ public class Controller {
         }
     }
 
-    private void objectsList() {
-        int op=0;
-        List<Item> items = ManagerObject.uploadObjects();
-
-        do {
-            ui.printAllObjects();
-            op = UI.askForInteger("Choose an option: ", sc);
-            if (op > 0 && op <= items.size()) {
-                ui.showItemsDetail(items.get(op - 1));
-            } else if (op != 0) {
-                UI.displayMessage("\nInvalid option, please enter an option between 1 and " + items.size());
-            }
-        }while(op != 0);
-
-    }
     private void listTeams(ManagerTeam managerTeam) {
         int op = 0;
         List<Team> teams = managerTeam.getAllTeams();
@@ -134,6 +119,22 @@ public class Controller {
             }
         }
         return matchCharacters;
+    }
+
+    private void objectsList() {
+        int op=0;
+        List<Item> items = ManagerObject.uploadObjects();
+
+        do {
+            ui.printAllObjects();
+            op = UI.askForInteger("\nChoose an option: ", sc);
+            if (op > 0 && op <= items.size()) {
+                ui.showItemsDetail(items.get(op - 1));
+            } else if (op != 0) {
+                UI.displayMessage("\nInvalid option, please enter an option between 1 and " + items.size());
+            }
+        }while(op < 0 || op > items.size());
+
     }
 
     private void combatSimulator() {
