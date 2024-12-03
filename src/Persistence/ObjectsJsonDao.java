@@ -36,10 +36,6 @@ public class ObjectsJsonDao {
             System.out.println("Shutting down.\n");
         }
 
-        for(Item item : items){
-            System.out.println(item);
-        }
-
         return items;
     }
 

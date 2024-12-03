@@ -87,6 +87,17 @@ public class UI {
         //función buscar equipos
     }
 
+    public void showItemsDetail(Item item)
+    {
+        System.out.println("\n\tID:"+"\t"+item.getId_object()+
+                "\n\tNAME:"+"\t"+item.getName()+
+                "\n\tTYPE:"+"\t"+item.getObject_type()+
+                "\n\tPOWER:"+"\t"+item.getPowerValue()+
+                "\n\tDURABILITY:"+"\t"+item.getDurability()+
+                "\n\tBROKEN:"+"\t"+item.isBroken());
+    }
+
+
     private static String MENSAJE_MANAGE_TEAMS = "\nTeam management.\n" +
             "\t1) Create a Team\n" +
             "\t2) List Teams\n" +

@@ -89,8 +89,19 @@ public class Controller {
     }
 
     private void objectsList() {
-        ui.printAllObjects();
-        int op  = UI.askForInteger("Choose an option: ", sc);
+        int op=0;
+        List<Item> items = ManagerObject.uploadObjects();
+
+        do {
+            ui.printAllObjects();
+            op = UI.askForInteger("Choose an option: ", sc);
+            if (op > 0 && op <= items.size()) {
+                ui.showItemsDetail(items.get(op - 1));
+            } else if (op != 0) {
+                UI.displayMessage("\nInvalid option, please enter an option between 1 and " + items.size());
+            }
+        }while(op != 0);
+
     }
     private void listTeams(ManagerTeam managerTeam) {
         int op = 0;

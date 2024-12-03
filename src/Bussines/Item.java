@@ -1,30 +1,33 @@
 package src.Bussines;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Item {
-    private long id_object;
+    private long id;
     private String name;
-    private String object_type;
-    private int powerValue;
+    @SerializedName("class")
+    private String class_name;
+    private int power;
     private int durability;
     private boolean isBroken;
 
     // Constructor
-    public Item(long id_object, String name, String object_type, int powerValue, int durability, boolean isBroken) {
-        this.id_object = id_object;
+    public Item(long id, String name, String class_name, int power, int durability, boolean isBroken) {
+        this.id = id;
         this.name = name;
-        this.object_type = object_type;
-        this.powerValue = powerValue;
+        this.class_name = class_name;
+        this.power = power;
         this.durability = durability;
         this.isBroken = isBroken;
     }
 
     // Getters and setters
     public long getId_object() {
-        return id_object;
+        return id;
     }
 
     public void setId_object(long id_object) {
-        this.id_object = id_object;
+        this.id = id_object;
     }
 
     public String getName() {
@@ -36,19 +39,19 @@ public class Item {
     }
 
     public String getObject_type() {
-        return object_type;
+        return class_name;
     }
 
     public void setObject_type(String object_type) {
-        this.object_type = object_type;
+        this.class_name = object_type;
     }
 
     public int getPowerValue() {
-        return powerValue;
+        return power;
     }
 
     public void setPowerValue(int powerValue) {
-        this.powerValue = powerValue;
+        this.power = powerValue;
     }
 
     public int getDurability() {
@@ -69,12 +72,12 @@ public class Item {
 
     @Override
     public String toString() {
-        return "{" +
-                "\"id\": " + id_object +
-                ", \"name\": \"" + name + '\"' +
-                ", \"power\": " + powerValue +
-                ", \"durability\": " + durability +
-                ", \"class\": \"" + object_type + '\"' +
-                '}';
+        return "\n\tID:"+id+
+                "\n\tNAME:"+name+
+                "\n\tCLASS:"+class_name+
+                "\n\tPOWER:"+power+
+                "\n\tDURABILITY:"+ durability;
     }
+
 }
+
