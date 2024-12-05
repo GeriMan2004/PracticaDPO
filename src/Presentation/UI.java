@@ -16,7 +16,8 @@ public class UI {
      * @autor: Gerard Perez
      * @autor: Walter-Arnau Quintili
      */
-    private static String MENSAJE_WELCOME = "  ___                      _    ___     ___         _ \n" +
+    private static String MENSAJE_WELCOME =
+            "  ___                      _    ___     ___         _ \n" +
             " / __|_  _ _ __  ___ _ _  | |  / __|   | _ )_ _ ___| |\n" +
             " \\__ \\ || | '_ \\/ -_) '_| | |__\\__ \\_  | _ \\ '_/ _ \\_|\n" +
             " |___/\\_,_| .__/\\___|_|   |____|___( ) |___/_| \\___(_)\n" +
@@ -79,23 +80,22 @@ public class UI {
         System.out.println("\n\t0) Back");
     }
 
-    public void showCharacterDetails(Character character) {
+    public void showCharacterDetails(Character character, List<Team> matchTeams) {
 
-        System.out.println("\n\tID:"+character.getId()+
-                "\n\tNAME:"+character.getName()+
-                "\n\tWEIGHT:"+character.getWeight()+" kg");
-        //función buscar equipos
+        System.out.println("\n\tID:\t\t"+character.getId()+
+                "\n\tNAME:\t"+character.getName()+
+                "\n\tWEIGHT:\t"+character.getWeight()+" kg");
+        if (!matchTeams.isEmpty()) {
+            System.out.println("\n\tTEAMS:");
+            for (Team team : matchTeams) {
+                System.out.println("\t\t- " + team.getName());
+            }
+        } else {
+            System.out.println("\n\tTEAMS: This character is not in any team.");
+        }
     }
 
-    public void showItemsDetail(Item item)
-    {
-        System.out.println("\n\tID:"+"\t"+item.getId_object()+
-                "\n\tNAME:"+"\t"+item.getName()+
-                "\n\tTYPE:"+"\t"+item.getObject_type()+
-                "\n\tPOWER:"+"\t"+item.getPowerValue()+
-                "\n\tDURABILITY:"+"\t"+item.getDurability()+
-                "\n\tBROKEN:"+"\t"+item.isBroken());
-    }
+
 
 
     private static String MENSAJE_MANAGE_TEAMS = "\nTeam management.\n" +
@@ -122,9 +122,6 @@ public class UI {
             }
         } while (true);
     }
-
-
-
 
     public void printAllTeams(List<Team> teams) {
         int i = 1;
@@ -164,9 +161,20 @@ public class UI {
         
         for(Item item: items)
         {
-            System.out.println(i + ")" + item.getName());
+            System.out.println("\t" + i + ") " + item.getName());
             i++;
         }
+        System.out.println("\n\t0) Back");
+    }
+
+    public void showItemsDetail(Item item)
+    {
+        System.out.println("\n\tID:"+"\t"+item.getId_object()+
+                "\n\tNAME:"+"\t"+item.getName()+
+                "\n\tTYPE:"+"\t"+item.getObject_type()+
+                "\n\tPOWER:"+"\t"+item.getPowerValue()+
+                "\n\tDURABILITY:"+"\t"+item.getDurability()+
+                "\n\tBROKEN:"+"\t"+item.isBroken());
     }
 
     private static String MENSAJE_GOODBYE = "\nWe hope to see you again!";

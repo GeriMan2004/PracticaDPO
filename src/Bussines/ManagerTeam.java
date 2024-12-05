@@ -3,6 +3,7 @@ package src.Bussines;
 import src.Persistence.StatsJsonDao;
 import src.Persistence.TeamsJsonDao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ManagerTeam {
@@ -16,6 +17,20 @@ public class ManagerTeam {
         matchStats(teams, stats);
 
         return teams;
+    }
+
+    public List<Team> matchTeams(Character character){
+        TeamsJsonDao teamsJsonDao = new TeamsJsonDao();
+        List<Team> teams = teamsJsonDao.readTeams();
+        List<Team> matchedTeams = new ArrayList<>();
+        for (Team team : teams) {
+            for (Character characters : team.getMembers()) {
+                if (characters.getId() == character.getId()) {
+                    matchedTeams.add(team);
+                }
+            }
+        }
+        return matchedTeams;
     }
 
     private void matchStats(List<Team> teams, List<Team> stats) {
