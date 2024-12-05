@@ -3,6 +3,7 @@ package src.Presentation;
 import src.Bussines.*;
 import src.Bussines.Character;
 
+import javax.naming.ldap.Control;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -140,6 +141,39 @@ public class Controller {
     }
 
     private void createTeam() {
+        Team team = null;
+        ManagerTeam managerTeam=null;
+        Character character = null;
+        List<Character> members = List.of();
+        int op;
+
+        String team_name = UI.askForString("Please enter the team's name: ", sc);
+        team.setName(team_name);
+
+        for(int i=0; i<4;i++) {
+            int newID = UI.askForInteger("Please enter name or id for character #" + i + 1, sc);
+            character.setId(newID);
+
+            do {
+                UI.displayMessage("Game strategy for character #" + i + 1
+                        + "\n\t" + "1)Balanced");
+                op = UI.askForInteger("\tChoose an option:", sc);
+                if (op > 1 || op < 1) {
+                    UI.displayMessage("\tOption not valid!");
+                }
+                switch (op) {
+                    case 1: character.setStrategy("Balanced");
+                        break;
+                }
+            } while (op != 1);
+
+            members.add(character);
+        }
+
+        team.setMembers(members);
+        UI.displayMessage(team.getName()+"has been successfully created!");
+        List<Team> teamsupdated= managerTeam.getAllTeams();
+        teamsupdated.add(team);
     }
 
 
