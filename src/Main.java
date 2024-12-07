@@ -7,8 +7,10 @@ import src.Bussines.ManagerTeam;
 import src.Persistence.CharactersJsonDao;
 import src.Presentation.Controller;
 
+import java.io.IOException;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         ManagerCharacter ManagerCharacter = new ManagerCharacter();
         ManagerTeam ManagerTeam = new ManagerTeam();
         ManagerObject ManagerObject = new ManagerObject();

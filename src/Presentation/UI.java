@@ -136,6 +136,7 @@ public class UI {
     public void showTeamDetails(Team team, List<Character> MatchCharacters) {
 
         int i=1;
+        Float winrate;
 
         System.out.println("\n\tTeam Name:"+team.getName()+"\n");
         for(Character character : MatchCharacters) {
@@ -144,13 +145,25 @@ public class UI {
             +"\t("+character.getStrategy().toUpperCase()+")");
             i++;
         }
-        System.out.println("\n\tCombats played: "+team.getGames_played()+
-                "\n\tCombats won:\t"+team.getGames_won()+
-                "\n\tWin rate:\t\t" +(team.getGames_won()*100/team.getGames_played())+"%"+
-                "\n\tKOs done:\t\t"+team.getKO_done()+
-                "\n\tKOs received:\t"+team.getKO_received());
 
-        System.out.println();
+        if(team.getGames_played()==0) {
+            winrate = 100.0F;
+            System.out.println("\n\tCombats played: " + team.getGames_played() +
+                    "\n\tCombats won:\t" + team.getGames_won() +
+                    "\n\tWin rate:\t\t" + winrate + "%" +
+                    "\n\tKOs done:\t\t" + team.getKO_done() +
+                    "\n\tKOs received:\t" + team.getKO_received());
+        }else{
+            winrate = (float) (team.getGames_won()*100/team.getGames_played());
+            System.out.println("\n\tCombats played: "+team.getGames_played()+
+                    "\n\tCombats won:\t"+team.getGames_won()+
+                    "\n\tWin rate:\t\t" + winrate  +"%"+
+                    "\n\tKOs done:\t\t"+team.getKO_done()+
+                    "\n\tKOs received:\t"+team.getKO_received());
+
+            System.out.println();
+        }
+
     }
 
     public void printAllObjects() {

@@ -2,30 +2,32 @@ package src.Presentation;
 
 import src.Bussines.*;
 import src.Bussines.Character;
+import src.Persistence.CharactersJsonDao;
 
 import javax.naming.ldap.Control;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Controller {
 
-    private UI ui= new UI();
+    private UI ui = new UI();
     private Scanner sc = new Scanner(System.in);
 
     private ManagerCharacter managerCharacter;
-    private ManagerTeam managerTeam ;
+    private ManagerTeam managerTeam;
     private ManagerObject managerObject;
     private ManagerCombat managerCombat;
 
-    public Controller (ManagerCharacter managerCharacter, ManagerTeam managerTeam, ManagerObject managerObject, ManagerCombat managerCombat) {
+    public Controller(ManagerCharacter managerCharacter, ManagerTeam managerTeam, ManagerObject managerObject, ManagerCombat managerCombat) {
         this.managerCharacter = managerCharacter;
         this.managerTeam = managerTeam;
         this.managerObject = managerObject;
         this.managerCombat = managerCombat;
     }
 
-    public void start() {
+    public void start() throws IOException {
         ui.displayWelcome();
         UI.displayMessage("Verifying local files...");
         boolean menu = verifyLocalFiles();
@@ -75,7 +77,7 @@ public class Controller {
         } while (op < 0 || op > characters.size());
     }
 
-    private void manageTeams() {
+    private void manageTeams() throws IOException {
         boolean menu = true;
         while (menu) {
             CasesMenu option = ui.displayManageTeamsMenu();
@@ -123,7 +125,7 @@ public class Controller {
     }
 
     private void objectsList() {
-        int op=0;
+        int op = 0;
         List<Item> items = ManagerObject.uploadObjects();
 
         do {
@@ -134,52 +136,68 @@ public class Controller {
             } else if (op != 0) {
                 UI.displayMessage("\nInvalid option, please enter an option between 1 and " + items.size());
             }
-        }while(op < 0 || op > items.size());
+        } while (op < 0 || op > items.size());
 
     }
 
     private void combatSimulator() {
     }
 
-    private void createTeam() {
-        Team team = null;
-        ManagerTeam managerTeam=null;
-        Character character = null;
-        List<Character> members = List.of();
+    private void createTeam() throws IOException {
+        Team team = new Team("", 0, 0, 0, 0, false);
+        ManagerTeam managerTeam = new ManagerTeam();
+        List<Character> members = new ArrayList<>();
         int op;
 
         String team_name = UI.askForString("Please enter the team's name: ", sc);
         team.setName(team_name);
 
-        for(int i=0; i<4;i++) {
-            int newID = UI.askForInteger("Please enter name or id for character #" + i + 1, sc);
-            character.setId(newID);
-
-            do {
-                UI.displayMessage("Game strategy for character #" + i + 1
-                        + "\n\t" + "1)Balanced");
-                op = UI.askForInteger("\tChoose an option:", sc);
-                if (op > 1 || op < 1) {
-                    UI.displayMessage("\tOption not valid!");
+        for (int i = 0; i < 4; i++) {
+            String input = UI.askForString("Please enter name or id for character #" + (i + 1) + ": ", sc);
+            Character character;
+            try {
+                int newID = Integer.parseInt(input);
+                character = new Character(newID, ""); // Asumiendo estrategia por defecto
+            } catch (NumberFormatException e) {
+                List<Character> characters = CharactersJsonDao.readCharacters();
+                character = new Character(0, "");
+                for (Character c : characters) {
+                    if (c.getName().equals(input)) {
+                        character.setId(c.getId());
+                    }
+                    character.setName(input);
                 }
-                switch (op) {
-                    case 1: character.setStrategy("Balanced");
-                        break;
-                }
-            } while (op != 1);
+            }
+                do {
+                    UI.displayMessage("Game strategy for character #" + (i + 1)
+                            + "\n\t" + "1)Balanced");
+                    op = UI.askForInteger("\tChoose an option:", sc);
+                    if (op > 1 || op < 1) {
+                        UI.displayMessage("\tOption not valid!");
+                    }
+                    switch (op) {
+                        case 1:
+                            character.setStrategy("Balanced");
+                            break;
+                    }
+                } while (op != 1);
 
-            members.add(character);
+                members.add(character);
         }
+            team.setMembers(members);
+            team.setGames_won(1);
+            team.setKO_done(0);
+            team.setKO_received(0);
+            team.setGames_played(1);
 
-        team.setMembers(members);
-        UI.displayMessage(team.getName()+"has been successfully created!");
-        List<Team> teamsupdated= managerTeam.getAllTeams();
-        teamsupdated.add(team);
+            UI.displayMessage(team.getName() + " has been successfully created!");
+            managerTeam.addTeam(team);
+
+
+
+
+
     }
-
-
-
-    private void deleteTeam() {
+    private void deleteTeam () {
     }
-
 }

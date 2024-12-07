@@ -12,9 +12,8 @@ import java.util.List;
 
 public class CharactersJsonDao {
 
-    private String path = "data/characters.json";
-    Gson gson = new Gson();
-
+    private static String path = "data/characters.json";
+    private static Gson gson = new Gson(); // Make gson static
 
     /**
      * Función que lee todos los personajes del fichero 'characters.json'
@@ -22,7 +21,7 @@ public class CharactersJsonDao {
      * @autor: Walter-Arnau Quintili
      * @return retorna la lista de personajes
      */
-    public List<Character> readCharacters() {
+    public static List<Character> readCharacters() {
 
         List<Character> characters = new ArrayList<>();
 
@@ -37,8 +36,7 @@ public class CharactersJsonDao {
         return characters;
     }
 
-    public boolean checkCharactersFile()
-    {
+    public boolean checkCharactersFile() {
         try (FileReader reader = new FileReader(path)) {
             return true;
         } catch (IOException e) {

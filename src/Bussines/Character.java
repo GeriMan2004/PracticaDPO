@@ -1,22 +1,27 @@
 package src.Bussines;
 
+import com.google.gson.annotations.Expose;
+
 public class Character {
+   @Expose
     private long id;
+    @Expose
+    private String strategy;
+
     private String name;
     private int weight;
     private double damage_received;
     private boolean knockedOut;
     private boolean attacking;
     private boolean defending;
-    private String strategy;
 
     public Character(long id, String strategy) {
         this.id = id;
         this.strategy = strategy;
     }
     // Getters and setters
-    public long getId() {
-        return id;
+    public int getId() {
+        return (int) id;
     }
 
     public void setId(int id) {
@@ -53,4 +58,6 @@ public class Character {
                 ", weight='" + weight + '\'' +
                 '}';
     }
+
+
 }

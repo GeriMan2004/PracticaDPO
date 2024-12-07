@@ -1,16 +1,20 @@
 package src.Bussines;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 public class Team {
-
+    @Expose
     private String name;
     private int games_played;
     private int games_won;
     private int KO_done;
     private int KO_received;
     private boolean combatDone;
+    @Expose
     private List<Character> members;
+    @Expose
     private String Strategy;
 
 
