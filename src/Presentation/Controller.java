@@ -199,5 +199,22 @@ public class Controller {
 
     }
     private void deleteTeam () {
+        int op;
+        List<Team> teams = managerTeam.getAllTeams();
+        do {
+            ui.printAllTeams(teams);
+            op = UI.askForInteger("Choose an option: ", sc);
+            if (op > 0 && op <= teams.size()) {
+                UI.displayMessage("Team " + teams.get(op - 1).getName() + " has been successfully deleted!");
+                teams.remove(op - 1);
+                try {
+                    managerTeam.addTeams(teams);
+                } catch (IOException e) {
+                    UI.displayMessage("Error: The teams.json file can’t be accessed.");
+                }
+            } else if (op != 0) {
+                UI.displayMessage("\nInvalid option, please enter an option between 1 and " + teams.size());
+            }
+        } while (op != 0);
     }
 }

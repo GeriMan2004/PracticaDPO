@@ -41,6 +41,10 @@ public class ManagerTeam {
         teamsJsonDao.writeTeams(teamsupdated);
     }
 
+    public void addTeams(List<Team> teams) throws IOException {
+        TeamsJsonDao teamsJsonDao = new TeamsJsonDao();
+        teamsJsonDao.writeTeams(teams);
+    }
 
     private void matchStats(List<Team> teams, List<Team> stats) {
         for (Team team : teams) {
