@@ -1,9 +1,7 @@
 package src;
 
-import src.Bussines.ManagerCharacter;
-import src.Bussines.ManagerCombat;
-import src.Bussines.ManagerObject;
-import src.Bussines.ManagerTeam;
+import src.Bussines.*;
+import src.Bussines.Character;
 import src.Persistence.CharactersJsonDao;
 import src.Presentation.Controller;
 
@@ -11,12 +9,19 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        ManagerCharacter ManagerCharacter = new ManagerCharacter();
-        ManagerTeam ManagerTeam = new ManagerTeam();
-        ManagerObject ManagerObject = new ManagerObject();
-        ManagerCombat ManagerCombat = new ManagerCombat();
+        CharactersJsonDao charactersJsonDao = new CharactersJsonDao();
+        ObjectsJsonDao objectsJsonDao = new ObjectsJsonDao();
+        StatsJsonDao statsJsonDao = new StatsJsonDao();
+        TeamsJsonDao teamsJsonDao = new TeamsJsonDao();
 
-        Controller controller = new Controller(ManagerCharacter, ManagerTeam, ManagerObject, ManagerCombat);
+        ManagerCharacter ManagerCharacter = new ManagerCharacter(charactersJsonDao);
+        ManagerTeam ManagerTeam = new ManagerTeam(teamsJsonDao, statsJsonDao);
+        ManagerObject ManagerObject = new ManagerObject(objectsJsonDao);
+        ManagerCombat ManagerCombat = new ManagerCombat(objectsJsonDao);
+
+        ManagerLSBRO managerLSBRO = new ManagerLSBRO(ManagerCharacter, ManagerTeam, ManagerObject, ManagerCombat);
+
+        Controller controller = new Controller(managerLSBRO);
         controller.start();
 
     }

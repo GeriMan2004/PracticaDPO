@@ -14,18 +14,10 @@ import java.util.Scanner;
 public class Controller {
 
     private UI ui = new UI();
-    private Scanner sc = new Scanner(System.in);
+    private ManagerLSBRO managerLSBRO;
 
-    private ManagerCharacter managerCharacter;
-    private ManagerTeam managerTeam;
-    private ManagerObject managerObject;
-    private ManagerCombat managerCombat;
-
-    public Controller(ManagerCharacter managerCharacter, ManagerTeam managerTeam, ManagerObject managerObject, ManagerCombat managerCombat) {
-        this.managerCharacter = managerCharacter;
-        this.managerTeam = managerTeam;
-        this.managerObject = managerObject;
-        this.managerCombat = managerCombat;
+    public Controller(ManagerLSBRO managerLSBRO) {
+        this.managerLSBRO = managerLSBRO;
     }
 
     public void start() throws IOException {
@@ -39,10 +31,10 @@ public class Controller {
         while (menu) {
             CasesMenu option = ui.displayMainMenu();
             switch (option) {
-                case LIST_CHARACTERS -> listarPersonaje(managerCharacter);
+                case LIST_CHARACTERS -> listarPersonaje(managerLSBRO.getManagerCharacter());
                 case MANAGE_TEAMS -> manageTeams();
                 case LIST_ITEMS -> objectsList();
-                case COMBAT_SIMULATOR -> combatSimulator();
+                case COMBAT_SIMULATOR -> runcombatSimulator();
                 case EXIT_MAIN_MENU -> {
                     ui.displayExit();
                     menu = false;
@@ -53,11 +45,11 @@ public class Controller {
 
     private boolean verifyLocalFiles() {
         boolean menu = true;
-        if (!managerCharacter.checkCharacterFile()) {
+        if (!managerLSBRO.getManagerCharacter().checkCharacterFile()) {
             menu = false;
             UI.displayMessage("Error: The characters.json file can’t be accessed.");
         }
-        if (!managerObject.checkItemFile()) {
+        if (!managerLSBRO.getManagerObject().checkItemFile()) {
             menu = false;
             UI.displayMessage("Error: The objects.json file can’t be accessed.");
         }
@@ -71,7 +63,7 @@ public class Controller {
             ui.printAllCharacters(characters);
             op = UI.askForInteger("Choose an option: ", sc);
             if (op > 0 && op <= characters.size()) {
-                ui.showCharacterDetails(characters.get(op - 1), managerTeam.matchTeams(characters.get(op - 1)));
+                ui.showCharacterDetails(characters.get(op - 1), managerLSBRO.getManagerTeam().matchTeams(characters.get(op - 1)));
             } else if (op != 0) {
                 UI.displayMessage("\nInvalid option, please enter an option between 1 and " + characters.size());
             }
@@ -101,28 +93,13 @@ public class Controller {
 
             if (op > 0 && op <= teams.size()) {
                 List<Character> members = teams.get(op - 1).getMembers();
-                List<Character> charactersMatch = matchCharacters(members);
+                List<Character> charactersMatch = managerLSBRO.getManagerCharacter().matchCharacters(members);
                 ui.showTeamDetails(teams.get(op - 1), charactersMatch);
             } else if (op != 0) {
                 UI.displayMessage("\nInvalid option, please enter an option between 1 and " + teams.size());
             }
         } while (op != 0);
 
-    }
-
-    private List<Character> matchCharacters(List<Character> members) {
-        List<Character> characters = managerCharacter.UploadCharacters();
-        List<Character> matchCharacters = new ArrayList<>();
-
-        for (Character member : members) {
-            for (Character character : characters) {
-                if (member.getId() == character.getId()) {
-                    character.setStrategy(member.getStrategy());
-                    matchCharacters.add(character);
-                }
-            }
-        }
-        return matchCharacters;
     }
 
     private void objectsList() {
@@ -146,7 +123,6 @@ public class Controller {
 
     private void createTeam() throws IOException {
         Team team = new Team("", 0, 0, 0, 0, false);
-        ManagerTeam managerTeam = new ManagerTeam();
         List<Character> members = new ArrayList<>();
         int op;
 
@@ -185,22 +161,13 @@ public class Controller {
 
                 members.add(character);
         }
-            team.setMembers(members);
-            team.setGames_won(1);
-            team.setKO_done(0);
-            team.setKO_received(0);
-            team.setGames_played(1);
+        managerLSBRO.getManagerTeam().addTeam(team, members);
 
-            UI.displayMessage(team.getName() + " has been successfully created!");
-            managerTeam.addTeam(team);
-
-
-
-
-
+        UI.displayMessage(team.getName() + " has been successfully created!");
     }
+
     private void deleteTeam () throws IOException {
-        List<Team> teams = managerTeam.getAllTeams();
+        List<Team> teams = managerLSBRO.getManagerTeam().getAllTeams();
         String teamName = "";
         String op = "No";
         boolean found = false;
@@ -216,7 +183,7 @@ public class Controller {
                     if (op.equals("Yes")) {
                         UI.displayMessage("'" + team.getName() + "' has been removed from the system.");
                         teams.remove(team);
-                        managerTeam.addTeams(teams);
+                        managerLSBRO.getManagerTeam().addTeams(teams);
 
                         return;
                     }
@@ -230,22 +197,35 @@ public class Controller {
 
     private void combatSimulator () {
         UI.displayMessage("\nStarting simulation...");
+        List<Object> combatRound = new ArrayList<>();
         Combat combat = escojerEquipos();
+        // start the combat
+        do {
+            UI.displayMessage("\n--- Round " + combat.getRounds() + "! ---");
+            UI.showTeamStatus(combat);
+            combatRound = managerLSBRO.simulateRound(combat);
+            combat = (Combat) combatRound.get(0);
+            UI.displayMessage((String) combatRound.get(1));
+        } while (combat.isFinished());
     }
 
     private Combat escojerEquipos () {
         UI.displayMessage("Looking for available teams...\n");
         List <Team> updatedTeams = new ArrayList<>();
-        List <Team> teams = managerTeam.getAllTeams();
+        List <Team> teams = managerLSBRO.getManagerTeam().getAllTeams();
         List <Team> teamsSelected = ui.askForTeams(teams);
         UI.displayMessage("Initializing teams...");
-        List <Character> members = matchCharacters(teamsSelected.getFirst().getMembers());
-        updatedTeams.add(managerTeam.updateMembers(teamsSelected.getFirst(), members));
-        members = matchCharacters(teamsSelected.get(1).getMembers());
-        updatedTeams.add(managerTeam.updateMembers(teamsSelected.get(1), members));
-        Combat combat = managerCombat.initCombat(updatedTeams);
+        List <Character> members = managerLSBRO.getManagerCharacter().matchCharacters(teamsSelected.getFirst().getMembers());
+        updatedTeams.add(managerLSBRO.getManagerTeam().updateMembers(teamsSelected.getFirst(), members));
+        members = managerLSBRO.getManagerCharacter().matchCharacters(teamsSelected.get(1).getMembers());
+        updatedTeams.add(managerLSBRO.getManagerTeam().updateMembers(teamsSelected.get(1), members));
+        Combat combat = managerLSBRO.getManagerCombat().initCombat(updatedTeams);
         ui.teamsDetailsCombat(updatedTeams);
         UI.displayMessage("Combat ready!");
         return combat;
+    }
+
+    public static void displayMessage(String message) {
+        UI.displayMessage(message);
     }
 }

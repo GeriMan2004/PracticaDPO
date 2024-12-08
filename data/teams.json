@@ -82,5 +82,26 @@
         "strategy": "Balanced"
       }
     ]
+  },
+  {
+    "name": "SigmaParty",
+    "members": [
+      {
+        "id": 68053,
+        "strategy": "Balanced"
+      },
+      {
+        "id": 467416287,
+        "strategy": "Balanced"
+      },
+      {
+        "id": 4115637091,
+        "strategy": "Balanced"
+      },
+      {
+        "id": 2527,
+        "strategy": "Balanced"
+      }
+    ]
   }
 ]

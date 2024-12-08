@@ -89,4 +89,14 @@ public class Team {
     public boolean isCombatDone() {
         return combatDone;
     }
+
+    public boolean allMembersKnockedOut() {
+        boolean allKO = true;
+        for (Character character : members) {
+            if (!character.isKnockedOut()) {
+                allKO = false;
+            }
+        }
+        return allKO;
+    }
 }

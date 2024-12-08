@@ -3,28 +3,29 @@ package src.Bussines;
 import com.google.gson.annotations.Expose;
 
 public class Character {
-   @Expose
+    @Expose
     private long id;
     @Expose
     private String strategy;
-
     private String name;
     private int weight;
     private double damage_received;
     private boolean knockedOut;
-    private boolean attacking;
-    private boolean defending;
+    private Item Weapon;
+    private Item armour;
 
     public Character(long id, String strategy) {
         this.id = id;
         this.strategy = strategy;
+        this.damage_received = 0;
+        this.knockedOut = false;
+        this.Weapon = null;
+        this.armour = null;
     }
     // Getters and setters
-    public int getId() {
-        return (int) id;
-    }
+    public long getId() {return id;}
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -68,14 +69,11 @@ public class Character {
         this.weight = weight;
     }
 
-    @Override
-    public String toString() {
-        return "Character{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", weight='" + weight + '\'' +
-                '}';
+    public boolean isKnockedOut() {
+        return knockedOut;
     }
 
-
+    public void setKnockedOut(boolean knockedOut) {
+        this.knockedOut = knockedOut;
+    }
 }

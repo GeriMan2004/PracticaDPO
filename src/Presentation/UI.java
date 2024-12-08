@@ -213,17 +213,18 @@ public class UI {
         return teams;
     }
 
-    public void teamsDetailsCombat (List<Team> teamsSelected){
+    public void teamsDetailsCombat (List<Team> teamsSelected) {
         int i = 1;
         for (Team team : teamsSelected) {
             System.out.println("\n\tTeam #"+ i + ": "+team.getName());
             for(Character character : team.getMembers()) {
                 System.out.println("\t-"+character.getName());
-                System.out.println("\tWeapon: "+character.getWeapon().getName());
-                System.out.println("\tArmour: "+character.getArmour().getName());
+                System.out.println("\t\tWeapon: "+character.getWeapon().getName());
+                System.out.println("\t\tArmor: "+character.getArmour().getName());
             }
         }
     }
+
     private static String MENSAJE_GOODBYE = "\nWe hope to see you again!";
 
     public void displayExit() {
@@ -264,5 +265,4 @@ public class UI {
     public static void displayMessage(String message) {
         System.out.println(message);
     }
-
 }
