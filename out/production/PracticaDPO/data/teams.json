@@ -61,5 +61,26 @@
         "strategy": "balanced"
       }
     ]
+  },
+  {
+    "name": "bambitronic",
+    "members": [
+      {
+        "id": 87077812,
+        "strategy": "Balanced"
+      },
+      {
+        "id": 68053,
+        "strategy": "Balanced"
+      },
+      {
+        "id": -274565471,
+        "strategy": "Balanced"
+      },
+      {
+        "id": 68053,
+        "strategy": "Balanced"
+      }
+    ]
   }
 ]

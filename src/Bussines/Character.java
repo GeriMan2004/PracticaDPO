@@ -31,9 +31,11 @@ public class Character {
     public String getName() {
         return name;
     }
+
     public String getStrategy() {
         return strategy;
     }
+
     public void setStrategy(String strategy) {
         this.strategy = strategy;
     }
@@ -44,6 +46,22 @@ public class Character {
 
     public int getWeight() {
         return weight;
+    }
+
+    public void setWeapon(Item weapon) {
+        Weapon = weapon;
+    }
+
+    public void setArmour(Item armour) {
+        this.armour = armour;
+    }
+
+    public Item getWeapon() {
+        return Weapon;
+    }
+
+    public Item getArmour() {
+        return armour;
     }
 
     public void weight (int weight) {

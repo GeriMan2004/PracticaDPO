@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UI {
-
+    private static Scanner scanner = new Scanner(System.in);
     /**
      * Mensaje de bienvenida
      * @autor: Gerard Perez
@@ -54,7 +54,7 @@ public class UI {
     public CasesMenu displayMainMenu() {
         do {
             System.out.println(MENSAJE_MAIN_MENU);
-            int option = askForInteger("\nChoose an option: ", new Scanner(System.in));
+            int option = askForInteger("\nChoose an option: ");
             switch (option) {
                 case 1:
                     return CasesMenu.LIST_CHARACTERS;
@@ -107,7 +107,7 @@ public class UI {
     public CasesMenu displayManageTeamsMenu() {
         do {
             System.out.println(MENSAJE_MANAGE_TEAMS);
-            int option = askForInteger("\nChoose an option: ", new Scanner(System.in));
+            int option = askForInteger("\nChoose an option: ");
             switch (option) {
                 case 1:
                     return CasesMenu.CREATE_TEAM;
@@ -190,18 +190,52 @@ public class UI {
                 "\n\tBROKEN:"+"\t"+item.isBroken());
     }
 
+    public List<Team> askForTeams(List<Team> teams) {
+        // User should select 2 teams
+        List<Team> teamsSelected = teams;
+        int i = 1, op = 0;
+        for (Team team : teams) {
+            System.out.println("\t"+ i + ") " + team.getName());
+            i++;
+        }
+        System.out.println();
+        i = 1;
+        do {
+            op = askForInteger("Choose team #" + i + ": ");
+            if (op > 0 && op <= teams.size()) {
+                teamsSelected.add(teams.get(op - 1));
+                i++;
+            } else if (op != 0) {
+                System.out.println("\nInvalid option, please enter an option between 1 and " + teams.size());
+            }
+        } while (i <= 2);
+        System.out.println();
+        return teams;
+    }
+
+    public void teamsDetailsCombat (List<Team> teamsSelected){
+        int i = 1;
+        for (Team team : teamsSelected) {
+            System.out.println("\n\tTeam #"+ i + ": "+team.getName());
+            for(Character character : team.getMembers()) {
+                System.out.println("\t-"+character.getName());
+                System.out.println("\tWeapon: "+character.getWeapon().getName());
+                System.out.println("\tArmour: "+character.getArmour().getName());
+            }
+        }
+    }
     private static String MENSAJE_GOODBYE = "\nWe hope to see you again!";
 
     public void displayExit() {
         System.out.println(MENSAJE_GOODBYE);
     }
 
-    public static String askForString(String message, Scanner scanner) {
+    public static String askForString(String message) {
         System.out.print(message);
         return scanner.nextLine();
     }
 
-    public static int askForInteger(String message, Scanner scanner) {
+    public static int askForInteger(String message) {
         while (true) {
             try {
                 System.out.print(message);
@@ -214,7 +248,7 @@ public class UI {
         }
     }
 
-    public static double askForDouble(String message, Scanner scanner) {
+    public static double askForDouble(String message) {
         while (true) {
             try {
                 System.out.print(message);
@@ -230,4 +264,5 @@ public class UI {
     public static void displayMessage(String message) {
         System.out.println(message);
     }
+
 }

@@ -58,4 +58,9 @@ public class ManagerTeam {
             }
         }
     }
+
+    public Team updateMembers(Team team, List<Character> members) {
+        team.setMembers(members);
+        return team;
+    }
 }

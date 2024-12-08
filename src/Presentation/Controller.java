@@ -8,6 +8,7 @@ import javax.naming.ldap.Control;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Controller {
@@ -198,23 +199,53 @@ public class Controller {
 
 
     }
-    private void deleteTeam () {
-        int op;
+    private void deleteTeam () throws IOException {
         List<Team> teams = managerTeam.getAllTeams();
+        String teamName = "";
+        String op = "No";
+        boolean found = false;
         do {
-            ui.printAllTeams(teams);
-            op = UI.askForInteger("Choose an option: ", sc);
-            if (op > 0 && op <= teams.size()) {
-                UI.displayMessage("Team " + teams.get(op - 1).getName() + " has been successfully deleted!");
-                teams.remove(op - 1);
-                try {
-                    managerTeam.addTeams(teams);
-                } catch (IOException e) {
-                    UI.displayMessage("Error: The teams.json file can’t be accessed.");
-                }
-            } else if (op != 0) {
-                UI.displayMessage("\nInvalid option, please enter an option between 1 and " + teams.size());
+            teamName = UI.askForString("Enter the name of the team to remove: ");
+            if (teamName.equals("exit")) {
+                return;
             }
-        } while (op != 0);
+            for (Team team : teams) {
+                if (team.getName().equals(teamName)) {
+                    found = true;
+                    op = UI.askForString("Are you sure you want to remove '" + team.getName() + "' ? ");
+                    if (op.equals("Yes")) {
+                        UI.displayMessage("'" + team.getName() + "' has been removed from the system.");
+                        teams.remove(team);
+                        managerTeam.addTeams(teams);
+
+                        return;
+                    }
+                }
+            }
+            if (!found) {
+                UI.displayMessage("Team not found, please try again. (Type 'exit' to cancel)");
+            }
+        } while (true);
+    }
+
+    private void combatSimulator () {
+        UI.displayMessage("\nStarting simulation...");
+        Combat combat = escojerEquipos();
+    }
+
+    private Combat escojerEquipos () {
+        UI.displayMessage("Looking for available teams...\n");
+        List <Team> updatedTeams = new ArrayList<>();
+        List <Team> teams = managerTeam.getAllTeams();
+        List <Team> teamsSelected = ui.askForTeams(teams);
+        UI.displayMessage("Initializing teams...");
+        List <Character> members = matchCharacters(teamsSelected.getFirst().getMembers());
+        updatedTeams.add(managerTeam.updateMembers(teamsSelected.getFirst(), members));
+        members = matchCharacters(teamsSelected.get(1).getMembers());
+        updatedTeams.add(managerTeam.updateMembers(teamsSelected.get(1), members));
+        Combat combat = managerCombat.initCombat(updatedTeams);
+        ui.teamsDetailsCombat(updatedTeams);
+        UI.displayMessage("Combat ready!");
+        return combat;
     }
 }

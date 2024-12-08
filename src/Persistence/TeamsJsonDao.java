@@ -23,8 +23,8 @@ public class TeamsJsonDao {
             List<Team> teams = gson.fromJson(reader, teamListType);
             return teams;
         } catch (IOException e) {
-            UI.displayMessage("Error: The teams.json file can’t be accessed.\n");
-            UI.displayMessage("Shutting down.\n");
+            System.out.println("Error: The teams.json file can’t be accessed.\n");
+            System.out.println("Shutting down.\n");
             return null;
         }
     }
