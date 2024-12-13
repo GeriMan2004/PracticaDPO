@@ -28,7 +28,9 @@ public class ManagerCharacter {
         int armorValue = defensorArmor.getPowerValue();
 
         finalattack = ((attack - (((200 * (1 - defensorDamageRecived)) / defensorWeight) + ((double) armorValue / 20))) / 100);
-
+        if (character.getDeffendingMode()) {
+            finalattack = finalattack - character.getDamage_reduction();
+        }
         return finalattack;
     }
 }

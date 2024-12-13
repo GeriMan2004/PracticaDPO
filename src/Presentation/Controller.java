@@ -184,7 +184,6 @@ public class Controller {
                         UI.displayMessage("'" + team.getName() + "' has been removed from the system.");
                         teams.remove(team);
                         managerLSBRO.getManagerTeam().addTeams(teams);
-
                         return;
                     }
                 }

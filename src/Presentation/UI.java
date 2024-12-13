@@ -5,6 +5,7 @@ import src.Bussines.Item;
 import src.Bussines.Team;
 import src.Persistence.ObjectsJsonDao;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -260,6 +261,11 @@ public class UI {
                 scanner.nextLine();
             }
         }
+    }
+
+    public static void printAndWait() {
+        System.out.print("<Press any key to continue...>");
+        scanner.nextLine();
     }
 
     public static void displayMessage(String message) {

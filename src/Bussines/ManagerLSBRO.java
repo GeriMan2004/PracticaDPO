@@ -26,8 +26,9 @@ public class ManagerLSBRO {
      * @return void
      */
     public List<Object> simulateRound (Combat combat) {
-        double dmg;
-        int randomNumber;
+        double dmg  = 0;
+        int randomNumber = 0;
+        int probability = 0;
         String type;
         List<Object> result = new ArrayList<>();
         List<Item> items = ManagerObject.uploadObjects();
@@ -37,6 +38,21 @@ public class ManagerLSBRO {
         List<Character> members1 = team1.getMembers();
         List<Character> members2 = team2.getMembers();
         messageRound.append("\n");
+
+        for (Character member : members1) {
+            if (member.getWeapon() != null && member.getDamage_received() > 0.5 && member.getDamage_received() < 1 && member.getArmour() != null && !member.isKnockedOut()){
+                member.setDeffendingMode(true);
+            } else {
+                member.setDeffendingMode(false);
+            }
+        }
+        for (Character member : members2) {
+            if (member.getWeapon() != null && member.getDamage_received() > 0.5 && member.getDamage_received() < 1 && member.getArmour() != null && !member.isKnockedOut()){
+                member.setDeffendingMode(true);
+            } else {
+                member.setDeffendingMode(false);
+            }
+        }
         for (Character member : members1) {
             if (member.getWeapon() == null) {
                 // Ask for weapon mode
@@ -46,27 +62,19 @@ public class ManagerLSBRO {
                 } while (!type.equals("Weapon"));
                 member.setWeapon(items.get(randomNumber));
                 messageRound.append(member.getName()).append(member.getName()).append(" RECIVED WEAPON " + member.getWeapon().getName());
-            } else {
-                if (member.getDamage_received() > 0.5 && member.getDamage_received() < 1) {
-                    //deffending mode
-
-                }else {
-                    // Attacking mode
-                    if (team2.allMembersKnockedOut()) {
-                        messageRound.append("Round Stopped, Team 1 has deffeated all members of Team 2.\n");
-                        break;
-                    }
-                    do {
-                        randomNumber = new Random().nextInt(4);
-                    } while (members2.get(randomNumber).isKnockedOut());
-                    dmg = managerCharacter.attack(member, members2.get(randomNumber));
-                    messageRound.append(member.getName()).append(" ATTACKS ").append(members2.get(randomNumber).getName())
-                            .append(" WITH ").append(member.getWeapon().getName()).append(" FOR ").append(dmg).append(" damage.\n");
-                    dmg = managerCharacter.reciveDamage(members2.get(randomNumber), dmg);
-                    messageRound.append("\t").append(members2.get(randomNumber).getName())
-                            .append(" RECIVES ").append(dmg).append(" DAMAGE.\n");
-                }
-
+            } else if (!member.getDeffendingMode() && !member.isKnockedOut()){
+                // Attacking mode
+                do {
+                    randomNumber = new Random().nextInt(4);
+                } while (members2.get(randomNumber).isKnockedOut());
+                dmg = managerCharacter.attack(member, members2.get(randomNumber));
+                messageRound.append(member.getName()).append(" ATTACKS ").append(members2.get(randomNumber).getName())
+                        .append(" WITH ").append(member.getWeapon().getName()).append(" FOR ").append(dmg).append(" damage.\n");
+                dmg = managerCharacter.reciveDamage(members2.get(randomNumber), dmg);
+                messageRound.append("\t").append(members2.get(randomNumber).getName())
+                        .append(" RECIVES ").append(dmg).append(" DAMAGE.\n");
+                member.getWeapon().decreaseDurability();
+                members2.get(randomNumber).getWeapon().decreaseDurability();
             }
         }
         messageRound.append("\n");
@@ -96,7 +104,37 @@ public class ManagerLSBRO {
                         .append(" RECIVES ").append(dmg).append(" DAMAGE.\n");
 
         }
-
+        messageRound.append("\n");
+        for (Character member : members1) {
+            if (member.getWeapon().getDurability() <= 0 && !member.isKnockedOut()) {
+                member.setWeapon(null);
+                messageRound.append(member.getName()).append("Oh no! "+member.getName()+ "'s "+ member.getWeapon()+" breaks!");
+            }
+            if (member.getArmour().getDurability() <= 0 && !member.isKnockedOut()) {
+                member.setArmour(null);
+                messageRound.append(member.getName()).append("Oh no! "+member.getName()+ "'s "+ member.getArmour()+" breaks!");
+            }
+        }
+        messageRound.append("\n");
+        for (Character member : members2) {
+            if (member.getWeapon().getDurability() <= 0 && !member.isKnockedOut()) {
+                member.setWeapon(null);
+                messageRound.append(member.getName()).append("Oh no! "+member.getName()+ "'s "+ member.getWeapon()+" breaks!");
+            }
+            if (member.getArmour().getDurability() <= 0 && !member.isKnockedOut()) {
+                member.setArmour(null);
+                messageRound.append(member.getName()).append("Oh no! "+member.getName()+ "'s "+ member.getArmour()+" breaks!");
+            }
+        }
+        messageRound.append("\n");
+        for(Character member : members1) {
+            randomNumber = new Random().nextInt(200);
+            probability = randomNumber/100;
+            if (member.getDamage_received() >  probability && !member.isKnockedOut()) {
+                member.setKnockedOut(true);
+                messageRound.append(member.getName()).append(" flies away! It’s a KO!\n");
+            }
+        }
         result.add(combat);
         result.add(messageRound.toString());
         return result;
