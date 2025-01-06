@@ -23,121 +23,240 @@ public class ManagerLSBRO {
      * respetando turnos de los personajes, estrategias, armas y armaduras, a traves de un algorítmo calculado
      * @autor: Gerard Perez
      * @autor: Walter-Arnau Quintili
-     * @return void
+     * @return List<Object> - El objeto Combat modificado y el mensaje de la ronda
      */
     public List<Object> simulateRound (Combat combat) {
         double dmg  = 0;
-        int randomNumber = 0;
-        int probability = 0;
+        int randomNumber;
         String type;
         List<Object> result = new ArrayList<>();
+
+        // Obtén la lista de ítems disponibles
         List<Item> items = ManagerObject.uploadObjects();
         StringBuilder messageRound = new StringBuilder();
+
+        // Obtén los equipos
         Team team1 = combat.getTeam1();
         Team team2 = combat.getTeam2();
-        List<Character> members1 = team1.getMembers();
-        List<Character> members2 = team2.getMembers();
+
         messageRound.append("\n");
 
-        for (Character member : members1) {
-            if (member.getWeapon() != null && member.getDamage_received() > 0.5 && member.getDamage_received() < 1 && member.getArmour() != null && !member.isKnockedOut()){
-                member.setDeffendingMode(true);
-            } else {
-                member.setDeffendingMode(false);
-            }
-        }
-        for (Character member : members2) {
-            if (member.getWeapon() != null && member.getDamage_received() > 0.5 && member.getDamage_received() < 1 && member.getArmour() != null && !member.isKnockedOut()){
-                member.setDeffendingMode(true);
-            } else {
-                member.setDeffendingMode(false);
-            }
-        }
-        for (Character member : members1) {
-            if (member.getWeapon() == null) {
-                // Ask for weapon mode
+        // Comprueba el modo de cada personaje antes de iniciar la ronda
+        checkMode(team1);
+        checkMode(team2);
+
+        // ========== ATAQUES DEL EQUIPO 1 ==========
+        for (Character member : team1.getMembers()) {
+            // Si el personaje no tiene arma y no está KO, busca un arma aleatoria
+            if (member.getWeapon() == null && !member.isKnockedOut()) {
                 do {
                     randomNumber = new Random().nextInt(items.size());
                     type = items.get(randomNumber).getObject_type();
                 } while (!type.equals("Weapon"));
+
                 member.setWeapon(items.get(randomNumber));
-                messageRound.append(member.getName()).append(member.getName()).append(" RECIVED WEAPON " + member.getWeapon().getName());
-            } else if (!member.getDeffendingMode() && !member.isKnockedOut()){
-                // Attacking mode
+                messageRound.append(member.getName())
+                        .append(" RECEIVED WEAPON ")
+                        .append(member.getWeapon().getName()).append("\n");
+
+                // De lo contrario, si no está en modo defensa y no está KO, ataca
+            } else if (!member.getDeffendingMode() && !member.isKnockedOut()) {
+                // Elige un oponente vivo al azar en el equipo contrario
+                Character defender;
                 do {
-                    randomNumber = new Random().nextInt(4);
-                } while (members2.get(randomNumber).isKnockedOut());
-                dmg = managerCharacter.attack(member, members2.get(randomNumber));
-                messageRound.append(member.getName()).append(" ATTACKS ").append(members2.get(randomNumber).getName())
-                        .append(" WITH ").append(member.getWeapon().getName()).append(" FOR ").append(dmg).append(" damage.\n");
-                dmg = managerCharacter.reciveDamage(members2.get(randomNumber), dmg);
-                messageRound.append("\t").append(members2.get(randomNumber).getName())
-                        .append(" RECIVES ").append(dmg).append(" DAMAGE.\n");
-                member.getWeapon().decreaseDurability();
-                members2.get(randomNumber).getWeapon().decreaseDurability();
+                    randomNumber = new Random().nextInt(team2.getMembers().size());
+                    defender = team2.getMembers().get(randomNumber);
+                } while (defender.isKnockedOut());
+
+                // Calcula el daño base (ej. fuerza, skill, etc.)
+                double baseDamage = managerCharacter.attack(member, defender);
+
+                messageRound.append(member.getName())
+                        .append(" ATTACKS ")
+                        .append(defender.getName())
+                        .append(" WITH ")
+                        .append(member.getWeapon() != null ? member.getWeapon().getName() : "FISTS")
+                        .append(" FOR ")
+                        .append(baseDamage)
+                        .append(" damage (raw).\n");
+
+                // Ajusta el daño final según reciveDamage (defensas, modo defensa, armadura, etc.)
+                double finalDamage = managerCharacter.reciveDamage(defender, baseDamage);
+
+                // **Aplica el daño acumulándolo** en el atributo damage_received
+                defender.setDamage_received(defender.getDamage_received() + finalDamage);
+
+                messageRound.append("\t")
+                        .append(defender.getName())
+                        .append(" RECEIVES ")
+                        .append(finalDamage)
+                        .append(" DAMAGE (final).\n");
+
+                // Disminuye durabilidad del arma del atacante, si existe
+                if (member.getWeapon() != null) {
+                    member.getWeapon().decreaseDurability();
+                }
+                // Disminuye durabilidad del arma del defensor, si existe
+                if (defender.getWeapon() != null) {
+                    defender.getWeapon().decreaseDurability();
+                }
             }
         }
+
         messageRound.append("\n");
-        for (Character member : members2) {
-            if (member.getWeapon() == null) {
+
+        // ========== ATAQUES DEL EQUIPO 2 ==========
+        for (Character member : team2.getMembers()) {
+            // Si el personaje no tiene arma y no está KO, busca un arma aleatoria
+            if (member.getWeapon() == null && !member.isKnockedOut()) {
                 do {
                     randomNumber = new Random().nextInt(items.size());
                     type = items.get(randomNumber).getObject_type();
                 } while (!type.equals("Weapon"));
-                messageRound.append(member.getName()).append(member.getName()).append(" RECIVED WEAPON ");
-            } else {
 
-            }
-                // Attacking mode
-                if (team1.allMembersKnockedOut()) {
-                    messageRound.append("Round Stopped, Team 2 has deffeated all members of Team 1.\n");
-                    break;
-                }
+                member.setWeapon(items.get(randomNumber));
+                messageRound.append(member.getName())
+                        .append(" RECEIVED WEAPON ")
+                        .append(member.getWeapon().getName()).append("\n");
+
+                // De lo contrario, si no está en modo defensa y no está KO, ataca
+            } else if (!member.getDeffendingMode() && !member.isKnockedOut()) {
+                // Elige un oponente vivo al azar en el equipo contrario
+                Character defender;
                 do {
-                    randomNumber = new Random().nextInt(4);
-                } while (members1.get(randomNumber).isKnockedOut());
-                dmg = managerCharacter.attack(member, members1.get(randomNumber));
-                messageRound.append(member.getName()).append(" ATTACKS ").append(members1.get(randomNumber).getName())
-                        .append(" WITH ").append(member.getWeapon().getName()).append(" FOR ").append(dmg).append(" damage.\n");
-                dmg = managerCharacter.reciveDamage(members1.get(randomNumber), dmg);
-                messageRound.append("\t").append(members1.get(randomNumber).getName())
-                        .append(" RECIVES ").append(dmg).append(" DAMAGE.\n");
+                    randomNumber = new Random().nextInt(team1.getMembers().size());
+                    defender = team1.getMembers().get(randomNumber);
+                } while (defender.isKnockedOut());
 
+                // Calcula el daño base
+                double baseDamage = managerCharacter.attack(member, defender);
+
+                messageRound.append(member.getName())
+                        .append(" ATTACKS ")
+                        .append(defender.getName())
+                        .append(" WITH ")
+                        .append(member.getWeapon() != null ? member.getWeapon().getName() : "FISTS")
+                        .append(" FOR ")
+                        .append(baseDamage)
+                        .append(" damage (raw).\n");
+
+                // Ajusta el daño final según reciveDamage
+                double finalDamage = managerCharacter.reciveDamage(defender, baseDamage);
+
+                // **Aplica el daño acumulándolo** en el atributo damage_received
+                defender.setDamage_received(defender.getDamage_received() + finalDamage);
+
+                messageRound.append("\t")
+                        .append(defender.getName())
+                        .append(" RECEIVES ")
+                        .append(finalDamage)
+                        .append(" DAMAGE (final).\n");
+
+                // Disminuye durabilidad del arma del atacante, si existe
+                if (member.getWeapon() != null) {
+                    member.getWeapon().decreaseDurability();
+                }
+                // Disminuye durabilidad del arma del defensor, si existe
+                if (defender.getWeapon() != null) {
+                    defender.getWeapon().decreaseDurability();
+                }
+            }
         }
+
         messageRound.append("\n");
-        for (Character member : members1) {
-            if (member.getWeapon().getDurability() <= 0 && !member.isKnockedOut()) {
+
+        // ========== REVISA SI ALGÚN ARMA O ARMADURA SE ROMPE EN EL EQUIPO 1 ==========
+        for (Character member : team1.getMembers()) {
+            // Revisa el arma
+            if (member.getWeapon() != null && member.getWeapon().getDurability() <= 0 && !member.isKnockedOut()) {
+                Item brokenWeapon = member.getWeapon();
                 member.setWeapon(null);
-                messageRound.append(member.getName()).append("Oh no! "+member.getName()+ "'s "+ member.getWeapon()+" breaks!");
+                messageRound.append(member.getName())
+                        .append(": Oh no! ")
+                        .append(member.getName())
+                        .append("'s ")
+                        .append(brokenWeapon.getName())
+                        .append(" breaks!\n");
             }
-            if (member.getArmour().getDurability() <= 0 && !member.isKnockedOut()) {
+            // Revisa la armadura
+            if (member.getArmour() != null && member.getArmour().getDurability() <= 0 && !member.isKnockedOut()) {
+                Item brokenArmour = member.getArmour();
                 member.setArmour(null);
-                messageRound.append(member.getName()).append("Oh no! "+member.getName()+ "'s "+ member.getArmour()+" breaks!");
+                messageRound.append(member.getName())
+                        .append(": Oh no! ")
+                        .append(member.getName())
+                        .append("'s ")
+                        .append(brokenArmour.getName())
+                        .append(" breaks!\n");
             }
         }
+
         messageRound.append("\n");
-        for (Character member : members2) {
-            if (member.getWeapon().getDurability() <= 0 && !member.isKnockedOut()) {
+
+        // ========== REVISA SI ALGÚN ARMA O ARMADURA SE ROMPE EN EL EQUIPO 2 ==========
+        for (Character member : team2.getMembers()) {
+            // Revisa el arma
+            if (member.getWeapon() != null && member.getWeapon().getDurability() <= 0 && !member.isKnockedOut()) {
+                Item brokenWeapon = member.getWeapon();
                 member.setWeapon(null);
-                messageRound.append(member.getName()).append("Oh no! "+member.getName()+ "'s "+ member.getWeapon()+" breaks!");
+                messageRound.append(member.getName())
+                        .append(": Oh no! ")
+                        .append(member.getName())
+                        .append("'s ")
+                        .append(brokenWeapon.getName())
+                        .append(" breaks!\n");
             }
-            if (member.getArmour().getDurability() <= 0 && !member.isKnockedOut()) {
+            // Revisa la armadura
+            if (member.getArmour() != null && member.getArmour().getDurability() <= 0 && !member.isKnockedOut()) {
+                Item brokenArmour = member.getArmour();
                 member.setArmour(null);
-                messageRound.append(member.getName()).append("Oh no! "+member.getName()+ "'s "+ member.getArmour()+" breaks!");
+                messageRound.append(member.getName())
+                        .append(": Oh no! ")
+                        .append(member.getName())
+                        .append("'s ")
+                        .append(brokenArmour.getName())
+                        .append(" breaks!\n");
             }
         }
+
         messageRound.append("\n");
-        for(Character member : members1) {
+
+        // Comprueba KOs tras el daño
+        checkKOs(messageRound, team1);
+        checkKOs(messageRound, team2);
+
+        // En caso de que todos los personajes de un equipo hayan sido noqueados, seteamos
+        managerCombat.isMatchFinished(combat);
+
+        // Sumamos Ronda tras terminarla
+        combat.setRounds(combat.getRounds() + 1);
+
+        // Devuelve el combate actualizado y el mensaje de la ronda
+        result.add(combat);
+        result.add(messageRound.toString());
+        return result;
+    }
+
+
+    private void checkKOs(StringBuilder messageRound, Team team) {
+        int randomNumber;
+        int probability;
+        for (Character member : team.getMembers()) {
+            // Ejemplo de cálculo de probabilidad, pero ojo con la división entera
             randomNumber = new Random().nextInt(200);
-            probability = randomNumber/100;
-            if (member.getDamage_received() >  probability && !member.isKnockedOut()) {
+            probability = randomNumber / 100;
+            // Revisa si supera el "threshold" y no está KO
+            if (member.getDamage_received() > probability && !member.isKnockedOut()) {
                 member.setKnockedOut(true);
                 messageRound.append(member.getName()).append(" flies away! It’s a KO!\n");
             }
         }
-        result.add(combat);
-        result.add(messageRound.toString());
-        return result;
+    }
+
+    private void checkMode(Team team) {
+        for (Character member : team.getMembers()) {
+            member.setDeffendingMode(member.getWeapon() != null && member.getDamage_received() > 0.5 && member.getDamage_received() < 1 && member.getArmour() != null && !member.isKnockedOut());
+        }
     }
 
     public void setManagerCharacter(ManagerCharacter managerCharacter) {

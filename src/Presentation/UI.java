@@ -6,6 +6,7 @@ import src.Bussines.Team;
 import src.Persistence.ObjectsJsonDao;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -193,7 +194,7 @@ public class UI {
 
     public List<Team> askForTeams(List<Team> teams) {
         // User should select 2 teams
-        List<Team> teamsSelected = teams;
+        List<Team> teamsSelected = new ArrayList<>();
         int i = 1, op = 0;
         for (Team team : teams) {
             System.out.println("\t"+ i + ") " + team.getName());
@@ -211,7 +212,7 @@ public class UI {
             }
         } while (i <= 2);
         System.out.println();
-        return teams;
+        return teamsSelected;
     }
 
     public void teamsDetailsCombat (List<Team> teamsSelected) {

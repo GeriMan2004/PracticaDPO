@@ -61,7 +61,7 @@ public class Controller {
         List<Character> characters = managerCharacter.UploadCharacters();
         do {
             ui.printAllCharacters(characters);
-            op = UI.askForInteger("Choose an option: ", sc);
+            op = UI.askForInteger("Choose an option: ");
             if (op > 0 && op <= characters.size()) {
                 ui.showCharacterDetails(characters.get(op - 1), managerLSBRO.getManagerTeam().matchTeams(characters.get(op - 1)));
             } else if (op != 0) {
@@ -76,7 +76,7 @@ public class Controller {
             CasesMenu option = ui.displayManageTeamsMenu();
             switch (option) {
                 case CREATE_TEAM -> createTeam();
-                case LIST_TEAMS -> listTeams(managerTeam);
+                case LIST_TEAMS -> listTeams(managerLSBRO.getManagerTeam());
                 case DELETE_TEAM -> deleteTeam();
                 case EXIT_TEAMS -> menu = false;
                 default -> UI.displayMessage("\nInvalid option, please enter an option between 1 and 4");
@@ -89,7 +89,7 @@ public class Controller {
         List<Team> teams = managerTeam.getAllTeams();
         do {
             ui.printAllTeams(teams);
-            op = UI.askForInteger("Choose an option: ", sc);
+            op = UI.askForInteger("Choose an option: ");
 
             if (op > 0 && op <= teams.size()) {
                 List<Character> members = teams.get(op - 1).getMembers();
@@ -108,7 +108,7 @@ public class Controller {
 
         do {
             ui.printAllObjects();
-            op = UI.askForInteger("\nChoose an option: ", sc);
+            op = UI.askForInteger("\nChoose an option: ");
             if (op > 0 && op <= items.size()) {
                 ui.showItemsDetail(items.get(op - 1));
             } else if (op != 0) {
@@ -118,48 +118,53 @@ public class Controller {
 
     }
 
-    private void combatSimulator() {
-    }
-
     private void createTeam() throws IOException {
         Team team = new Team("", 0, 0, 0, 0, false);
         List<Character> members = new ArrayList<>();
         int op;
+        boolean found;
 
-        String team_name = UI.askForString("Please enter the team's name: ", sc);
+        String team_name = UI.askForString("Please enter the team's name: ");
         team.setName(team_name);
 
         for (int i = 0; i < 4; i++) {
-            String input = UI.askForString("Please enter name or id for character #" + (i + 1) + ": ", sc);
             Character character;
-            try {
-                int newID = Integer.parseInt(input);
-                character = new Character(newID, ""); // Asumiendo estrategia por defecto
-            } catch (NumberFormatException e) {
-                List<Character> characters = CharactersJsonDao.readCharacters();
-                character = new Character(0, "");
-                for (Character c : characters) {
-                    if (c.getName().equals(input)) {
-                        character.setId(c.getId());
-                    }
-                    character.setName(input);
-                }
-            }
-                do {
-                    UI.displayMessage("Game strategy for character #" + (i + 1)
-                            + "\n\t" + "1)Balanced");
-                    op = UI.askForInteger("\tChoose an option:", sc);
-                    if (op > 1 || op < 1) {
-                        UI.displayMessage("\tOption not valid!");
-                    }
-                    switch (op) {
-                        case 1:
-                            character.setStrategy("Balanced");
-                            break;
-                    }
-                } while (op != 1);
+            do {
+                String input = UI.askForString("Please enter name or id for character #" + (i + 1) + ": ");
+                try {
+                    long newID = Long.parseLong(input);
+                    character = new Character(newID, "");
+                    found = managerLSBRO.getManagerTeam().existCharacter(newID, "");
 
-                members.add(character);
+                } catch (NumberFormatException e) {
+                    List<Character> characters = CharactersJsonDao.readCharacters();
+                    found = managerLSBRO.getManagerTeam().existCharacter(-50, input);
+                    character = new Character(0, "");
+                    for (Character c : characters) {
+                        if (c.getName().equals(input)) {
+                            character.setId(c.getId());
+                        }
+                        character.setName(input);
+                    }
+                }
+                if (!found) {
+                    UI.displayMessage("Character not found!, please enter again.");
+                }
+            } while (!found);
+            do {
+                UI.displayMessage("Game strategy for character #" + (i + 1)
+                        + "\n\t" + "1)Balanced");
+                op = UI.askForInteger("\tChoose an option:");
+                if (op != 1) {
+                    UI.displayMessage("\tOption not valid!");
+                }
+                switch (op) {
+                    case 1:
+                        character.setStrategy("Balanced");
+                        break;
+                }
+            } while (op != 1);
+            members.add(character);
         }
         managerLSBRO.getManagerTeam().addTeam(team, members);
 
@@ -194,7 +199,8 @@ public class Controller {
         } while (true);
     }
 
-    private void combatSimulator () {
+    private void runcombatSimulator () {
+
         UI.displayMessage("\nStarting simulation...");
         List<Object> combatRound = new ArrayList<>();
         Combat combat = escojerEquipos();
@@ -205,7 +211,7 @@ public class Controller {
             combatRound = managerLSBRO.simulateRound(combat);
             combat = (Combat) combatRound.get(0);
             UI.displayMessage((String) combatRound.get(1));
-        } while (combat.isFinished());
+        } while (!combat.isFinished());
     }
 
     private Combat escojerEquipos () {
@@ -224,7 +230,5 @@ public class Controller {
         return combat;
     }
 
-    public static void displayMessage(String message) {
-        UI.displayMessage(message);
-    }
+    public static void displayMessage(String message) {UI.displayMessage(message);}
 }
