@@ -20,6 +20,7 @@ public class ManagerCharacter {
         return charactersJsonDao.checkCharactersFile();
     }
 
+
     public double reciveDamage(Character character, double attack) {
         double finalattack;
         double defensorDamageRecived = character.getDamage_received();
