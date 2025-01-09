@@ -5,6 +5,11 @@ import src.Persistence.ObjectsJsonDao;
 import java.util.List;
 
 public class ManagerObject {
+    ObjectsJsonDao objectsJsonDao;
+
+    public ManagerObject(ObjectsJsonDao objectsJsonDao) {
+        this.objectsJsonDao = objectsJsonDao;
+    }
 
     public boolean checkItemFile()
     {
@@ -19,7 +24,4 @@ public class ManagerObject {
 
         return objects;
     }
-
-
-
 }

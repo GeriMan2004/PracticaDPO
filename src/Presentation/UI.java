@@ -1,6 +1,7 @@
 package src.Presentation;
 
 import src.Bussines.Character;
+import src.Bussines.Combat;
 import src.Bussines.Item;
 import src.Bussines.Team;
 import src.Persistence.ObjectsJsonDao;
@@ -82,6 +83,9 @@ public class UI {
         System.out.println("\n\t0) Back");
     }
 
+    public static void showTeamStatus(Combat combat){
+
+    }
     public void showCharacterDetails(Character character, List<Team> matchTeams) {
 
         System.out.println("\n\tID:\t\t"+character.getId()+

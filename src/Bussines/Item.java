@@ -69,7 +69,13 @@ public class Item {
     public void setBroken(boolean broken) {
         isBroken = broken;
     }
-
+    public void decreaseDurability()
+    {
+        durability--;
+        if(durability == 0){
+            isBroken = true;
+        }
+    }
     @Override
     public String toString() {
         return "\n\tID:"+id+

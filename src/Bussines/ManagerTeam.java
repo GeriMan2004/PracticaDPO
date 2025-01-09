@@ -8,6 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManagerTeam {
+    TeamsJsonDao teamsJsonDao;
+    StatsJsonDao statsJsonDao;
+
+    public ManagerTeam(TeamsJsonDao teamsJsonDao, StatsJsonDao statsJsonDao) {
+        this.teamsJsonDao = teamsJsonDao;
+        this.statsJsonDao = statsJsonDao;
+    }
 
     public List<Team> getAllTeams()
     {

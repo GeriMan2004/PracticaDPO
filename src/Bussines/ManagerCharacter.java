@@ -6,6 +6,11 @@ import java.util.List;
 
 public class ManagerCharacter {
 
+    CharactersJsonDao charactersJsonDao;
+
+    public ManagerCharacter(CharactersJsonDao charactersJsonDao) {
+        this.charactersJsonDao = charactersJsonDao;
+    }
 
     public List<Character> UploadCharacters()
     {
@@ -33,5 +38,19 @@ public class ManagerCharacter {
             finalattack = finalattack - character.getDamage_reduction();
         }
         return finalattack;
+    }
+
+    public float attack(Character character, Character defender) {
+        float attack=0;
+        float attackerWeight = character.getWeight();
+        double attackerDamageRecived = character.getDamage_received();
+
+        if(character.getWeapon() == null) {
+            attack = (float) ((attackerWeight *(1 - attackerDamageRecived))/10+18);
+        }else{
+            attack = (float) ((attackerWeight *(1 - attackerDamageRecived))/10+18+(character.getWeapon().getPowerValue())/20);
+        }
+
+        return attack;
     }
 }
