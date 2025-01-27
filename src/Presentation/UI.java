@@ -139,13 +139,13 @@ public class UI {
         System.out.println("\n\t0) Back");
     }
 
-    public void showTeamDetails(Team team, List<Character> MatchCharacters) {
+    public void showTeamDetails(Team team, List<Character> charactersMatch) {
 
         int i=1;
         Float winrate;
 
         System.out.println("\n\tTeam Name:"+team.getName()+"\n");
-        for(Character character : MatchCharacters) {
+        for(Character character : charactersMatch) {
 
             System.out.println("\t"+"Character #"+ i + ": "+character.getName()
             +"\t("+character.getStrategy().toUpperCase()+")");

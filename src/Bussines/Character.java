@@ -1,5 +1,6 @@
 package src.Bussines;
 
+
 import com.google.gson.annotations.Expose;
 
 public class Character {

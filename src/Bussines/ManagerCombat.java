@@ -14,26 +14,31 @@ public class ManagerCombat {
 
     private ObjectsJsonDao itemsJsonDao;
 
+    /**
+     * @title Constructor de la clase ManagerCombat
+     * @param itemsJsonDao
+     */
     public ManagerCombat(ObjectsJsonDao itemsJsonDao) {
         this.itemsJsonDao = itemsJsonDao;
     }
 
     /**
-     * Verifica si el combate ha terminado.
-     * Devuelve true si todos los miembros de alguno de los equipos (team1 o team2)
-     * están noqueados (KO).
+     * @title Este metodo se encarga de verificar si el combate ha finalizado
+     * todo el equipo 1 o el equipo 2 estan noqueados
+     * @param team1
+     * @param team2
+     * @return boolean
      */
     private boolean isMatchFinished(Team team1, Team team2) {
-        // Comprobamos si todos los miembros de team1 están KO
+
         boolean team1AllKO = true;
         for (Character member : team1.getMembers()) {
             if (!member.isKnockedOut()) {
                 team1AllKO = false;
-                break; // si uno no está KO, detenemos la búsqueda
+                break;
             }
         }
 
-        // Comprobamos si todos los miembros de team2 están KO
         boolean team2AllKO = true;
         for (Character member : team2.getMembers()) {
             if (!member.isKnockedOut()) {
@@ -41,16 +46,26 @@ public class ManagerCombat {
                 break;
             }
         }
-
-        // Si cualquiera de los dos está íntegramente KO, la partida acaba
         return (team1AllKO || team2AllKO);
     }
 
+    /**
+     * @title Este metodo se encarga de incializar la
+     * clase combate con todos los datos necesarios
+     * @param teamsSelected
+     * @return Combat
+     */
     public Combat initCombat(List<Team> teamsSelected) {
         teamsSelected = matchRandomWeaponArmour(teamsSelected.get(0), teamsSelected.get(1));
         return new Combat(teamsSelected.get(0), teamsSelected.get(1));
     }
-
+    /**
+     * @title Este metodo se encarga de assignar un arma
+     * y armadura aleatoria a cada personaje del combate
+     * @param team1
+     * @return team2
+     * @return Combat
+     */
     public List<Team> matchRandomWeaponArmour(Team team1, Team team2){
         List<Team> teamsCombat = new ArrayList<>();
         List<Item> items = itemsJsonDao.readObjects();

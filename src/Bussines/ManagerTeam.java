@@ -1,5 +1,6 @@
 package src.Bussines;
 
+import src.Persistence.CharactersJsonDao;
 import src.Persistence.StatsJsonDao;
 import src.Persistence.TeamsJsonDao;
 
@@ -71,14 +72,13 @@ public class ManagerTeam {
         return team;
     }
 
-    public boolean existCharacter(long newID, String s) {
-        TeamsJsonDao teamsJsonDao = new TeamsJsonDao();
-        List<Team> teams = teamsJsonDao.readTeams();
-        for (Team team : teams) {
-            for (Character character : team.getMembers()) {
-                if (character.getId() == newID || character.getName().equals(s)) {
-                    return true;
-                }
+    public boolean existCharacter(long newID, String inputCharacter) {
+        CharactersJsonDao characterJson = new CharactersJsonDao();
+        List<Character> characters = characterJson.readCharacters();
+        for (Character character : characters) {
+            String current_character = character.getName();
+            if (character.getId() == newID || current_character.equals(inputCharacter)) {
+                return true;
             }
         }
         return false;

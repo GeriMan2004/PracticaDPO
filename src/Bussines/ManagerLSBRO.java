@@ -21,8 +21,7 @@ public class ManagerLSBRO {
      * @title: Función para simular rondas de los combates
      * Esta función simula una ronda de los combates, en la que se enfrentan los personajes de los equipos seleccionados
      * respetando turnos de los personajes, estrategias, armas y armaduras, a traves de un algorítmo calculado
-     * @autor: Gerard Perez
-     * @autor: Walter-Arnau Quintili
+     * @param combat - El combate a simular
      * @return List<Object> - El objeto Combat modificado y el mensaje de la ronda
      */
     public List<Object> simulateRound (Combat combat) {
@@ -234,6 +233,11 @@ public class ManagerLSBRO {
         return result;
     }
 
+    /**
+     * @title: Función para comprobar KOs
+     * @param messageRound
+     * @param team
+     */
     private void checkKOs(StringBuilder messageRound, Team team) {
         int randomNumber;
         int probability;
@@ -248,12 +252,16 @@ public class ManagerLSBRO {
             }
         }
     }
-
+    /**
+     * @title: Función para comprobar el modo de defensa
+     * @param team
+     */
     private void checkMode(Team team) {
         for (Character member : team.getMembers()) {
             member.setDeffendingMode(member.getWeapon() != null && member.getDamage_received() > 0.5 && member.getDamage_received() < 1 && member.getArmour() != null && !member.isKnockedOut());
         }
     }
+
 
     public void setManagerCharacter(ManagerCharacter managerCharacter) {
         this.managerCharacter = managerCharacter;
