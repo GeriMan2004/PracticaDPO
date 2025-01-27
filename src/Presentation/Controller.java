@@ -166,7 +166,7 @@ public class Controller {
             } while (op != 1);
             members.add(character);
         }
-        managerLSBRO.getManagerTeam().addTeam(team, members);
+        managerLSBRO.getManagerTeam().addTeam(team);
 
         UI.displayMessage(team.getName() + " has been successfully created!");
     }

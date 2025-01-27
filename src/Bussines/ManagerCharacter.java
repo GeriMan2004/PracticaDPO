@@ -2,6 +2,7 @@ package src.Bussines;
 
 import src.Persistence.CharactersJsonDao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ManagerCharacter {
@@ -15,8 +16,7 @@ public class ManagerCharacter {
     public List<Character> UploadCharacters()
     {
         CharactersJsonDao charactersJsonDao = new CharactersJsonDao();
-        List<Character> characters = charactersJsonDao.readCharacters();
-        return characters;
+        return CharactersJsonDao.readCharacters();
     }
 
     public boolean checkCharacterFile()
@@ -48,9 +48,23 @@ public class ManagerCharacter {
         if(character.getWeapon() == null) {
             attack = (float) ((attackerWeight *(1 - attackerDamageRecived))/10+18);
         }else{
-            attack = (float) ((attackerWeight *(1 - attackerDamageRecived))/10+18+(character.getWeapon().getPowerValue())/20);
+            attack = (float) ((attackerWeight *(1 - attackerDamageRecived))/10+18+ (double) (character.getWeapon().getPowerValue()) /20);
         }
 
         return attack;
+    }
+
+    public List<Character> matchCharacters(List<Character> members) {
+        CharactersJsonDao charactersJsonDao = new CharactersJsonDao();
+        List<Character> characters = CharactersJsonDao.readCharacters();
+        List<Character> matchedCharacters = new ArrayList<>();
+        for (Character character : characters) {
+            for (Character member : members) {
+                if (character.getId() == member.getId()) {
+                    matchedCharacters.add(character);
+                }
+            }
+        }
+        return matchedCharacters;
     }
 }

@@ -70,4 +70,17 @@ public class ManagerTeam {
         team.setMembers(members);
         return team;
     }
+
+    public boolean existCharacter(long newID, String s) {
+        TeamsJsonDao teamsJsonDao = new TeamsJsonDao();
+        List<Team> teams = teamsJsonDao.readTeams();
+        for (Team team : teams) {
+            for (Character character : team.getMembers()) {
+                if (character.getId() == newID || character.getName().equals(s)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

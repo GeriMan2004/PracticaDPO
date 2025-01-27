@@ -225,9 +225,6 @@ public class ManagerLSBRO {
         checkKOs(messageRound, team1);
         checkKOs(messageRound, team2);
 
-        // En caso de que todos los personajes de un equipo hayan sido noqueados, seteamos
-        managerCombat.isMatchFinished(combat);
-
         // Sumamos Ronda tras terminarla
         combat.setRounds(combat.getRounds() + 1);
 
@@ -236,7 +233,6 @@ public class ManagerLSBRO {
         result.add(messageRound.toString());
         return result;
     }
-
 
     private void checkKOs(StringBuilder messageRound, Team team) {
         int randomNumber;
