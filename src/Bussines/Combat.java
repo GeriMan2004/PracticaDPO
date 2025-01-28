@@ -3,6 +3,7 @@ package src.Bussines;
 public class Combat {
     private Team team1;
     private Team team2;
+    private String winner;
     private int rounds;
     private boolean finished;
 
@@ -44,6 +45,14 @@ public class Combat {
      * @return devuelve el segundo equipo que se encuentra en combate
      */
     public Team getTeam2() {return team2;}
+
+    public void setWinner(String winner) {
+        this.winner = winner;
+    }
+
+    public String getWinner() {
+        return winner;
+    }
 
     /**
      * @title El principal objetivo es establecer el equipo 1 del combate

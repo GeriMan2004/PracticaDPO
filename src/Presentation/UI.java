@@ -27,6 +27,8 @@ public class UI {
             "          |_|                      |/                 \n" +
             "\nWelcome to Super LS, Bro! Simulator.\n";
 
+
+
     /**
      * Función que muestra el mensaje de bienvenida
      * @autor: Gerard Perez
@@ -84,8 +86,42 @@ public class UI {
     }
 
     public static void showTeamStatus(Combat combat){
-
+        System.out.println("Team #1: "+combat.getTeam1().getName());
+        for (Character character : combat.getTeam1().getMembers()) {
+            showTeam(character);
+        }
+        System.out.println("\nTeam #2: "+combat.getTeam2().getName());
+        for (Character character : combat.getTeam2().getMembers()) {
+            showTeam(character);
+        }
     }
+
+    private static void showTeam(Character character) {
+        System.out.print("\t- "+character.getName());
+        if (character.isKnockedOut()) {
+            System.out.print(" (KO) ");
+        } else {
+            System.out.print(" (" + character.getDamage_received() + " %) ");
+        }
+        if (character.getWeapon() != null) {
+            System.out.print(character.getWeapon().getName());
+        } else {
+            System.out.print("no weapon");
+        }
+        if (character.getArmour() != null) {
+            System.out.print(" - " + character.getArmour().getName());
+        } else {
+            System.out.print(" - no armour");
+        }
+        System.out.println();
+    }
+
+    public static void showEndCombat(Combat combat) {
+        System.out.println("--- END OF COMBAT ---\n");
+        System.out.println("... and " + combat.getWinner() + " wins!\n");
+        showTeamStatus(combat);
+    }
+
     public void showCharacterDetails(Character character, List<Team> matchTeams) {
 
         System.out.println("\n\tID:\t\t"+character.getId()+

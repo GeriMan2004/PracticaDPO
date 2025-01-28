@@ -24,6 +24,5 @@ public class Main {
 
         Controller controller = new Controller(managerLSBRO);
         controller.start();
-
     }
 }

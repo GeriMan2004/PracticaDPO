@@ -226,11 +226,34 @@ public class ManagerLSBRO {
 
         // Sumamos Ronda tras terminarla
         combat.setRounds(combat.getRounds() + 1);
-
+        checkifFinished(combat);
         // Devuelve el combate actualizado y el mensaje de la ronda
         result.add(combat);
         result.add(messageRound.toString());
         return result;
+    }
+
+    private void checkifFinished(Combat combat) {
+        int aux = 1;
+        for (Character member : combat.getTeam1().getMembers()) {
+            if (!member.isKnockedOut()) {
+                aux = 0;
+            }
+        }
+        if (aux == 1) {
+            combat.setFinished(true);
+            combat.setWinner(combat.getTeam2().getName());
+        }
+        aux = 1;
+        for (Character member : combat.getTeam2().getMembers()) {
+            if (!member.isKnockedOut()) {
+                aux = 0;
+            }
+        }
+        if (aux == 1) {
+            combat.setFinished(true);
+            combat.setWinner(combat.getTeam1().getName());
+        }
     }
 
     /**

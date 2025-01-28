@@ -213,6 +213,7 @@ public class Controller {
             combat = (Combat) combatRound.get(0);
             UI.displayMessage((String) combatRound.get(1));
         } while (!combat.isFinished());
+        UI.showEndCombat(combat);
     }
 
     private Combat escojerEquipos () {
