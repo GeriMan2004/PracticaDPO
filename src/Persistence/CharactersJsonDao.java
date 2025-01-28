@@ -13,13 +13,12 @@ import java.util.List;
 public class CharactersJsonDao {
 
     private static String path = "data/characters.json";
-    private static Gson gson = new Gson(); // Make gson static
+    private static Gson gson = new Gson();
+
 
     /**
-     * Función que lee todos los personajes del fichero 'characters.json'
-     * @autor: Gerard Perez
-     * @autor: Walter-Arnau Quintili
-     * @return retorna la lista de personajes
+     * @title Función que lee todos los personajes del fichero 'characters.json'
+     * @return lista de personajes
      */
     public static List<Character> readCharacters() {
 
@@ -36,6 +35,10 @@ public class CharactersJsonDao {
         return characters;
     }
 
+    /**
+     * @title Función que verifica si el fichero 'characters.json' existe
+     * @return boolean
+     */
     public boolean checkCharactersFile() {
         try (FileReader reader = new FileReader(path)) {
             return true;

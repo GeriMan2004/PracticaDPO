@@ -10,6 +10,14 @@ public class ManagerLSBRO {
     private ManagerObject managerObject;
     private ManagerCombat managerCombat;
 
+    /**
+     * @title Constructor de la clase ManagerLSBRO, inicializa todos
+     * los managers necesarios para el correcto funcionamiento del programa
+     * @param managerCharacter
+     * @param managerTeam
+     * @param managerObject
+     * @param managerCombat
+     */
     public ManagerLSBRO(ManagerCharacter managerCharacter, ManagerTeam managerTeam, ManagerObject managerObject, ManagerCombat managerCombat) {
         this.managerCharacter = managerCharacter;
         this.managerTeam = managerTeam;
@@ -286,14 +294,13 @@ public class ManagerLSBRO {
     }
 
 
+    //revisar si se necesita
     public void setManagerCharacter(ManagerCharacter managerCharacter) {
         this.managerCharacter = managerCharacter;
     }
-
     public void setManagerTeam(ManagerTeam managerTeam) {
         this.managerTeam = managerTeam;
     }
-
     public void setManagerObject(ManagerObject managerObject) {
         this.managerObject = managerObject;
     }
@@ -302,18 +309,31 @@ public class ManagerLSBRO {
         this.managerCombat = managerCombat;
     }
 
+    /**
+     * @title: Función para obtener el ManagerCharacter
+     * @return ManagerCharacter
+     */
     public ManagerCharacter getManagerCharacter() {
         return managerCharacter;
     }
-
+    /**
+     * @title: Función para obtener el ManagerTeam
+     * @return ManagerTeam
+     */
     public ManagerTeam getManagerTeam() {
         return managerTeam;
     }
-
+    /**
+     * @title: Función para obtener el ManagerObject
+     * @return ManagerObject
+     */
     public ManagerObject getManagerObject() {
         return managerObject;
     }
-
+    /**
+     * @title: Función para obtener el ManagerCombat
+     * @return ManagerCombat
+     */
     public ManagerCombat getManagerCombat() {
         return managerCombat;
     }

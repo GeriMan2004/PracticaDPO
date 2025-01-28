@@ -17,6 +17,10 @@ public class TeamsJsonDao {
     private String path = "data/teams.json";
     private Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 
+    /**
+     * @title Función que lee los equipos del fichero 'teams.json'
+     * @return lista de equipos
+     */
     public List<Team> readTeams() {
         try (FileReader reader = new FileReader(path)) {
             Type teamListType = new TypeToken<List<Team>>() {}.getType();
@@ -29,6 +33,10 @@ public class TeamsJsonDao {
         }
     }
 
+    /**
+     * @title Función que verifica si el fichero 'teams.json' existe
+     * @return boolean
+     */
     public void writeTeams(List<Team> teams) throws IOException {
         try (FileWriter writer = new FileWriter(path)) {
             gson.toJson(teams, writer);

@@ -16,10 +16,18 @@ public class Controller {
     private UI ui = new UI();
     private ManagerLSBRO managerLSBRO;
 
+    /**
+     * @title Constructor de la clase Controller
+     * @param managerLSBRO
+     */
     public Controller(ManagerLSBRO managerLSBRO) {
         this.managerLSBRO = managerLSBRO;
     }
 
+    /**
+     * @title Metodo para iniciar el programa
+     * @throws IOException
+     */
     public void start() throws IOException {
         ui.displayWelcome();
         UI.displayMessage("Verifying local files...");
@@ -43,6 +51,10 @@ public class Controller {
         }
     }
 
+    /**
+     * @title Metodo para verificar los archivos locales
+     * @return boolean
+     */
     private boolean verifyLocalFiles() {
         boolean menu = true;
         if (!managerLSBRO.getManagerCharacter().checkCharacterFile()) {
@@ -56,6 +68,10 @@ public class Controller {
         return menu;
     }
 
+    /**
+     * @title Metodo para listar personajes
+     * @param managerCharacter
+     */
     private void listarPersonaje(ManagerCharacter managerCharacter) {
         int op;
         List<Character> characters = managerCharacter.UploadCharacters();
@@ -70,6 +86,11 @@ public class Controller {
         } while (op < 0 || op > characters.size());
     }
 
+    /**
+     * @title Metodo para gestionar equipos, abre el
+     * menu de gestion de equipos.
+     * @throws IOException
+     */
     private void manageTeams() throws IOException {
         boolean menu = true;
         while (menu) {
@@ -84,6 +105,10 @@ public class Controller {
         }
     }
 
+    /**
+     * @title Metodo para listar equipos
+     * @param managerTeam
+     */
     private void listTeams(ManagerTeam managerTeam) {
         int op = 0;
         List<Team> teams = managerTeam.getAllTeams();
@@ -102,6 +127,9 @@ public class Controller {
 
     }
 
+    /**
+     * @title Metodo para listar objetos
+     */
     private void objectsList() {
         int op = 0;
         List<Item> items = ManagerObject.uploadObjects();
@@ -118,6 +146,10 @@ public class Controller {
 
     }
 
+    /**
+     * @title Metodo para crear un equipo
+     * @throws IOException
+     */
     private void createTeam() throws IOException {
         Team team = new Team("", 0, 0, 0, 0, false);
         List<Character> members = new ArrayList<>();
@@ -172,6 +204,10 @@ public class Controller {
         UI.displayMessage(team.getName() + " has been successfully created!");
     }
 
+    /**
+     * @title Metodo para eliminar un equipo
+     * @throws IOException
+     */
     private void deleteTeam () throws IOException {
         List<Team> teams = managerLSBRO.getManagerTeam().getAllTeams();
         String teamName = "";
@@ -200,6 +236,9 @@ public class Controller {
         } while (true);
     }
 
+    /**
+     * @title Metodo para simular un combate
+     */
     private void runcombatSimulator () {
 
         UI.displayMessage("\nStarting simulation...");
@@ -216,6 +255,10 @@ public class Controller {
         UI.showEndCombat(combat);
     }
 
+    /**
+     * @title Metodo para escoger equipos
+     * @return Combat
+     */
     private Combat escojerEquipos () {
         UI.displayMessage("Looking for available teams...\n");
         List <Team> updatedTeams = new ArrayList<>();
@@ -232,5 +275,6 @@ public class Controller {
         return combat;
     }
 
+    // reivsar si se necesita
     public static void displayMessage(String message) {UI.displayMessage(message);}
 }

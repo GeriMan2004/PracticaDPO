@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UI {
+
     private static Scanner scanner = new Scanner(System.in);
+
     /**
-     * Mensaje de bienvenida
-     * @autor: Gerard Perez
-     * @autor: Walter-Arnau Quintili
+     * @title Mensaje de bienvenida
      */
     private static String MENSAJE_WELCOME =
             "  ___                      _    ___     ___         _ \n" +
@@ -27,22 +27,10 @@ public class UI {
             "          |_|                      |/                 \n" +
             "\nWelcome to Super LS, Bro! Simulator.\n";
 
-
-
-    /**
-     * Función que muestra el mensaje de bienvenida
-     * @autor: Gerard Perez
-     * @autor: Walter-Arnau Quintili
-     * @return void
-     */
-    public void displayWelcome() {
-        System.out.println(MENSAJE_WELCOME);
-    }
+    private static String MENSAJE_GOODBYE = "\nWe hope to see you again!";
 
     /**
-     * String de opciones del menu principal
-     * @autor: Gerard Perez
-     * @autor: Walter-Arnau Quintili
+     * @title String de opciones del menu principal
      */
     private static String MENSAJE_MAIN_MENU = "\n\t1) List Characters\n" +
             "\t2) Manage Teams\n" +
@@ -51,9 +39,32 @@ public class UI {
             "\t5) Exit";
 
     /**
-     * Función que muestra menu principal y pide al usuario que elija una opción que se usará en el controller
-     * @autor: Gerard Perez
-     * @autor: Walter-Arnau Quintili
+     * @title Cadena que almacena el menu de gestión
+     * de equipos
+     */
+    private static String MENSAJE_MANAGE_TEAMS = "\nTeam management.\n" +
+            "\t1) Create a Team\n" +
+            "\t2) List Teams\n" +
+            "\t3) Delete a Team\n\n" +
+            "\t4) Back";
+
+    /**
+     * @title Función que muestra el mensaje de bienvenida
+     * @return void
+     */
+    public void displayWelcome() {
+        System.out.println(MENSAJE_WELCOME);
+    }
+
+    /**
+     * @title Función que muestra el mensaje de despedida
+     */
+    public void displayExit() {
+        System.out.println(MENSAJE_GOODBYE);
+    }
+
+    /**
+     * @title Función que muestra menu principal y pide al usuario que elija una opción que se usará en el controller
      * @return 'CasesMenu' opción elegida por el usuario
      */
     public CasesMenu displayMainMenu() {
@@ -75,6 +86,10 @@ public class UI {
         } while (true);
     }
 
+    /**
+     * @title Función que muestra el menú de gestión de personajes y pide al usuario que elija una opción
+     * @param characters
+     */
     public void printAllCharacters(List<Character> characters) {
         int i = 1;
 
@@ -85,6 +100,11 @@ public class UI {
         System.out.println("\n\t0) Back");
     }
 
+    /**
+     * @title funcion que muestra las características de los
+     * dos equipos que se enfrentan en un combate
+     * @param combat
+     */
     public static void showTeamStatus(Combat combat){
         System.out.println("Team #1: "+combat.getTeam1().getName());
         for (Character character : combat.getTeam1().getMembers()) {
@@ -96,6 +116,10 @@ public class UI {
         }
     }
 
+    /**
+     * @title funcion que muestra las características de un personaje
+     * @param character
+     */
     private static void showTeam(Character character) {
         System.out.print("\t- "+character.getName());
         if (character.isKnockedOut()) {
@@ -116,12 +140,21 @@ public class UI {
         System.out.println();
     }
 
+    /**
+     * @title funcion que muestra el resultado de un combate
+     * @param combat
+     */
     public static void showEndCombat(Combat combat) {
         System.out.println("--- END OF COMBAT ---\n");
         System.out.println("... and " + combat.getWinner() + " wins!\n");
         showTeamStatus(combat);
     }
 
+    /**
+     * @title funcion que muestra las especificaciones de un personaje
+     * @param character
+     * @param matchTeams
+     */
     public void showCharacterDetails(Character character, List<Team> matchTeams) {
 
         System.out.println("\n\tID:\t\t"+character.getId()+
@@ -137,15 +170,12 @@ public class UI {
         }
     }
 
-
-
-
-    private static String MENSAJE_MANAGE_TEAMS = "\nTeam management.\n" +
-            "\t1) Create a Team\n" +
-            "\t2) List Teams\n" +
-            "\t3) Delete a Team\n\n" +
-            "\t4) Back";
-
+    /**
+     * @title función que filtra la opción del menú escogida
+     * por el usuario
+     * @return el enum vinculado con la fución
+     * deseada por el usuario
+     */
     public CasesMenu displayManageTeamsMenu() {
         do {
             System.out.println(MENSAJE_MANAGE_TEAMS);
@@ -165,6 +195,11 @@ public class UI {
         } while (true);
     }
 
+    /**
+     * @title Función que muestra el nombre de todos
+     * los equipos
+     * @param teams
+     */
     public void printAllTeams(List<Team> teams) {
         int i = 1;
 
@@ -175,6 +210,12 @@ public class UI {
         System.out.println("\n\t0) Back");
     }
 
+    /**
+     * @title función que muestra los detalles de
+     * un equipo concreto, previamente escogido por el usuario.
+     * @param team
+     * @param charactersMatch
+     */
     public void showTeamDetails(Team team, List<Character> charactersMatch) {
 
         int i=1;
@@ -208,6 +249,10 @@ public class UI {
 
     }
 
+    /**
+     * @title función que muestra una lista de todos
+     * los objetos disponibles, dentro del juego.
+     */
     public void printAllObjects() {
         int i=1;
 
@@ -222,6 +267,12 @@ public class UI {
         System.out.println("\n\t0) Back");
     }
 
+    /**
+     * @title función que muestra las especificaciones
+     * de un objeto en concreto, previamente seleccionado
+     * por el usuario
+     * @param item
+     */
     public void showItemsDetail(Item item)
     {
         System.out.println("\n\tID:"+"\t"+item.getId_object()+
@@ -232,6 +283,12 @@ public class UI {
                 "\n\tBROKEN:"+"\t"+item.isBroken());
     }
 
+    /**
+     * @title función que permite escoger diferentes
+     * equipos al usuario.
+     * @param teams
+     * @return equipos seleccionados por el usuario
+     */
     public List<Team> askForTeams(List<Team> teams) {
         // User should select 2 teams
         List<Team> teamsSelected = new ArrayList<>();
@@ -255,6 +312,11 @@ public class UI {
         return teamsSelected;
     }
 
+    /**
+     * @title funcion que muestra los detalles de los
+     * dos equipos que se van a enfrentar
+     * @param teamsSelected
+     */
     public void teamsDetailsCombat (List<Team> teamsSelected) {
         int i = 1;
         for (Team team : teamsSelected) {
@@ -267,17 +329,21 @@ public class UI {
         }
     }
 
-    private static String MENSAJE_GOODBYE = "\nWe hope to see you again!";
-
-    public void displayExit() {
-        System.out.println(MENSAJE_GOODBYE);
-    }
-
+    /**
+     * @title Función que pide una string al usuario.
+     * @param message
+     * @return cadena introducida por el usuario
+     */
     public static String askForString(String message) {
         System.out.print(message);
         return scanner.nextLine();
     }
 
+    /**
+     * @title Función que pide un entero al usuario.
+     * @param message
+     * @return entero introducido por el usuario
+     */
     public static int askForInteger(String message) {
         while (true) {
             try {
@@ -309,6 +375,11 @@ public class UI {
         scanner.nextLine();
     }
 
+    /**
+     * @title Función encargada de printar un mensaje
+     * pasado por parametro.
+     * @param message
+     */
     public static void displayMessage(String message) {
         System.out.println(message);
     }

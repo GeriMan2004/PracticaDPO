@@ -18,10 +18,8 @@ public class ObjectsJsonDao {
 
 
     /**
-     * Función que lee todos los objetos del fichero 'objects.json'
-     * @autor: Gerard Perez
-     * @autor: Walter-Arnau Quintili
-     * @return retorna la lista de objetos
+     * @title Función que lee todos los objetos del fichero 'items.json'
+     * @return lista de objetos
      */
     public List<Item> readObjects() {
 
@@ -39,6 +37,10 @@ public class ObjectsJsonDao {
         return items;
     }
 
+    /**
+     * @title Función que verifica si el fichero 'items.json' existe
+     * @return boolean
+     */
     public boolean checkObjectsFile()
     {
         try (FileReader reader = new FileReader(path)) {

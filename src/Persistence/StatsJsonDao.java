@@ -12,6 +12,10 @@ public class StatsJsonDao {
     String path = "data/stats.json";
     Gson gson = new Gson();
 
+    /**
+     * @title Función que lee las estadísticas de los equipos del fichero 'stats.json'
+     * @return lista de equipos
+     */
     public List<Team> readStats () {
         try {
             return gson.fromJson(new FileReader(path), new TypeToken<List<Team>>() {}.getType());
