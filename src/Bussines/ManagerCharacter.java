@@ -87,8 +87,11 @@ public class ManagerCharacter {
         for (Character character : characters) {
             for (Character member : members) {
                 if (character.getId() == member.getId()) {
-                    matchedCharacters.add(character);
-                    character.setStrategy(member.getStrategy());
+                    Character cloned = new Character(character.getId(), character.getStrategy());
+                    cloned.setName(character.getName());
+                    cloned.setStrategy(member.getStrategy());
+                    cloned.setWeight(character.getWeight());
+                    matchedCharacters.add(cloned);
                 }
             }
         }

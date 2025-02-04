@@ -242,6 +242,8 @@ public class Controller {
     private void runcombatSimulator () {
 
         UI.displayMessage("\nStarting simulation...");
+        // CombatRound es una variable que almacena el resultado de la simulación de un round, tanto
+        // los datos de la variable combat, como los prints que se deben mostrar en pantalla
         List<Object> combatRound = new ArrayList<>();
         Combat combat = escojerEquipos();
         // start the combat

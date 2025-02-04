@@ -149,4 +149,8 @@ public class Character {
      * @return devuelve el daño recibido por el personaje
      */
     public double getDamage_received() {return damage_received;}
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
 }
