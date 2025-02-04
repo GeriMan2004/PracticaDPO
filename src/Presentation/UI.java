@@ -125,7 +125,7 @@ public class UI {
         if (character.isKnockedOut()) {
             System.out.print(" (KO) ");
         } else {
-            System.out.print(" (" + character.getDamage_received() + " %) ");
+            System.out.print(" (" + String.format("%.0f", character.getDamage_received() * 100) + " %) ");
         }
         if (character.getWeapon() != null) {
             System.out.print(character.getWeapon().getName());

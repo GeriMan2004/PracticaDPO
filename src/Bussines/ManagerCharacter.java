@@ -5,6 +5,9 @@ import src.Persistence.CharactersJsonDao;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase ManagerCharacter
+ */
 public class ManagerCharacter {
 
     CharactersJsonDao charactersJsonDao;

@@ -31,9 +31,6 @@ public class ManagerLSBRO {
      * @return List<Object> - El objeto Combat modificado y el mensaje de la ronda
      */
     public List<Object> simulateRound (Combat combat) {
-        double dmg  = 0;
-        int randomNumber;
-        String type;
         List<Object> result = new ArrayList<>();
 
         // Obtén la lista de ítems disponibles
@@ -158,8 +155,8 @@ public class ManagerLSBRO {
                         .append(" WITH ")
                         .append(member.getWeapon() != null ? member.getWeapon().getName() : "FISTS")
                         .append(" FOR ")
-                        .append(baseDamage)
-                        .append(" damage (raw).\n");
+                        .append(String.format("%.1f", baseDamage))
+                        .append(" DAMAGE!\n");
 
                 // Ajusta el daño final según reciveDamage (defensas, modo defensa, armadura, etc.)
                 double finalDamage = managerCharacter.reciveDamage(defender, baseDamage);
@@ -170,8 +167,8 @@ public class ManagerLSBRO {
                 messageRound.append("\t")
                         .append(defender.getName())
                         .append(" RECEIVES ")
-                        .append(finalDamage)
-                        .append(" DAMAGE (final).\n");
+                        .append(String.format("%.2f", finalDamage))
+                        .append(" DAMAGE.\n");
 
                 // Disminuye durabilidad del arma del atacante, si existe
                 if (member.getWeapon() != null) {
@@ -183,7 +180,6 @@ public class ManagerLSBRO {
                 }
             }
         }
-
         messageRound.append("\n");
     }
 
