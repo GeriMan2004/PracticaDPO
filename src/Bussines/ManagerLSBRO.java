@@ -48,8 +48,10 @@ public class ManagerLSBRO {
 
         messageRound.append("\n");
 
-        // Comprueba el modo de cada personaje antes de iniciar la ronda
+        // ========== REVISA SI ALGÚN PERSONAJE ESTÁ EN MODO DEFENSA EN EL EQUIPO 1 ==========
         checkMode(team1);
+
+        // ========== REVISA SI ALGÚN PERSONAJE ESTÁ EN MODO DEFENSA EN EL EQUIPO 2 ==========
         checkMode(team2);
 
         // ========== ATAQUES DEL EQUIPO 1 ==========
@@ -64,13 +66,16 @@ public class ManagerLSBRO {
         // ========== REVISA SI ALGÚN ARMA O ARMADURA SE ROMPE EN EL EQUIPO 2 ==========
         equipmentCheck(messageRound, team2);
 
-        // Comprueba KO's tras el daño
+        // ========== REVISA SI ALGÚN PERSONAJE HA SIDO NOQUEADO EN EL EQUIPO 1 ==========
         checkKOs(messageRound, team1);
+
+        // ========== REVISA SI ALGÚN PERSONAJE HA SIDO NOQUEADO EN EL EQUIPO 2 ==========
         checkKOs(messageRound, team2);
 
         // Sumamos Ronda tras terminarla
         combat.setRounds(combat.getRounds() + 1);
         checkifFinished(combat);
+
         // Devuelve el combate actualizado y el mensaje de la ronda
         result.add(combat);
         result.add(messageRound.toString());
@@ -78,6 +83,7 @@ public class ManagerLSBRO {
     }
 
     private void equipmentCheck(StringBuilder messageRound, Team team1) {
+        int auxLength = messageRound.length();
         for (Character member : team1.getMembers()) {
             // Revisa el arma
             if (member.getWeapon() != null && member.getWeapon().getDurability() <= 0 && !member.isKnockedOut()) {
@@ -102,8 +108,9 @@ public class ManagerLSBRO {
                         .append(" breaks!\n");
             }
         }
-
-        messageRound.append("\n");
+        if (messageRound.length() > auxLength) {
+            messageRound.append("\n");
+        }
     }
 
     private void attacks(List<Item> items, StringBuilder messageRound, Team team1, Team team2) {
@@ -219,22 +226,6 @@ public class ManagerLSBRO {
         for (Character member : team.getMembers()) {
             member.setDeffendingMode(member.getWeapon() != null && member.getDamage_received() > 0.5 && member.getDamage_received() < 1 && member.getArmour() != null && !member.isKnockedOut());
         }
-    }
-
-
-    //revisar si se necesita
-    public void setManagerCharacter(ManagerCharacter managerCharacter) {
-        this.managerCharacter = managerCharacter;
-    }
-    public void setManagerTeam(ManagerTeam managerTeam) {
-        this.managerTeam = managerTeam;
-    }
-    public void setManagerObject(ManagerObject managerObject) {
-        this.managerObject = managerObject;
-    }
-
-    public void setManagerCombat(ManagerCombat managerCombat) {
-        this.managerCombat = managerCombat;
     }
 
     /**

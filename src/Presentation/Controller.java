@@ -246,9 +246,11 @@ public class Controller {
         // los datos de la variable combat, como los prints que se deben mostrar en pantalla
         List<Object> combatRound = new ArrayList<>();
         Combat combat = escojerEquipos();
+        // Printamos un enter para separar los equipos de la simulación
+        UI.displayMessage("");
         // start the combat
         do {
-            UI.displayMessage("\n--- Round " + combat.getRounds() + "! ---");
+            UI.displayMessage("--- Round " + combat.getRounds() + "! ---");
             UI.showTeamStatus(combat);
             combatRound = managerLSBRO.simulateRound(combat);
             combat = (Combat) combatRound.get(0);
