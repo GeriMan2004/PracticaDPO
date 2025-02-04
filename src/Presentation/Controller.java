@@ -3,13 +3,9 @@ package src.Presentation;
 import src.Bussines.*;
 import src.Bussines.Character;
 import src.Persistence.CharactersJsonDao;
-
-import javax.naming.ldap.Control;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
 
 public class Controller {
 
@@ -17,7 +13,7 @@ public class Controller {
     private ManagerLSBRO managerLSBRO;
 
     /**
-     * @title Constructor de la clase Controller
+     * Constructor de la clase Controller
      * @param managerLSBRO
      */
     public Controller(ManagerLSBRO managerLSBRO) {
@@ -25,7 +21,7 @@ public class Controller {
     }
 
     /**
-     * @title Metodo para iniciar el programa
+     * Metodo para iniciar el programa
      * @throws IOException
      */
     public void start() throws IOException {
@@ -52,7 +48,7 @@ public class Controller {
     }
 
     /**
-     * @title Metodo para verificar los archivos locales
+     * Metodo para verificar los archivos locales
      * @return boolean
      */
     private boolean verifyLocalFiles() {
@@ -69,7 +65,7 @@ public class Controller {
     }
 
     /**
-     * @title Metodo para listar personajes
+     * Metodo para listar personajes
      * @param managerCharacter
      */
     private void listarPersonaje(ManagerCharacter managerCharacter) {
@@ -87,8 +83,7 @@ public class Controller {
     }
 
     /**
-     * @title Metodo para gestionar equipos, abre el
-     * menu de gestion de equipos.
+     * Metodo para gestionar equipos, abre el menu de gestion de equipos.
      * @throws IOException
      */
     private void manageTeams() throws IOException {
@@ -106,7 +101,7 @@ public class Controller {
     }
 
     /**
-     * @title Metodo para listar equipos
+     * Metodo para listar equipos, muestra los equipos de la base de datos
      * @param managerTeam
      */
     private void listTeams(ManagerTeam managerTeam) {
@@ -128,7 +123,7 @@ public class Controller {
     }
 
     /**
-     * @title Metodo para listar objetos
+     * Metodo para listar objetos
      */
     private void objectsList() {
         int op = 0;
@@ -147,7 +142,7 @@ public class Controller {
     }
 
     /**
-     * @title Metodo para crear un equipo
+     * Metodo para crear un equipo
      * @throws IOException
      */
     private void createTeam() throws IOException {
@@ -205,7 +200,7 @@ public class Controller {
     }
 
     /**
-     * @title Metodo para eliminar un equipo
+     * Metodo para eliminar un equipo
      * @throws IOException
      */
     private void deleteTeam () throws IOException {

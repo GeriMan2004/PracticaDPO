@@ -9,14 +9,14 @@ public class ManagerCharacter {
 
     CharactersJsonDao charactersJsonDao;
     /**
-     * @title Contructor de la clase ManagerCharacter
+     * Contructor de la clase ManagerCharacter
      * @param charactersJsonDao
      */
     public ManagerCharacter(CharactersJsonDao charactersJsonDao) {
         this.charactersJsonDao = charactersJsonDao;
     }
     /**
-     * @title Metodo para cargar los personajes
+     * Metodo para cargar los personajes
      * @return List<Character>
      */
     public List<Character> UploadCharacters()
@@ -25,7 +25,7 @@ public class ManagerCharacter {
         return CharactersJsonDao.readCharacters();
     }
     /**
-     * @title Metodo para verificar si el archivo de personajes existe
+     * Metodo para verificar si el archivo de personajes existe
      * @return boolean
      */
     public boolean checkCharacterFile()
@@ -35,7 +35,7 @@ public class ManagerCharacter {
     }
 
     /**
-     * @title Metodo para calcular el daño final hecho
+     * Metodo para calcular el daño final hecho
      * por el ataque de un personaje
      * @param character
      * @param attack
@@ -55,8 +55,7 @@ public class ManagerCharacter {
         return finalattack;
     }
     /**
-     * @title Metodo para calcular el daño base
-     * hecho por un personaje
+     * Metodo para calcular el daño base hecho por un personaje
      * @param character
      * @param defender
      * @return float
@@ -75,8 +74,7 @@ public class ManagerCharacter {
         return attack;
     }
     /**
-     * @title metodo para obtener el nombre de un personaje a
-     * partir de su id
+     * Metodo para obtener el nombre de un personaje a partir de su id
      * @param members characters
      * @return List<Character>
      */
