@@ -18,7 +18,7 @@ public class Team {
     private String Strategy;
 
     /**
-     * @title Constructor de la clase Team
+     * Constructor de la clase Team
      * @param name
      * @param games_played
      * @param games_won
@@ -41,7 +41,7 @@ public class Team {
     }
 
     /**
-     * @title Metodo para obtener los miembros del equipo
+     * Metodo para obtener los miembros del equipo
      * @return List<Character>
      */
     public List<Character> getMembers() {
@@ -49,13 +49,13 @@ public class Team {
     }
 
     /**
-     * @title Metodo para obtener el nombre del equipo
+     * Metodo para obtener el nombre del equipo
      * @return String
      */
     public String getName() {return name;}
 
     /**
-     * @title Metodo para establecer los miembros del equipo
+     * Metodo para establecer los miembros del equipo
      * @param members
      */
     public void setMembers(List<Character> members) {
@@ -63,7 +63,7 @@ public class Team {
     }
 
     /**
-     * @title Metodo para establecer el nombre del equipo
+     * Metodo para establecer el nombre del equipo
      * @param name
      */
     public void setName(String name) {
@@ -71,7 +71,7 @@ public class Team {
     }
 
     /**
-     * @title Metodo para establecer los juegos jugados
+     * Metodo para establecer los juegos jugados
      * @param games_played
      */
     public void setGames_played(int games_played) {
@@ -79,7 +79,7 @@ public class Team {
     }
 
     /**
-     * @title Metodo para establecer los juegos ganados
+     * Metodo para establecer los juegos ganados
      * @param games_won
      */
     public void setGames_won(int games_won) {
@@ -87,7 +87,7 @@ public class Team {
     }
 
     /**
-     * @title Metodo para establecer los KO hechos
+     * Metodo para establecer los KO hechos
      * @param KO_done
      */
     public void setKO_done(int KO_done) {
@@ -95,7 +95,7 @@ public class Team {
     }
 
     /**
-     * @title Metodo para establecer los KO recibidos
+     * Metodo para establecer los KO recibidos
      * @param KO_received
      */
     public void setKO_received(int KO_received) {
@@ -113,7 +113,7 @@ public class Team {
     }
 
     /**
-     * @title Metodo para obtener los juegos jugados
+     * Metodo para obtener los juegos jugados
      * @return int
      */
     public int getGames_played() {
@@ -121,7 +121,7 @@ public class Team {
     }
 
     /**
-     * @title Metodo para obtener los juegos ganados
+     * Metodo para obtener los juegos ganados
      * @return int
      */
     public int getGames_won() {
@@ -129,7 +129,7 @@ public class Team {
     }
 
     /**
-     * @title Metodo para obtener los KO hechos
+     * Metodo para obtener los KO hechos
      * @return int
      */
     public int getKO_done() {
@@ -137,7 +137,7 @@ public class Team {
     }
 
     /**
-     * @title Metodo para obtener los KO recibidos
+     * Metodo para obtener los KO recibidos
      * @return int
      */
     public int getKO_received() {

@@ -3,7 +3,6 @@ package src.Bussines;
 import src.Persistence.CharactersJsonDao;
 import src.Persistence.StatsJsonDao;
 import src.Persistence.TeamsJsonDao;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ public class ManagerTeam {
     StatsJsonDao statsJsonDao;
 
     /**
-     * @title Constructor de la clase ManagerTeam
+     * Constructor de la clase ManagerTeam
      * @param teamsJsonDao
      * @param statsJsonDao
      */
@@ -23,7 +22,7 @@ public class ManagerTeam {
         this.statsJsonDao = statsJsonDao;
     }
     /**
-     * @title Metodo para obtener los equipos
+     * Metodo para obtener los equipos
      * @return List<Team>
      */
     public List<Team> getAllTeams()
@@ -38,7 +37,7 @@ public class ManagerTeam {
     }
 
     /**
-     * @title Metodo para encontrar y vincular un peronsaje a un equipo
+     * Metodo para encontrar y vincular un peronsaje a un equipo
      * @param character
      * @return List<Team>
      */
@@ -57,7 +56,7 @@ public class ManagerTeam {
     }
 
     /**
-     * @title Metodo para añadir un equipo
+     * Metodo para añadir un equipo
      * @param team
      * @throws IOException
      */
@@ -69,7 +68,7 @@ public class ManagerTeam {
     }
 
     /**
-     * @title Metodo para añadir equipos
+     * Metodo para añadir equipos
      * @param teams
      * @throws IOException
      */
@@ -79,7 +78,7 @@ public class ManagerTeam {
     }
 
     /**
-     * @title Metodo para actualizar las estadísticas
+     * Metodo para actualizar las estadísticas
      * de un equipo
      * @param teams
      * @param stats
@@ -98,7 +97,7 @@ public class ManagerTeam {
     }
 
     /**
-     * @title Metodo para actualizar los miembros de un equipo
+     * Metodo para actualizar los miembros de un equipo
      * @param team
      * @param members
      * @return Team
@@ -109,7 +108,7 @@ public class ManagerTeam {
     }
 
     /**
-     * @title Metodo para verificar si un personaje existe
+     * Metodo para verificar si un personaje existe
      * @param newID
      * @param inputCharacter
      * @return boolean

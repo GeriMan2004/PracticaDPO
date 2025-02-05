@@ -146,8 +146,8 @@ public class ManagerLSBRO {
                     defender = team2.getMembers().get(randomNumber);
                 } while (defender.isKnockedOut());
 
-                // Calcula el daño base (ej. fuerza, skill, etc.)
-                double baseDamage = managerCharacter.attack(member, defender);
+                // Calcula el daño base del ataque por parte del personaje atacante
+                double baseDamage = managerCharacter.attack(member);
 
                 messageRound.append(member.getName())
                         .append(" ATTACKS ")
@@ -184,7 +184,7 @@ public class ManagerLSBRO {
     }
 
     /**
-     * @title: Función para comprobar si el combate ha terminado
+     * Función para comprobar si el combate ha terminado
      * Esta función comprueba si el combate ha terminado, es decir, si todos los personajes de un equipo están KO
      * @param combat
      */

@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import src.Bussines.Team;
-import src.Presentation.UI;
-
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,7 +16,7 @@ public class TeamsJsonDao {
     private Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 
     /**
-     * @title Función que lee los equipos del fichero 'teams.json'
+     * Función que lee los equipos del fichero 'teams.json'
      * @return lista de equipos
      */
     public List<Team> readTeams() {
@@ -34,7 +32,7 @@ public class TeamsJsonDao {
     }
 
     /**
-     * @title Función que verifica si el fichero 'teams.json' existe
+     * Función que verifica si el fichero 'teams.json' existe
      * @return boolean
      */
     public void writeTeams(List<Team> teams) throws IOException {

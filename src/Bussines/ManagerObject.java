@@ -9,7 +9,7 @@ public class ManagerObject {
     ObjectsJsonDao objectsJsonDao;
 
     /**
-     * @title Constructor de la clase ManagerObject
+     * Constructor de la clase ManagerObject
      * @param objectsJsonDao
      */
     public ManagerObject(ObjectsJsonDao objectsJsonDao) {
@@ -17,7 +17,7 @@ public class ManagerObject {
     }
 
    /**
-     * @title Metodo para verificar si el archivo de objetos existe
+     * Metodo para verificar si el archivo de objetos existe
      * @return boolean
      */
     public boolean checkItemFile()
@@ -26,7 +26,7 @@ public class ManagerObject {
         return objectsJsonDao.checkObjectsFile();
     }
     /**
-     * @title Metodo para cargar los objetos
+     * Metodo para cargar los objetos
      * @return List<Item>
      */
     public static List<Item> uploadObjects() {

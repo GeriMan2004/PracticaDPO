@@ -15,7 +15,7 @@ public class ManagerCombat {
     private ObjectsJsonDao itemsJsonDao;
 
     /**
-     * @title Constructor de la clase ManagerCombat
+     * Constructor de la clase ManagerCombat
      * @param itemsJsonDao
      */
     public ManagerCombat(ObjectsJsonDao itemsJsonDao) {
@@ -23,7 +23,7 @@ public class ManagerCombat {
     }
 
     /**
-     * @title Este metodo se encarga de verificar si el combate ha finalizado
+     * Este metodo se encarga de verificar si el combate ha finalizado
      * todo el equipo 1 o el equipo 2 estan noqueados
      * @param team1
      * @param team2
@@ -50,7 +50,7 @@ public class ManagerCombat {
     }
 
     /**
-     * @title Este metodo se encarga de incializar la
+     * Este metodo se encarga de incializar la
      * clase combate con todos los datos necesarios
      * @param teamsSelected
      * @return Combat
@@ -60,7 +60,7 @@ public class ManagerCombat {
         return new Combat(teamsSelected.get(0), teamsSelected.get(1));
     }
     /**
-     * @title Este metodo se encarga de assignar un arma
+     * Este metodo se encarga de assignar un arma
      * y armadura aleatoria a cada personaje del combate
      * @param team1
      * @return team2

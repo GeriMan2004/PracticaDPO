@@ -17,7 +17,7 @@ public class CharactersJsonDao {
 
 
     /**
-     * @title Función que lee todos los personajes del fichero 'characters.json'
+     * Función que lee todos los personajes del fichero 'characters.json'
      * @return lista de personajes
      */
     public static List<Character> readCharacters() {
@@ -36,7 +36,7 @@ public class CharactersJsonDao {
     }
 
     /**
-     * @title Función que verifica si el fichero 'characters.json' existe
+     * Función que verifica si el fichero 'characters.json' existe
      * @return boolean
      */
     public boolean checkCharactersFile() {

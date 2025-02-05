@@ -232,7 +232,7 @@ public class Controller {
     }
 
     /**
-     * @title Metodo para simular un combate
+     * Metodo para simular un combate
      */
     private void runcombatSimulator () {
 
@@ -255,7 +255,7 @@ public class Controller {
     }
 
     /**
-     * @title Metodo para escoger equipos
+     * Metodo para escoger equipos
      * @return Combat
      */
     private Combat escojerEquipos () {

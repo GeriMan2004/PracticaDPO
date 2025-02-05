@@ -13,7 +13,7 @@ public class StatsJsonDao {
     Gson gson = new Gson();
 
     /**
-     * @title Función que lee las estadísticas de los equipos del fichero 'stats.json'
+     * Función que lee las estadísticas de los equipos del fichero 'stats.json'
      * @return lista de equipos
      */
     public List<Team> readStats () {

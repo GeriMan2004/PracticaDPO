@@ -1,7 +1,6 @@
 package src.Bussines;
 
 import src.Persistence.CharactersJsonDao;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,11 +58,10 @@ public class ManagerCharacter {
     }
     /**
      * Metodo para calcular el daño base hecho por un personaje
-     * @param character
-     * @param defender
+     * @param character es el personaje que ataca
      * @return float
      */
-    public float attack(Character character, Character defender) {
+    public float attack(Character character) {
         float attack=0;
         float attackerWeight = character.getWeight();
         double attackerDamageRecived = character.getDamage_received();
@@ -76,6 +74,7 @@ public class ManagerCharacter {
 
         return attack;
     }
+
     /**
      * Metodo para obtener el nombre de un personaje a partir de su id
      * @param members characters

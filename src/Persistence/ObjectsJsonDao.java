@@ -18,7 +18,7 @@ public class ObjectsJsonDao {
 
 
     /**
-     * @title Función que lee todos los objetos del fichero 'items.json'
+     * Función que lee todos los objetos del fichero 'items.json'
      * @return lista de objetos
      */
     public List<Item> readObjects() {
@@ -38,7 +38,7 @@ public class ObjectsJsonDao {
     }
 
     /**
-     * @title Función que verifica si el fichero 'items.json' existe
+     * Función que verifica si el fichero 'items.json' existe
      * @return boolean
      */
     public boolean checkObjectsFile()

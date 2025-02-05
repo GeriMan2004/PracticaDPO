@@ -17,7 +17,7 @@ public class UI {
     private static Scanner scanner = new Scanner(System.in);
 
     /**
-     * @title Mensaje de bienvenida
+     * Mensaje de bienvenida
      */
     private static String MENSAJE_WELCOME =
             "  ___                      _    ___     ___         _ \n" +
@@ -30,7 +30,7 @@ public class UI {
     private static String MENSAJE_GOODBYE = "\nWe hope to see you again!";
 
     /**
-     * @title String de opciones del menu principal
+     * String de opciones del menu principal
      */
     private static String MENSAJE_MAIN_MENU = "\n\t1) List Characters\n" +
             "\t2) Manage Teams\n" +
@@ -39,7 +39,7 @@ public class UI {
             "\t5) Exit";
 
     /**
-     * @title Cadena que almacena el menu de gestión
+     * Cadena que almacena el menu de gestión
      * de equipos
      */
     private static String MENSAJE_MANAGE_TEAMS = "\nTeam management.\n" +
@@ -49,7 +49,7 @@ public class UI {
             "\t4) Back";
 
     /**
-     * @title Función que muestra el mensaje de bienvenida
+     * Función que muestra el mensaje de bienvenida
      * @return void
      */
     public void displayWelcome() {
@@ -57,14 +57,14 @@ public class UI {
     }
 
     /**
-     * @title Función que muestra el mensaje de despedida
+     * Función que muestra el mensaje de despedida
      */
     public void displayExit() {
         System.out.println(MENSAJE_GOODBYE);
     }
 
     /**
-     * @title Función que muestra menu principal y pide al usuario que elija una opción que se usará en el controller
+     * Función que muestra menu principal y pide al usuario que elija una opción que se usará en el controller
      * @return 'CasesMenu' opción elegida por el usuario
      */
     public CasesMenu displayMainMenu() {
@@ -87,7 +87,7 @@ public class UI {
     }
 
     /**
-     * @title Función que muestra el menú de gestión de personajes y pide al usuario que elija una opción
+     * Función que muestra el menú de gestión de personajes y pide al usuario que elija una opción
      * @param characters
      */
     public void printAllCharacters(List<Character> characters) {
@@ -101,7 +101,7 @@ public class UI {
     }
 
     /**
-     * @title funcion que muestra las características de los
+     * Funcion que muestra las características de los
      * dos equipos que se enfrentan en un combate
      * @param combat
      */
@@ -117,7 +117,7 @@ public class UI {
     }
 
     /**
-     * @title funcion que muestra las características de un personaje
+     * Funcion que muestra las características de un personaje
      * @param character
      */
     private static void showTeam(Character character) {
@@ -141,7 +141,7 @@ public class UI {
     }
 
     /**
-     * @title funcion que muestra el resultado de un combate
+     * Funcion que muestra el resultado de un combate
      * @param combat
      */
     public static void showEndCombat(Combat combat) {
@@ -151,7 +151,7 @@ public class UI {
     }
 
     /**
-     * @title funcion que muestra las especificaciones de un personaje
+     * Funcion que muestra las especificaciones de un personaje
      * @param character
      * @param matchTeams
      */
@@ -171,7 +171,7 @@ public class UI {
     }
 
     /**
-     * @title función que filtra la opción del menú escogida
+     * Función que filtra la opción del menú escogida
      * por el usuario
      * @return el enum vinculado con la fución
      * deseada por el usuario
@@ -196,7 +196,7 @@ public class UI {
     }
 
     /**
-     * @title Función que muestra el nombre de todos
+     * Función que muestra el nombre de todos
      * los equipos
      * @param teams
      */
@@ -211,7 +211,7 @@ public class UI {
     }
 
     /**
-     * @title función que muestra los detalles de
+     * Función que muestra los detalles de
      * un equipo concreto, previamente escogido por el usuario.
      * @param team
      * @param charactersMatch
@@ -250,7 +250,7 @@ public class UI {
     }
 
     /**
-     * @title función que muestra una lista de todos
+     * Función que muestra una lista de todos
      * los objetos disponibles, dentro del juego.
      */
     public void printAllObjects() {
@@ -268,7 +268,7 @@ public class UI {
     }
 
     /**
-     * @title función que muestra las especificaciones
+     * Función que muestra las especificaciones
      * de un objeto en concreto, previamente seleccionado
      * por el usuario
      * @param item
@@ -284,7 +284,7 @@ public class UI {
     }
 
     /**
-     * @title función que permite escoger diferentes
+     * Función que permite escoger diferentes
      * equipos al usuario.
      * @param teams
      * @return equipos seleccionados por el usuario
@@ -313,7 +313,7 @@ public class UI {
     }
 
     /**
-     * @title funcion que muestra los detalles de los
+     * Funcion que muestra los detalles de los
      * dos equipos que se van a enfrentar
      * @param teamsSelected
      */
@@ -330,7 +330,7 @@ public class UI {
     }
 
     /**
-     * @title Función que pide una string al usuario.
+     * Función que pide una string al usuario.
      * @param message
      * @return cadena introducida por el usuario
      */
@@ -340,7 +340,7 @@ public class UI {
     }
 
     /**
-     * @title Función que pide un entero al usuario.
+     * Función que pide un entero al usuario.
      * @param message
      * @return entero introducido por el usuario
      */
@@ -376,7 +376,7 @@ public class UI {
     }
 
     /**
-     * @title Función encargada de printar un mensaje
+     * Función encargada de printar un mensaje
      * pasado por parametro.
      * @param message
      */
