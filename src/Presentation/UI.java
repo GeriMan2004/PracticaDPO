@@ -161,7 +161,7 @@ public class UI {
                 "\n\tNAME:\t"+character.getName()+
                 "\n\tWEIGHT:\t"+character.getWeight()+" kg");
         if (!matchTeams.isEmpty()) {
-            System.out.println("\n\tTEAMS:");
+            System.out.println("\tTEAMS:");
             for (Team team : matchTeams) {
                 System.out.println("\t\t- " + team.getName());
             }

@@ -31,6 +31,8 @@ public class Controller {
         if (!menu) {
             UI.displayMessage("Shutting down....");
             return;
+        }else{
+            UI.displayMessage("Files OK." + "\n" + "Starting program...");
         }
         while (menu) {
             CasesMenu option = ui.displayMainMenu();
@@ -157,7 +159,7 @@ public class Controller {
         for (int i = 0; i < 4; i++) {
             Character character;
             do {
-                String input = UI.askForString("Please enter name or id for character #" + (i + 1) + ": ");
+                String input = UI.askForString("\nPlease enter name or id for character #" + (i + 1) + ": ");
                 try {
                     long newID = Long.parseLong(input);
                     character = new Character(newID, "");
