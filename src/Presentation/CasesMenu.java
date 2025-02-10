@@ -1,5 +1,8 @@
 package src.Presentation;
 
+/**
+ * La clase CasesMenu es un "enum" que facilita la lectura y escritura de las opciones de los menús, ya que las hace más legibles y fáciles de entender.
+ */
 public enum CasesMenu {
     /**
     * Opción para listar personajes en el menú principal

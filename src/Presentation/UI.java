@@ -5,16 +5,18 @@ import src.Bussines.Combat;
 import src.Bussines.Item;
 import src.Bussines.Team;
 import src.Persistence.ObjectsJsonDao;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Esta clase se encarga de toda la parte de la interfaz de usuario, por
+ * lo que tiene todos los displays de mensajes.
+ */
 public class UI {
 
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
     /**
      * Mensaje de bienvenida
@@ -50,7 +52,6 @@ public class UI {
 
     /**
      * Función que muestra el mensaje de bienvenida
-     * @return void
      */
     public void displayWelcome() {
         System.out.println(MENSAJE_WELCOME);
@@ -88,7 +89,7 @@ public class UI {
 
     /**
      * Función que muestra el menú de gestión de personajes y pide al usuario que elija una opción
-     * @param characters
+     * @param characters lista de personajes
      */
     public void printAllCharacters(List<Character> characters) {
         int i = 1;
@@ -103,38 +104,38 @@ public class UI {
     /**
      * Funcion que muestra las características de los
      * dos equipos que se enfrentan en un combate
-     * @param combat
+     * @param combat combate a mostrar
      */
-    public static void showTeamStatus(Combat combat){
+    public static void showTeamStatus(Combat combat, boolean showObjects) {
         System.out.println("Team #1: "+combat.getTeam1().getName());
         for (Character character : combat.getTeam1().getMembers()) {
-            showTeam(character);
+            showTeam(character, showObjects);
         }
         System.out.println("\nTeam #2: "+combat.getTeam2().getName());
         for (Character character : combat.getTeam2().getMembers()) {
-            showTeam(character);
+            showTeam(character, showObjects);
         }
     }
 
     /**
      * Funcion que muestra las características de un personaje
-     * @param character
+     * @param character personaje a mostrar
      */
-    private static void showTeam(Character character) {
+    private static void showTeam(Character character, boolean showObjects) {
         System.out.print("\t- "+character.getName());
         if (character.isKnockedOut()) {
             System.out.print(" (KO) ");
         } else {
             System.out.print(" (" + String.format("%.0f", character.getDamage_received() * 100) + " %) ");
         }
-        if (character.getWeapon() != null) {
+        if (character.getWeapon() != null && showObjects) {
             System.out.print(character.getWeapon().getName());
-        } else {
+        } else if(showObjects) {
             System.out.print("no weapon");
         }
-        if (character.getArmour() != null) {
+        if (character.getArmour() != null && showObjects) {
             System.out.print(" - " + character.getArmour().getName());
-        } else {
+        } else if (showObjects) {
             System.out.print(" - no armour");
         }
         System.out.println();
@@ -142,18 +143,21 @@ public class UI {
 
     /**
      * Funcion que muestra el resultado de un combate
-     * @param combat
+     * @param combat combate a mostrar
      */
     public static void showEndCombat(Combat combat) {
         System.out.println("--- END OF COMBAT ---\n");
         System.out.println("... and " + combat.getWinner() + " wins!\n");
-        showTeamStatus(combat);
+        // Show the status of the teams, but with no objets
+        showTeamStatus(combat, false);
+        System.out.println();
+        printAndWait();
     }
 
     /**
      * Funcion que muestra las especificaciones de un personaje
-     * @param character
-     * @param matchTeams
+     * @param character personaje a mostrar
+     * @param matchTeams equipos en los que se encuentra el personaje
      */
     public void showCharacterDetails(Character character, List<Team> matchTeams) {
 
@@ -168,6 +172,8 @@ public class UI {
         } else {
             System.out.println("\n\tTEAMS: This character is not in any team.");
         }
+        System.out.println();
+        printAndWait();
     }
 
     /**
@@ -198,28 +204,28 @@ public class UI {
     /**
      * Función que muestra el nombre de todos
      * los equipos
-     * @param teams
+     * @param teams lista de equipos
      */
     public void printAllTeams(List<Team> teams) {
         int i = 1;
-
+        System.out.println();
         for(Team team : teams) {
             System.out.println("\t"+ i + ") " + team.getName());
             i++;
         }
-        System.out.println("\n\t0) Back");
+        System.out.println("\n\t0) Back\n");
     }
 
     /**
      * Función que muestra los detalles de
      * un equipo concreto, previamente escogido por el usuario.
-     * @param team
-     * @param charactersMatch
+     * @param team equipo a mostrar
+     * @param charactersMatch personajes que forman parte del equipo
      */
     public void showTeamDetails(Team team, List<Character> charactersMatch) {
 
         int i=1;
-        Float winrate;
+        float winrate;
 
         System.out.println("\n\tTeam Name:"+team.getName()+"\n");
         for(Character character : charactersMatch) {
@@ -230,23 +236,22 @@ public class UI {
         }
 
         if(team.getGames_played()==0) {
-            winrate = 100.0F;
-            System.out.println("\n\tCombats played: " + team.getGames_played() +
-                    "\n\tCombats won:\t" + team.getGames_won() +
-                    "\n\tWin rate:\t\t" + winrate + "%" +
-                    "\n\tKOs done:\t\t" + team.getKO_done() +
-                    "\n\tKOs received:\t" + team.getKO_received());
+            System.out.println("\n\tCombats played: 0" +
+                    "\n\tCombats won:\t0" +
+                    "\n\tWin rate:\t\t100.0" +
+                    "\n\tKOs done:\t\t0" +
+                    "\n\tKOs received:\t0" +
+                    "\n");
         }else{
             winrate = (float) (team.getGames_won()*100/team.getGames_played());
             System.out.println("\n\tCombats played: "+team.getGames_played()+
                     "\n\tCombats won:\t"+team.getGames_won()+
                     "\n\tWin rate:\t\t" + winrate  +"%"+
                     "\n\tKOs done:\t\t"+team.getKO_done()+
-                    "\n\tKOs received:\t"+team.getKO_received());
-
-            System.out.println();
+                    "\n\tKOs received:\t"+team.getKO_received() +
+                    "\n");
         }
-
+        printAndWait();
     }
 
     /**
@@ -258,7 +263,7 @@ public class UI {
 
         ObjectsJsonDao objectsJsonDao = new ObjectsJsonDao();
         List<Item> items = objectsJsonDao.readObjects();
-        
+        System.out.println();
         for(Item item: items)
         {
             System.out.println("\t" + i + ") " + item.getName());
@@ -271,22 +276,23 @@ public class UI {
      * Función que muestra las especificaciones
      * de un objeto en concreto, previamente seleccionado
      * por el usuario
-     * @param item
+     * @param item objeto a mostrar
      */
     public void showItemsDetail(Item item)
     {
-        System.out.println("\n\tID:"+"\t"+item.getId_object()+
-                "\n\tNAME:"+"\t"+item.getName()+
-                "\n\tTYPE:"+"\t"+item.getObject_type()+
-                "\n\tPOWER:"+"\t"+item.getPowerValue()+
-                "\n\tDURABILITY:"+"\t"+item.getDurability()+
-                "\n\tBROKEN:"+"\t"+item.isBroken());
+        System.out.println("\n\tID:\t\t\t"+item.getId_object()+
+                "\n\tNAME:\t\t"+item.getName()+
+                "\n\tCLASS:\t\t"+item.getObject_type()+
+                "\n\tPOWER:\t\t"+item.getPowerValue()+
+                "\n\tDURABILITY:\t"+item.getDurability() +
+                "\n");
+        printAndWait();
     }
 
     /**
      * Función que permite escoger diferentes
      * equipos al usuario.
-     * @param teams
+     * @param teams lista de equipos
      * @return equipos seleccionados por el usuario
      */
     public List<Team> askForTeams(List<Team> teams) {
@@ -315,23 +321,24 @@ public class UI {
     /**
      * Funcion que muestra los detalles de los
      * dos equipos que se van a enfrentar
-     * @param teamsSelected
+     * @param teamsSelected equipos seleccionados
      */
     public void teamsDetailsCombat (List<Team> teamsSelected) {
         int i = 1;
         for (Team team : teamsSelected) {
-            System.out.println("\n\tTeam #"+ i + ": "+team.getName());
+            System.out.println("\n\tTeam #"+ i + " - "+team.getName());
             for(Character character : team.getMembers()) {
-                System.out.println("\t-"+character.getName());
+                System.out.println("\t- "+character.getName());
                 System.out.println("\t\tWeapon: "+character.getWeapon().getName());
                 System.out.println("\t\tArmor: "+character.getArmour().getName());
             }
+            i++;
         }
     }
 
     /**
      * Función que pide una string al usuario.
-     * @param message
+     * @param message mensaje a mostrar
      * @return cadena introducida por el usuario
      */
     public static String askForString(String message) {
@@ -341,7 +348,7 @@ public class UI {
 
     /**
      * Función que pide un entero al usuario.
-     * @param message
+     * @param message mensaje a mostrar
      * @return entero introducido por el usuario
      */
     public static int askForInteger(String message) {
@@ -357,19 +364,9 @@ public class UI {
         }
     }
 
-    public static double askForDouble(String message) {
-        while (true) {
-            try {
-                System.out.print(message);
-                return scanner.nextDouble();
-            } catch (InputMismatchException e) {
-                System.out.println("That's not a valid integer, try again!");
-            } finally {
-                scanner.nextLine();
-            }
-        }
-    }
-
+    /**
+     * Esta función pide al usuario que presione cualquier tecla para continuar.
+     */
     public static void printAndWait() {
         System.out.print("<Press any key to continue...>");
         scanner.nextLine();
@@ -378,7 +375,7 @@ public class UI {
     /**
      * Función encargada de printar un mensaje
      * pasado por parametro.
-     * @param message
+     * @param message mensaje a mostrar
      */
     public static void displayMessage(String message) {
         System.out.println(message);

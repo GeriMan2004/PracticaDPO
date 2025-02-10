@@ -3,7 +3,10 @@ package src.Bussines;
 import com.google.gson.annotations.Expose;
 
 import java.util.List;
-
+/**
+ * Esta clase se encarga de las instancias de equipos en el juego, con
+ * sus respectivos miembros, estadisticas y otros atributos utiles en el combate
+ */
 public class Team {
     @Expose
     private List<Character> members;
@@ -19,12 +22,12 @@ public class Team {
 
     /**
      * Constructor de la clase Team
-     * @param name
-     * @param games_played
-     * @param games_won
-     * @param KO_done
-     * @param KO_received
-     * @param combatDone
+     * @param name es el nombre del equipo
+     * @param games_played es la cantidad de juegos jugados
+     * @param games_won es la cantidad de juegos ganados
+     * @param KO_done es la cantidad de KO hechos
+     * @param KO_received es la cantidad de KO recibidos
+     * @param combatDone es un booleano que indica si el combate ha sido completado
      */
     public Team(String name, int games_played, int games_won, int KO_done, int KO_received, boolean combatDone) {
         this.name = name;
@@ -33,11 +36,6 @@ public class Team {
         this.KO_done = KO_done;
         this.KO_received = KO_received;
         this.combatDone = combatDone;
-    }
-
-    //revisar si se necesita
-    public String getStrategy() {
-        return Strategy;
     }
 
     /**
@@ -56,7 +54,7 @@ public class Team {
 
     /**
      * Metodo para establecer los miembros del equipo
-     * @param members
+     * @param members es la lista de personajes que conforman el equipo
      */
     public void setMembers(List<Character> members) {
         this.members = members;
@@ -64,7 +62,7 @@ public class Team {
 
     /**
      * Metodo para establecer el nombre del equipo
-     * @param name
+     * @param name es el nombre del equipo
      */
     public void setName(String name) {
         this.name = name;
@@ -72,7 +70,7 @@ public class Team {
 
     /**
      * Metodo para establecer los juegos jugados
-     * @param games_played
+     * @param games_played es la cantidad de juegos jugados
      */
     public void setGames_played(int games_played) {
         this.games_played = games_played;
@@ -80,7 +78,7 @@ public class Team {
 
     /**
      * Metodo para establecer los juegos ganados
-     * @param games_won
+     * @param games_won es la cantidad de juegos ganados
      */
     public void setGames_won(int games_won) {
         this.games_won = games_won;
@@ -88,7 +86,7 @@ public class Team {
 
     /**
      * Metodo para establecer los KO hechos
-     * @param KO_done
+     * @param KO_done es la cantidad de KO hechos
      */
     public void setKO_done(int KO_done) {
         this.KO_done = KO_done;
@@ -96,20 +94,10 @@ public class Team {
 
     /**
      * Metodo para establecer los KO recibidos
-     * @param KO_received
+     * @param KO_received es la cantidad de KO recibidos
      */
     public void setKO_received(int KO_received) {
         this.KO_received = KO_received;
-    }
-
-    //revisar si se necesita
-    public void setCombatDone(boolean combatDone) {
-        this.combatDone = combatDone;
-    }
-
-    //revisar si se necesita
-    public void setStrategy(String strategy) {
-        Strategy = strategy;
     }
 
     /**
@@ -142,21 +130,5 @@ public class Team {
      */
     public int getKO_received() {
         return KO_received;
-    }
-
-    //revisar si se necesita
-    public boolean isCombatDone() {
-        return combatDone;
-    }
-
-    //revisar si se necesita
-    public boolean allMembersKnockedOut() {
-        boolean allKO = true;
-        for (Character character : members) {
-            if (!character.isKnockedOut()) {
-                allKO = false;
-            }
-        }
-        return allKO;
     }
 }

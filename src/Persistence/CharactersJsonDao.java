@@ -3,17 +3,19 @@ package src.Persistence;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import src.Bussines.Character;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase que se encarga de leer los personajes del fichero 'characters.json'
+ */
 public class CharactersJsonDao {
 
-    private static String path = "data/characters.json";
-    private static Gson gson = new Gson();
+    private static final String path = "data/characters.json";
+    private static final Gson gson = new Gson();
 
 
     /**
@@ -40,7 +42,7 @@ public class CharactersJsonDao {
      * @return boolean
      */
     public boolean checkCharactersFile() {
-        try (FileReader reader = new FileReader(path)) {
+        try (FileReader _ = new FileReader(path)) {
             return true;
         } catch (IOException e) {
             return false;

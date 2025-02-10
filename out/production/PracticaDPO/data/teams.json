@@ -1,6 +1,5 @@
 [
   {
-    "name": "Salle Fest Bois",
     "members": [
       {
         "id": 5431512,
@@ -18,10 +17,10 @@
         "id": 748738,
         "strategy": "balanced"
       }
-    ]
+    ],
+    "name": "Salle Fest Bois"
   },
   {
-    "name": "Technova",
     "members": [
       {
         "id": 68053,
@@ -39,10 +38,10 @@
         "id": 68053,
         "strategy": "balanced"
       }
-    ]
+    ],
+    "name": "Technova"
   },
   {
-    "name": "DPOO All-star",
     "members": [
       {
         "id": 467416287,
@@ -60,10 +59,10 @@
         "id": 748738,
         "strategy": "balanced"
       }
-    ]
+    ],
+    "name": "DPOO All-star"
   },
   {
-    "name": "bambitronic",
     "members": [
       {
         "id": 87077812,
@@ -81,13 +80,13 @@
         "id": 68053,
         "strategy": "Balanced"
       }
-    ]
+    ],
+    "name": "bambitronic"
   },
   {
-    "name": "SigmaParty",
     "members": [
       {
-        "id": 68053,
+        "id": 4020401825,
         "strategy": "Balanced"
       },
       {
@@ -95,13 +94,14 @@
         "strategy": "Balanced"
       },
       {
-        "id": 4115637091,
+        "id": 467416287,
         "strategy": "Balanced"
       },
       {
-        "id": 2527,
+        "id": 467416287,
         "strategy": "Balanced"
       }
-    ]
+    ],
+    "name": "sigma"
   }
 ]

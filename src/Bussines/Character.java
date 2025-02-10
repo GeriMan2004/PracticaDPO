@@ -1,9 +1,12 @@
 package src.Bussines;
 
-
 import com.google.gson.annotations.Expose;
 
+/**
+ * Esta clase se encarga de las instancias de personajes en el juego
+ */
 public class Character {
+
     @Expose
     private long id;
     @Expose
@@ -19,7 +22,7 @@ public class Character {
 
     /**
      * Constructor para establecer los parametros necesarios del personaje
-     * @param id del personaje a estableces los parametros
+     * @param id del personaje a establecer los parametros
      * @param strategy del perosnaje a establecer los parametros
      */
     public Character(long id, String strategy) {

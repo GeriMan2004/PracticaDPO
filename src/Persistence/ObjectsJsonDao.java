@@ -2,19 +2,20 @@ package src.Persistence;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import src.Bussines.Character;
 import src.Bussines.Item;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase que se encarga de leer los objetos del fichero 'items.json'
+ */
 public class ObjectsJsonDao {
 
-    private String path = "data/items.json";
-    Gson gson = new Gson();
+    private final String path = "data/items.json";
+    private final Gson gson = new Gson();
 
 
     /**
@@ -43,7 +44,7 @@ public class ObjectsJsonDao {
      */
     public boolean checkObjectsFile()
     {
-        try (FileReader reader = new FileReader(path)) {
+        try (FileReader _ = new FileReader(path)) {
             return true;
         } catch (IOException e) {
             return false;

@@ -1,5 +1,8 @@
 package src.Bussines;
 
+/**
+ * Esta clase se encarga de gestionar los combates entre los equipos
+ */
 public class Combat {
     private Team team1;
     private Team team2;

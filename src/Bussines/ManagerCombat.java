@@ -1,70 +1,42 @@
 package src.Bussines;
 
-import src.Persistence.CharactersJsonDao;
 import src.Persistence.ObjectsJsonDao;
-import src.Persistence.TeamsJsonDao;
-
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Random;
-import java.lang.reflect.Member;
 import java.util.List;
 
+/**
+ * Esta clase se encarga de gestionar los combates entre los equipos, en concreto de cargar los equipos con armas y armaduras aleatorias.
+ * {@link Combat}
+ */
 public class ManagerCombat {
 
-    private ObjectsJsonDao itemsJsonDao;
+    private final ObjectsJsonDao itemsJsonDao;
 
     /**
      * Constructor de la clase ManagerCombat
-     * @param itemsJsonDao
+     * @param itemsJsonDao es el objeto que se encarga de la persistencia de los objetos
      */
     public ManagerCombat(ObjectsJsonDao itemsJsonDao) {
         this.itemsJsonDao = itemsJsonDao;
     }
 
     /**
-     * Este metodo se encarga de verificar si el combate ha finalizado
-     * todo el equipo 1 o el equipo 2 estan noqueados
-     * @param team1
-     * @param team2
-     * @return boolean
-     */
-    private boolean isMatchFinished(Team team1, Team team2) {
-
-        boolean team1AllKO = true;
-        for (Character member : team1.getMembers()) {
-            if (!member.isKnockedOut()) {
-                team1AllKO = false;
-                break;
-            }
-        }
-
-        boolean team2AllKO = true;
-        for (Character member : team2.getMembers()) {
-            if (!member.isKnockedOut()) {
-                team2AllKO = false;
-                break;
-            }
-        }
-        return (team1AllKO || team2AllKO);
-    }
-
-    /**
      * Este metodo se encarga de incializar la
      * clase combate con todos los datos necesarios
-     * @param teamsSelected
+     * @param teamsSelected es la lista de equipos seleccionados
      * @return Combat
      */
     public Combat initCombat(List<Team> teamsSelected) {
         teamsSelected = matchRandomWeaponArmour(teamsSelected.get(0), teamsSelected.get(1));
         return new Combat(teamsSelected.get(0), teamsSelected.get(1));
     }
+
     /**
      * Este metodo se encarga de assignar un arma
      * y armadura aleatoria a cada personaje del combate
-     * @param team1
-     * @return team2
-     * @return Combat
+     * @param team1 es el primer equipo
+     * @return List<Team>
      */
     public List<Team> matchRandomWeaponArmour(Team team1, Team team2){
         List<Team> teamsCombat = new ArrayList<>();
@@ -106,8 +78,4 @@ public class ManagerCombat {
 
         return teamsCombat;
     }
-
-
-
-
 }

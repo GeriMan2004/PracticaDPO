@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Esta clase se encarga de gestionar los combates entre los equipos
+ * {@link ManagerCharacter}
+ * {@link ManagerTeam}
+ * {@link ManagerObject}
+ * {@link ManagerCombat}
+ */
 public class ManagerLSBRO {
     private ManagerCharacter managerCharacter;
     private ManagerTeam managerTeam;
@@ -12,10 +19,10 @@ public class ManagerLSBRO {
 
     /**
      * Constructor de la clase ManagerLSBRO, inicializa todos los managers necesarios para el correcto funcionamiento del programa
-     * @param managerCharacter
-     * @param managerTeam
-     * @param managerObject
-     * @param managerCombat
+     * @param managerCharacter - El ManagerCharacter
+     * @param managerTeam - El ManagerTeam
+     * @param managerObject - El ManagerObject
+     * @param managerCombat - El ManagerCombat
      */
     public ManagerLSBRO(ManagerCharacter managerCharacter, ManagerTeam managerTeam, ManagerObject managerObject, ManagerCombat managerCombat) {
         this.managerCharacter = managerCharacter;
@@ -79,9 +86,8 @@ public class ManagerLSBRO {
 
     /**
      * Esta función añade los mensajes de los personajes cuyas armas o armaduras se rompen
-     * @param messageRound
-     * @param team1
-     * @return void
+     * @param messageRound - El mensaje de la ronda
+     * @param team1 - El equipo a revisar
      */
     private void equipmentCheck(StringBuilder messageRound, Team team1) {
         int auxLength = messageRound.length();
@@ -116,10 +122,10 @@ public class ManagerLSBRO {
 
     /**
      * Esta función simula los ataques de los personajes de un equipo a los personajes de otro equipo
-     * @param items
-     * @param messageRound
-     * @param team1
-     * @param team2
+     * @param items - La lista de ítems disponibles
+     * @param messageRound - El mensaje de la ronda
+     * @param team1 - El equipo atacante
+     * @param team2  - El equipo defensor
      */
     private void attacks(List<Item> items, StringBuilder messageRound, Team team1, Team team2) {
         int randomNumber;
@@ -186,7 +192,7 @@ public class ManagerLSBRO {
     /**
      * Función para comprobar si el combate ha terminado
      * Esta función comprueba si el combate ha terminado, es decir, si todos los personajes de un equipo están KO
-     * @param combat
+     * @param combat - El combate a comprobar
      */
     private void checkifFinished(Combat combat) {
         int aux = 1;
@@ -213,8 +219,8 @@ public class ManagerLSBRO {
 
     /**
      * Esta función comprueba si un personaje ha sido noqueado, es decir, si su daño recibido supera un umbral
-     * @param messageRound
-     * @param team
+     * @param messageRound - El mensaje de la ronda
+     * @param team - El equipo a comprobar
      */
     private void checkKOs(StringBuilder messageRound, Team team) {
         int randomNumber;
@@ -233,7 +239,7 @@ public class ManagerLSBRO {
 
     /**
      * Función para comprobar el modo de defensa
-     * @param team
+     * @param team - El equipo a comprobar
      */
     private void checkMode(Team team) {
         for (Character member : team.getMembers()) {

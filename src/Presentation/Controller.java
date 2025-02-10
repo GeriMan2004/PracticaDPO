@@ -7,14 +7,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Esta clase se encarga de gestionar la interacción entre el usuario y el programa,
+ * actúa como intermediario entre la interfaz de usuario y la lógica de "bussines".
+ */
 public class Controller {
 
-    private UI ui = new UI();
-    private ManagerLSBRO managerLSBRO;
+    private final UI ui = new UI();
+    private final ManagerLSBRO managerLSBRO;
 
     /**
      * Constructor de la clase Controller
-     * @param managerLSBRO
+     * @param managerLSBRO es el objeto que se encarga de la lógica de negocio
      */
     public Controller(ManagerLSBRO managerLSBRO) {
         this.managerLSBRO = managerLSBRO;
@@ -22,7 +26,6 @@ public class Controller {
 
     /**
      * Metodo para iniciar el programa
-     * @throws IOException
      */
     public void start() throws IOException {
         ui.displayWelcome();
@@ -51,7 +54,7 @@ public class Controller {
 
     /**
      * Metodo para verificar los archivos locales
-     * @return boolean
+     * @return devuelve un booleano que indica si los archivos locales se han verificado con éxito
      */
     private boolean verifyLocalFiles() {
         boolean menu = true;
@@ -68,7 +71,7 @@ public class Controller {
 
     /**
      * Metodo para listar personajes
-     * @param managerCharacter
+     * @param managerCharacter es el objeto que se encarga de la gestión de personajes
      */
     private void listarPersonaje(ManagerCharacter managerCharacter) {
         int op;
@@ -86,7 +89,6 @@ public class Controller {
 
     /**
      * Metodo para gestionar equipos, abre el menu de gestion de equipos.
-     * @throws IOException
      */
     private void manageTeams() throws IOException {
         boolean menu = true;
@@ -104,10 +106,10 @@ public class Controller {
 
     /**
      * Metodo para listar equipos, muestra los equipos de la base de datos
-     * @param managerTeam
+     * @param managerTeam es el objeto que se encarga de la gestión de equipos
      */
     private void listTeams(ManagerTeam managerTeam) {
-        int op = 0;
+        int op;
         List<Team> teams = managerTeam.getAllTeams();
         do {
             ui.printAllTeams(teams);
@@ -128,7 +130,7 @@ public class Controller {
      * Metodo para listar objetos
      */
     private void objectsList() {
-        int op = 0;
+        int op;
         List<Item> items = ManagerObject.uploadObjects();
 
         do {
@@ -145,7 +147,6 @@ public class Controller {
 
     /**
      * Metodo para crear un equipo
-     * @throws IOException
      */
     private void createTeam() throws IOException {
         Team team = new Team("", 0, 0, 0, 0, false);
@@ -153,74 +154,78 @@ public class Controller {
         int op;
         boolean found;
 
+        UI.displayMessage("");
         String team_name = UI.askForString("Please enter the team's name: ");
-        team.setName(team_name);
+        if (!managerLSBRO.getManagerTeam().existTeam(team_name)) {
+            team.setName(team_name);
 
-        for (int i = 0; i < 4; i++) {
-            Character character;
-            do {
-                String input = UI.askForString("\nPlease enter name or id for character #" + (i + 1) + ": ");
-                try {
-                    long newID = Long.parseLong(input);
-                    character = new Character(newID, "");
-                    found = managerLSBRO.getManagerTeam().existCharacter(newID, "");
+            for (int i = 0; i < 4; i++) {
+                Character character;
+                do {
+                    String input = UI.askForString("\nPlease enter name or id for character #" + (i + 1) + ": ");
+                    try {
+                        long newID = Long.parseLong(input);
+                        character = new Character(newID, "");
+                        found = managerLSBRO.getManagerTeam().existCharacter(newID, "");
 
-                } catch (NumberFormatException e) {
-                    List<Character> characters = CharactersJsonDao.readCharacters();
-                    found = managerLSBRO.getManagerTeam().existCharacter(-50, input);
-                    character = new Character(0, "");
-                    for (Character c : characters) {
-                        if (c.getName().equals(input)) {
-                            character.setId(c.getId());
+                    } catch (NumberFormatException e) {
+                        List<Character> characters = CharactersJsonDao.readCharacters();
+                        found = managerLSBRO.getManagerTeam().existCharacter(-50, input);
+                        character = new Character(0, "");
+                        for (Character c : characters) {
+                            if (c.getName().equals(input)) {
+                                character.setId(c.getId());
+                            }
+                            character.setName(input);
                         }
-                        character.setName(input);
                     }
-                }
-                if (!found) {
-                    UI.displayMessage("Character not found!, please enter again.");
-                }
-            } while (!found);
-            do {
-                UI.displayMessage("Game strategy for character #" + (i + 1)
-                        + "\n\t" + "1)Balanced");
-                op = UI.askForInteger("\tChoose an option:");
-                if (op != 1) {
-                    UI.displayMessage("\tOption not valid!");
-                }
-                switch (op) {
-                    case 1:
+                    if (!found) {
+                        UI.displayMessage("Character not found!, please enter again.");
+                    }
+                } while (!found);
+                do {
+                    UI.displayMessage("Game strategy for character #" + (i + 1)
+                            + "\n\t" + "1)Balanced\n");
+                    op = UI.askForInteger("\tChoose an option:");
+                    if (op != 1) {
+                        UI.displayMessage("\tOption not valid!");
+                    }
+                    if (op == 1) {
                         character.setStrategy("Balanced");
-                        break;
-                }
-            } while (op != 1);
-            members.add(character);
+                    }
+                } while (op != 1);
+                members.add(character);
+            }
+            team.setMembers(members);
+            managerLSBRO.getManagerTeam().addTeam(team);
+            UI.displayMessage("");
+            UI.displayMessage(team.getName() + " has been successfully created!");
+        } else {
+            UI.displayMessage("\nWe are sorry \"" + team_name + "\" is taken.");
         }
-        team.setMembers(members);
-        managerLSBRO.getManagerTeam().addTeam(team);
-
-        UI.displayMessage(team.getName() + " has been successfully created!");
     }
 
     /**
      * Metodo para eliminar un equipo
-     * @throws IOException
      */
     private void deleteTeam () throws IOException {
         List<Team> teams = managerLSBRO.getManagerTeam().getAllTeams();
-        String teamName = "";
-        String op = "No";
+        String teamName;
+        String op;
         boolean found = false;
         do {
-            teamName = UI.askForString("Enter the name of the team to remove: ");
+            teamName = UI.askForString("\n\tEnter the name of the team to remove: ");
             if (teamName.equals("exit")) {
                 return;
             }
+            UI.displayMessage("");
             for (Team team : teams) {
                 if (team.getName().equals(teamName)) {
                     found = true;
-                    op = UI.askForString("Are you sure you want to remove '" + team.getName() + "' ? ");
+                    op = UI.askForString("\tAre you sure you want to remove '" + team.getName() + "' ? ");
+                    UI.displayMessage("");
                     if (op.equals("Yes")) {
-                        UI.displayMessage("'" + team.getName() + "' has been removed from the system.");
+                        UI.displayMessage("\t\"" + team.getName() + "\" has been removed from the system.");
                         teams.remove(team);
                         managerLSBRO.getManagerTeam().addTeams(teams);
                         return;
@@ -228,7 +233,7 @@ public class Controller {
                 }
             }
             if (!found) {
-                UI.displayMessage("Team not found, please try again. (Type 'exit' to cancel)");
+                UI.displayMessage("\tTeam not found, please try again. (Type 'exit' to cancel)");
             }
         } while (true);
     }
@@ -237,27 +242,27 @@ public class Controller {
      * Metodo para simular un combate
      */
     private void runcombatSimulator () {
-
         UI.displayMessage("\nStarting simulation...");
+
         // CombatRound es una variable que almacena el resultado de la simulación de un round, tanto
         // los datos de la variable combat, como los prints que se deben mostrar en pantalla
-        List<Object> combatRound = new ArrayList<>();
+        List<Object> combatRound;
         Combat combat = escojerEquipos();
-        // Printamos un enter para separar los equipos de la simulación
+
         UI.displayMessage("");
-        // start the combat
         do {
-            UI.displayMessage("--- Round " + combat.getRounds() + "! ---");
-            UI.showTeamStatus(combat);
+            UI.displayMessage("--- Round " + combat.getRounds() + "! ---\n");
+            UI.showTeamStatus(combat, true);
             combatRound = managerLSBRO.simulateRound(combat);
             combat = (Combat) combatRound.get(0);
             UI.displayMessage((String) combatRound.get(1));
         } while (!combat.isFinished());
         UI.showEndCombat(combat);
+
     }
 
     /**
-     * Metodo para escoger equipos
+     * Metodo para escoger equipos para el combate
      * @return Combat
      */
     private Combat escojerEquipos () {
@@ -272,10 +277,8 @@ public class Controller {
         updatedTeams.add(managerLSBRO.getManagerTeam().updateMembers(teamsSelected.get(1), members));
         Combat combat = managerLSBRO.getManagerCombat().initCombat(updatedTeams);
         ui.teamsDetailsCombat(updatedTeams);
-        UI.displayMessage("Combat ready!");
+        UI.displayMessage("\nCombat ready!");
+        UI.printAndWait();
         return combat;
     }
-
-    // reivsar si se necesita
-    public static void displayMessage(String message) {UI.displayMessage(message);}
 }

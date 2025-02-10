@@ -5,30 +5,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Clase ManagerCharacter
+ * ManagerCharacter es la clase que se encarga de gestionar los personajes del juego
+ * {@link CharactersJsonDao}
  */
 public class ManagerCharacter {
 
     CharactersJsonDao charactersJsonDao;
+
     /**
      * Contructor de la clase ManagerCharacter
-     * @param charactersJsonDao
+     * @param charactersJsonDao es el objeto que se encarga de la persistencia de los personajes
      */
     public ManagerCharacter(CharactersJsonDao charactersJsonDao) {
         this.charactersJsonDao = charactersJsonDao;
     }
+
     /**
      * Metodo para cargar los personajes
      * @return List<Character>
      */
     public List<Character> UploadCharacters()
     {
-        CharactersJsonDao charactersJsonDao = new CharactersJsonDao();
         return CharactersJsonDao.readCharacters();
     }
+
     /**
      * Metodo para verificar si el archivo de personajes existe
-     * @return boolean
+     * @return boolean true si existe, false si no
      */
     public boolean checkCharacterFile()
     {
@@ -39,8 +42,8 @@ public class ManagerCharacter {
     /**
      * Metodo para calcular el daño final hecho
      * por el ataque de un personaje
-     * @param character
-     * @param attack
+     * @param character es el personaje que ataca
+     * @param attack es el daño base hecho por el ataque
      * @return double
      */
     public double reciveDamage(Character character, double attack) {
@@ -56,6 +59,7 @@ public class ManagerCharacter {
         }
         return finalattack;
     }
+
     /**
      * Metodo para calcular el daño base hecho por un personaje
      * @param character es el personaje que ataca
@@ -78,7 +82,7 @@ public class ManagerCharacter {
     /**
      * Metodo para obtener el nombre de un personaje a partir de su id
      * @param members characters
-     * @return List<Character>
+     * @return matchedCharacters
      */
     public List<Character> matchCharacters(List<Character> members) {
         CharactersJsonDao charactersJsonDao = new CharactersJsonDao();

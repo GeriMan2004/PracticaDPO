@@ -2,6 +2,9 @@ package src.Bussines;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Esta clase se encarga de las instancias de objetos en el juego, como armas y armaduras
+ */
 public class Item {
     private long id;
     private String name;
@@ -103,14 +106,14 @@ public class Item {
 
     /**
      * Este metodo se encarga de obtener si el objeto esta roto
-     * @return
+     * @return devuelve si el objeto esta roto
      */
     public boolean isBroken() {
         return isBroken;
     }
     /**
      * Este metodo se encarga de establecer si el objeto esta roto
-     * @param broken
+     * @param broken a establecer
      */
     public void setBroken(boolean broken) {
         isBroken = broken;
@@ -125,6 +128,10 @@ public class Item {
             isBroken = true;
         }
     }
+
+    /**
+     * Este metodo se encarga de pasar a string los atributos del objeto
+     */
     @Override
     public String toString() {
         return "\n\tID:"+id+
@@ -133,5 +140,4 @@ public class Item {
                 "\n\tPOWER:"+power+
                 "\n\tDURABILITY:"+ durability;
     }
-
 }

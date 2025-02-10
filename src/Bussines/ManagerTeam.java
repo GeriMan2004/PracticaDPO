@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Esta clase se encarga de gestionar los equipos del juego
+ * {@link Team}
+ */
 public class ManagerTeam {
 
     TeamsJsonDao teamsJsonDao;
@@ -14,13 +18,14 @@ public class ManagerTeam {
 
     /**
      * Constructor de la clase ManagerTeam
-     * @param teamsJsonDao
-     * @param statsJsonDao
+     * @param teamsJsonDao es el objeto que se encarga de la persistencia de los equipos
+     * @param statsJsonDao es el objeto que se encarga de la persistencia de las estadísticas
      */
     public ManagerTeam(TeamsJsonDao teamsJsonDao, StatsJsonDao statsJsonDao) {
         this.teamsJsonDao = teamsJsonDao;
         this.statsJsonDao = statsJsonDao;
     }
+
     /**
      * Metodo para obtener los equipos
      * @return List<Team>
@@ -38,7 +43,7 @@ public class ManagerTeam {
 
     /**
      * Metodo para encontrar y vincular un peronsaje a un equipo
-     * @param character
+     * @param character es el personaje a vincular
      * @return List<Team>
      */
     public List<Team> matchTeams(Character character){
@@ -57,7 +62,7 @@ public class ManagerTeam {
 
     /**
      * Metodo para añadir un equipo
-     * @param team
+     * @param team es el equipo a añadir
      * @throws IOException
      */
     public void addTeam(Team team) throws IOException {
@@ -69,7 +74,7 @@ public class ManagerTeam {
 
     /**
      * Metodo para añadir equipos
-     * @param teams
+     * @param teams es la lista de equipos a añadir
      * @throws IOException
      */
     public void addTeams(List<Team> teams) throws IOException {
@@ -80,8 +85,8 @@ public class ManagerTeam {
     /**
      * Metodo para actualizar las estadísticas
      * de un equipo
-     * @param teams
-     * @param stats
+     * @param teams son los equipos a actualizar
+     * @param stats son las estadísticas a actualizar de los equipos
      */
     private void matchStats(List<Team> teams, List<Team> stats) {
         for (Team team : teams) {
@@ -98,8 +103,8 @@ public class ManagerTeam {
 
     /**
      * Metodo para actualizar los miembros de un equipo
-     * @param team
-     * @param members
+     * @param team es el equipo a actualizar
+     * @param members son los miembros a añadir
      * @return Team
      */
     public Team updateMembers(Team team, List<Character> members) {
@@ -109,16 +114,26 @@ public class ManagerTeam {
 
     /**
      * Metodo para verificar si un personaje existe
-     * @param newID
-     * @param inputCharacter
+     * @param newID es el nuevo ID a verificar
+     * @param inputCharacter es el personaje a verificar
      * @return boolean
      */
     public boolean existCharacter(long newID, String inputCharacter) {
-        CharactersJsonDao characterJson = new CharactersJsonDao();
-        List<Character> characters = characterJson.readCharacters();
+        List<Character> characters = CharactersJsonDao.readCharacters();
         for (Character character : characters) {
             String current_character = character.getName();
             if (character.getId() == newID || current_character.equals(inputCharacter)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean existTeam(String teamName) {
+        List<Team> teams = TeamsJsonDao.readTeams();
+        assert teams != null;
+        for (Team team : teams) {
+            if (team.getName().equals(teamName)) {
                 return true;
             }
         }
