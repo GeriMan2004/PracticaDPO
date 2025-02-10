@@ -251,14 +251,17 @@ public class Controller {
 
         UI.displayMessage("");
         do {
-            UI.displayMessage("--- Round " + combat.getRounds() + "! ---\n");
+            if (combat.getRounds() == 1) {
+                UI.displayMessage("--- Round 1! ---\n");
+            } else {
+                UI.displayMessage("--- Round " + combat.getRounds() + " ---");
+            }
             UI.showTeamStatus(combat, true);
             combatRound = managerLSBRO.simulateRound(combat);
             combat = (Combat) combatRound.get(0);
             UI.displayMessage((String) combatRound.get(1));
         } while (!combat.isFinished());
         UI.showEndCombat(combat);
-
     }
 
     /**

@@ -17,7 +17,7 @@ public class Character {
     private boolean knockedOut;
     private Item Weapon;
     private Item armour;
-    private boolean attack;
+    private boolean attacked;
     private boolean defence;
 
     /**
@@ -130,12 +130,6 @@ public class Character {
     public Item getArmour() {return armour;}
 
     /**
-     * Este metodo se encarga de establecer el peso del personaje
-     * @param weight a establecer del personaje
-     */
-    public void weight (int weight) {this.weight = weight;}
-
-    /**
      * Este metodo se encarga de controlar si el personaje esta knockeado
      * @return devuelve si el personaje esta knockeado o no
      */
@@ -155,5 +149,13 @@ public class Character {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public void setAttacked(boolean attacked) {
+        this.attacked = attacked;
+    }
+
+    public boolean isAttacked() {
+        return attacked;
     }
 }
