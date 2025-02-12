@@ -1,8 +1,11 @@
 package src;
-import src.Persistence.*;
 
 import src.Bussines.*;
-import src.Persistence.CharactersJsonDao;
+import src.Persistence.Characters.CharactersApiDao;
+import src.Persistence.Characters.CharactersJsonDao;
+import src.Persistence.Objects.ObjectsJsonDao;
+import src.Persistence.Stats.StatsJsonDao;
+import src.Persistence.Teams.TeamsJsonDao;
 import src.Presentation.Controller;
 
 import java.io.IOException;
@@ -18,9 +21,10 @@ public class Main {
         ObjectsJsonDao objectsJsonDao = new ObjectsJsonDao();
         StatsJsonDao statsJsonDao = new StatsJsonDao();
         TeamsJsonDao teamsJsonDao = new TeamsJsonDao();
+        CharactersApiDao charactersApiDao = new CharactersApiDao();
 
         // Instanciamos los Managers
-        ManagerCharacter ManagerCharacter = new ManagerCharacter(charactersJsonDao);
+        ManagerCharacter ManagerCharacter = new ManagerCharacter(charactersJsonDao, charactersApiDao);
         ManagerTeam ManagerTeam = new ManagerTeam(teamsJsonDao, statsJsonDao);
         ManagerObject ManagerObject = new ManagerObject(objectsJsonDao);
         ManagerCombat ManagerCombat = new ManagerCombat(objectsJsonDao);

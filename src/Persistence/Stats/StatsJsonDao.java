@@ -1,4 +1,4 @@
-package src.Persistence;
+package src.Persistence.Stats;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

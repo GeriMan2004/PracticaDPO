@@ -1,8 +1,8 @@
 package src.Bussines;
 
-import src.Persistence.CharactersJsonDao;
-import src.Persistence.StatsJsonDao;
-import src.Persistence.TeamsJsonDao;
+import src.Persistence.Characters.CharactersJsonDao;
+import src.Persistence.Stats.StatsJsonDao;
+import src.Persistence.Teams.TeamsJsonDao;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

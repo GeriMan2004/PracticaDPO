@@ -1,4 +1,4 @@
-package src.Persistence;
+package src.Persistence.Characters;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -12,11 +12,9 @@ import java.util.List;
 /**
  * Clase que se encarga de leer los personajes del fichero 'characters.json'
  */
-public class CharactersJsonDao {
-
+public class CharactersJsonDao implements CharactersDao{
     private static final String path = "data/characters.json";
     private static final Gson gson = new Gson();
-
 
     /**
      * Función que lee todos los personajes del fichero 'characters.json'
@@ -41,7 +39,7 @@ public class CharactersJsonDao {
      * Función que verifica si el fichero 'characters.json' existe
      * @return boolean
      */
-    public boolean checkCharactersFile() {
+    public boolean checkAvailable() {
         try (FileReader _ = new FileReader(path)) {
             return true;
         } catch (IOException e) {

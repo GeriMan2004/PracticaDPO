@@ -101,7 +101,7 @@ public class Character {
      * personaje esta en modo defensa
      * @return devuelve el bloqueo de daño que realiza el personaje
      */
-    public float getDamage_reduction() {return weight/400;}
+    public float getDamage_reduction() {return ((float) weight /400);}
 
     /**
      * Este metodo se encarga de establecer el peso del personaje

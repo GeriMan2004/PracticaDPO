@@ -1,4 +1,4 @@
-package src.Persistence;
+package src.Persistence.Teams;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -169,20 +169,13 @@ public class ManagerLSBRO {
                         .append(String.format("%.1f", baseDamage))
                         .append(" DAMAGE!\n");
 
-                // Ajusta el daño final (por ejemplo, aplicando defensas, armaduras, etc.)
                 double finalDamage = managerCharacter.reciveDamage(defender, baseDamage);
-
                 // Si el defensor está en modo defensa, se aplica la reducción de daño
                 if (defender.getDeffendingMode()) {
-                    double damageReduction = (double) defender.getWeight() / 400;
-                    finalDamage -= damageReduction;
-                    if(finalDamage < 0) {
-                        finalDamage = 0;
-                    }
                     messageRound.append("\t")
                             .append(defender.getName())
-                            .append(" reduces damage by ")
-                            .append(String.format("%.2f", damageReduction))
+                            .append(" REDUCES damage by ")
+                            .append(String.format("%.2f", member.getDamage_reduction()))
                             .append(" using defending mode.\n");
                 }
 

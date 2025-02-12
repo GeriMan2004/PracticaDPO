@@ -1,6 +1,8 @@
 package src.Bussines;
 
-import src.Persistence.CharactersJsonDao;
+import src.Persistence.Characters.CharactersApiDao;
+import src.Persistence.Characters.CharactersDao;
+import src.Persistence.Characters.CharactersJsonDao;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,15 +11,18 @@ import java.util.List;
  * {@link CharactersJsonDao}
  */
 public class ManagerCharacter {
-
-    CharactersJsonDao charactersJsonDao;
-
+    CharactersDao charactersDao;
     /**
      * Contructor de la clase ManagerCharacter
      * @param charactersJsonDao es el objeto que se encarga de la persistencia de los personajes
      */
-    public ManagerCharacter(CharactersJsonDao charactersJsonDao) {
-        this.charactersJsonDao = charactersJsonDao;
+    public ManagerCharacter(CharactersJsonDao charactersJsonDao, CharactersApiDao charactersApiDao) {
+        // En caso de que la API esté disponible, se utilizará para obtener los personajes, en caso contrario, se utilizará el fichero 'characters.json'
+        if (charactersApiDao.checkAvailable()) {
+            charactersDao = charactersApiDao;
+        } else {
+            charactersDao = charactersJsonDao;
+        }
     }
 
     /**
@@ -33,10 +38,17 @@ public class ManagerCharacter {
      * Metodo para verificar si el archivo de personajes existe
      * @return boolean true si existe, false si no
      */
-    public boolean checkCharacterFile()
+    public int checkCharacterFile()
     {
-        CharactersJsonDao charactersJsonDao = new CharactersJsonDao();
-        return charactersJsonDao.checkCharactersFile();
+        CharactersDao charactersApiDao = new CharactersApiDao();
+        if (charactersApiDao.checkAvailable()) {
+            return 1;
+        }
+        CharactersDao charactersJsonDao = new CharactersJsonDao();
+        if (charactersJsonDao.checkAvailable()) {
+            return 2;
+        }
+        return 0;
     }
 
     /**
@@ -63,20 +75,12 @@ public class ManagerCharacter {
     /**
      * Metodo para calcular el daño base hecho por un personaje
      * @param character es el personaje que ataca
-     * @return float
+     * @return float daño total hecho por el ataque, a falta de reducciones del defensor
      */
     public float attack(Character character) {
-        float attack=0;
         float attackerWeight = character.getWeight();
         double attackerDamageRecived = character.getDamage_received();
-
-        if(character.getWeapon() == null) {
-            attack = (float) ((attackerWeight *(1 - attackerDamageRecived))/10+18);
-        }else{
-            attack = (float) ((attackerWeight *(1 - attackerDamageRecived))/10+18+ (double) (character.getWeapon().getPowerValue()) /20);
-        }
-
-        return attack;
+        return ((float) ((attackerWeight *(1 - attackerDamageRecived))/10+18+ (double) (character.getWeapon().getPowerValue()) /20));
     }
 
     /**
@@ -85,7 +89,6 @@ public class ManagerCharacter {
      * @return matchedCharacters
      */
     public List<Character> matchCharacters(List<Character> members) {
-        CharactersJsonDao charactersJsonDao = new CharactersJsonDao();
         List<Character> characters = CharactersJsonDao.readCharacters();
         List<Character> matchedCharacters = new ArrayList<>();
         for (Character character : characters) {

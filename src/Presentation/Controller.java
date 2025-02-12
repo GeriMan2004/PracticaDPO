@@ -2,7 +2,7 @@ package src.Presentation;
 
 import src.Bussines.*;
 import src.Bussines.Character;
-import src.Persistence.CharactersJsonDao;
+import src.Persistence.Characters.CharactersJsonDao;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,18 +29,22 @@ public class Controller {
      */
     public void start() throws IOException {
         ui.displayWelcome();
-        UI.displayMessage("Verifying local files...");
-        boolean menu = verifyLocalFiles();
+        UI.displayMessage("Checking API status...");
+        boolean menu = checkAPIstatus();
+        if (!menu) {
+            UI.displayMessage("Verifying local files...");
+            menu = verifyLocalFiles();
+        }
         if (!menu) {
             UI.displayMessage("Shutting down....");
             return;
         }else{
-            UI.displayMessage("Files OK." + "\n" + "Starting program...");
+            UI.displayMessage("Starting program...");
         }
         while (menu) {
             CasesMenu option = ui.displayMainMenu();
             switch (option) {
-                case LIST_CHARACTERS -> listarPersonaje(managerLSBRO.getManagerCharacter());
+                case LIST_CHARACTERS -> listarPersonaje();
                 case MANAGE_TEAMS -> manageTeams();
                 case LIST_ITEMS -> objectsList();
                 case COMBAT_SIMULATOR -> runcombatSimulator();
@@ -52,30 +56,38 @@ public class Controller {
         }
     }
 
+    private boolean checkAPIstatus() {
+        boolean menu = true;
+        if (managerLSBRO.getManagerCharacter().checkCharacterFile() == 0) {
+            menu = false;
+            UI.displayMessage("Error: The API isn’t available.");
+        }
+        return menu;
+    }
+
     /**
      * Metodo para verificar los archivos locales
      * @return devuelve un booleano que indica si los archivos locales se han verificado con éxito
      */
     private boolean verifyLocalFiles() {
         boolean menu = true;
-        if (!managerLSBRO.getManagerCharacter().checkCharacterFile()) {
+        if (managerLSBRO.getManagerCharacter().checkCharacterFile() == 0) {
             menu = false;
             UI.displayMessage("Error: The characters.json file can’t be accessed.");
         }
         if (!managerLSBRO.getManagerObject().checkItemFile()) {
             menu = false;
-            UI.displayMessage("Error: The objects.json file can’t be accessed.");
+            UI.displayMessage("Error: The items.json file can’t be accessed.");
         }
         return menu;
     }
 
     /**
      * Metodo para listar personajes
-     * @param managerCharacter es el objeto que se encarga de la gestión de personajes
      */
-    private void listarPersonaje(ManagerCharacter managerCharacter) {
+    private void listarPersonaje() {
         int op;
-        List<Character> characters = managerCharacter.UploadCharacters();
+        List<Character> characters =managerLSBRO.getManagerCharacter().UploadCharacters();
         do {
             ui.printAllCharacters(characters);
             op = UI.askForInteger("Choose an option: ");
