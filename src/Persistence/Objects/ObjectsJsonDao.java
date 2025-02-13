@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Clase que se encarga de leer los objetos del fichero 'items.json'
  */
-public class ObjectsJsonDao {
+public class ObjectsJsonDao implements ObjectsDao {
 
     private final String path = "data/items.json";
     private final Gson gson = new Gson();
@@ -42,7 +42,7 @@ public class ObjectsJsonDao {
      * Función que verifica si el fichero 'items.json' existe
      * @return boolean
      */
-    public boolean checkObjectsFile()
+    public boolean checkAvailable()
     {
         try (FileReader _ = new FileReader(path)) {
             return true;

@@ -1,5 +1,8 @@
 package src.Bussines;
 
+import edu.salle.url.api.exception.ApiException;
+import src.Persistence.Characters.CharactersJsonDao;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -278,6 +281,23 @@ public class ManagerLSBRO {
         for (Character member : team.getMembers()) {
             member.setDeffendingMode(false);
         }
+    }
+
+    /**
+     * Metodo para verificar si un personaje existe
+     * @param newID es el nuevo ID a verificar
+     * @param inputCharacter es el personaje a verificar
+     * @return boolean
+     */
+    public boolean existCharacter(long newID, String inputCharacter) throws ApiException {
+        List<Character> characters = managerCharacter.UploadCharacters();
+        for (Character character : characters) {
+            String current_character = character.getName();
+            if (character.getId() == newID || current_character.equals(inputCharacter)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

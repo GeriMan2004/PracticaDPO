@@ -48,12 +48,14 @@ public class ManagerTeam {
      */
     public List<Team> matchTeams(Character character){
         TeamsJsonDao teamsJsonDao = new TeamsJsonDao();
-        List<Team> teams = teamsJsonDao.readTeams();
+        List<Team> teams = TeamsJsonDao.readTeams();
         List<Team> matchedTeams = new ArrayList<>();
-        for (Team team : teams) {
-            for (Character characters : team.getMembers()) {
-                if (characters.getId() == character.getId()) {
-                    matchedTeams.add(team);
+        if (teams != null) {
+            for (Team team : teams) {
+                for (Character characters : team.getMembers()) {
+                    if (characters.getId() == character.getId()) {
+                        matchedTeams.add(team);
+                    }
                 }
             }
         }
@@ -112,22 +114,7 @@ public class ManagerTeam {
         return team;
     }
 
-    /**
-     * Metodo para verificar si un personaje existe
-     * @param newID es el nuevo ID a verificar
-     * @param inputCharacter es el personaje a verificar
-     * @return boolean
-     */
-    public boolean existCharacter(long newID, String inputCharacter) {
-        List<Character> characters = CharactersJsonDao.readCharacters();
-        for (Character character : characters) {
-            String current_character = character.getName();
-            if (character.getId() == newID || current_character.equals(inputCharacter)) {
-                return true;
-            }
-        }
-        return false;
-    }
+
 
     public boolean existTeam(String teamName) {
         List<Team> teams = TeamsJsonDao.readTeams();

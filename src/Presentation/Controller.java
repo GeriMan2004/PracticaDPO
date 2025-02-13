@@ -1,8 +1,8 @@
 package src.Presentation;
 
+import edu.salle.url.api.exception.ApiException;
 import src.Bussines.*;
 import src.Bussines.Character;
-import src.Persistence.Characters.CharactersJsonDao;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +56,9 @@ public class Controller {
         }
     }
 
-    private boolean checkAPIstatus() {
+    private boolean checkAPIstatus() throws ApiException {
         boolean menu = true;
-        if (managerLSBRO.getManagerCharacter().checkCharacterFile() == 0) {
+        if (managerLSBRO.getManagerCharacter().checkCharacterFile() != 1 || managerLSBRO.getManagerObject().checkItemFile() == 1) {
             menu = false;
             UI.displayMessage("Error: The API isn’t available.");
         }
@@ -69,13 +69,13 @@ public class Controller {
      * Metodo para verificar los archivos locales
      * @return devuelve un booleano que indica si los archivos locales se han verificado con éxito
      */
-    private boolean verifyLocalFiles() {
+    private boolean verifyLocalFiles() throws ApiException {
         boolean menu = true;
-        if (managerLSBRO.getManagerCharacter().checkCharacterFile() == 0) {
+        if (managerLSBRO.getManagerCharacter().checkCharacterFile() != 2) {
             menu = false;
             UI.displayMessage("Error: The characters.json file can’t be accessed.");
         }
-        if (!managerLSBRO.getManagerObject().checkItemFile()) {
+        if (managerLSBRO.getManagerObject().checkItemFile() != 2) {
             menu = false;
             UI.displayMessage("Error: The items.json file can’t be accessed.");
         }
@@ -85,7 +85,7 @@ public class Controller {
     /**
      * Metodo para listar personajes
      */
-    private void listarPersonaje() {
+    private void listarPersonaje() throws ApiException {
         int op;
         List<Character> characters =managerLSBRO.getManagerCharacter().UploadCharacters();
         do {
@@ -120,7 +120,7 @@ public class Controller {
      * Metodo para listar equipos, muestra los equipos de la base de datos
      * @param managerTeam es el objeto que se encarga de la gestión de equipos
      */
-    private void listTeams(ManagerTeam managerTeam) {
+    private void listTeams(ManagerTeam managerTeam) throws ApiException {
         int op;
         List<Team> teams = managerTeam.getAllTeams();
         do {
@@ -178,11 +178,11 @@ public class Controller {
                     try {
                         long newID = Long.parseLong(input);
                         character = new Character(newID, "");
-                        found = managerLSBRO.getManagerTeam().existCharacter(newID, "");
+                        found = managerLSBRO.existCharacter(newID, "");
 
                     } catch (NumberFormatException e) {
-                        List<Character> characters = CharactersJsonDao.readCharacters();
-                        found = managerLSBRO.getManagerTeam().existCharacter(-50, input);
+                        List<Character> characters = managerLSBRO.getManagerCharacter().UploadCharacters();
+                        found = managerLSBRO.existCharacter(-50, input);
                         character = new Character(0, "");
                         for (Character c : characters) {
                             if (c.getName().equals(input)) {
@@ -253,7 +253,7 @@ public class Controller {
     /**
      * Metodo para simular un combate
      */
-    private void runcombatSimulator () {
+    private void runcombatSimulator () throws ApiException {
         UI.displayMessage("\nStarting simulation...");
 
         // CombatRound es una variable que almacena el resultado de la simulación de un round, tanto
@@ -280,7 +280,7 @@ public class Controller {
      * Metodo para escoger equipos para el combate
      * @return Combat
      */
-    private Combat escojerEquipos () {
+    private Combat escojerEquipos () throws ApiException {
         UI.displayMessage("Looking for available teams...\n");
         List <Team> updatedTeams = new ArrayList<>();
         List <Team> teams = managerLSBRO.getManagerTeam().getAllTeams();

@@ -1,5 +1,6 @@
 package src.Bussines;
 
+import edu.salle.url.api.exception.ApiException;
 import src.Persistence.Characters.CharactersApiDao;
 import src.Persistence.Characters.CharactersDao;
 import src.Persistence.Characters.CharactersJsonDao;
@@ -8,7 +9,7 @@ import java.util.List;
 
 /**
  * ManagerCharacter es la clase que se encarga de gestionar los personajes del juego
- * {@link CharactersJsonDao}
+ * {@link CharactersDao}
  */
 public class ManagerCharacter {
     CharactersDao charactersDao;
@@ -29,17 +30,15 @@ public class ManagerCharacter {
      * Metodo para cargar los personajes
      * @return List<Character>
      */
-    public List<Character> UploadCharacters()
-    {
-        return CharactersJsonDao.readCharacters();
+    public List<Character> UploadCharacters() throws ApiException {
+        return charactersDao.readCharacters();
     }
 
     /**
      * Metodo para verificar si el archivo de personajes existe
      * @return boolean true si existe, false si no
      */
-    public int checkCharacterFile()
-    {
+    public int checkCharacterFile() throws ApiException {
         CharactersDao charactersApiDao = new CharactersApiDao();
         if (charactersApiDao.checkAvailable()) {
             return 1;
@@ -88,8 +87,8 @@ public class ManagerCharacter {
      * @param members characters
      * @return matchedCharacters
      */
-    public List<Character> matchCharacters(List<Character> members) {
-        List<Character> characters = CharactersJsonDao.readCharacters();
+    public List<Character> matchCharacters(List<Character> members) throws ApiException {
+        List<Character> characters = charactersDao.readCharacters();
         List<Character> matchedCharacters = new ArrayList<>();
         for (Character character : characters) {
             for (Character member : members) {

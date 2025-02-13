@@ -20,7 +20,7 @@ public class CharactersJsonDao implements CharactersDao{
      * Función que lee todos los personajes del fichero 'characters.json'
      * @return lista de personajes
      */
-    public static List<Character> readCharacters() {
+    public List<Character> readCharacters() {
 
         List<Character> characters = new ArrayList<>();
 

@@ -1,5 +1,8 @@
 package src.Bussines;
 
+import edu.salle.url.api.exception.ApiException;
+import src.Persistence.Objects.ObjectsApiDao;
+import src.Persistence.Objects.ObjectsDao;
 import src.Persistence.Objects.ObjectsJsonDao;
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,14 +14,19 @@ import java.util.List;
  */
 public class ManagerCombat {
 
-    private final ObjectsJsonDao itemsJsonDao;
+    ObjectsDao objectsDao;
 
     /**
      * Constructor de la clase ManagerCombat
-     * @param itemsJsonDao es el objeto que se encarga de la persistencia de los objetos
+     * @param objectsJsonDao En caso de que el objectsApi Falle, utilizaremos este
+     * @param objectsApiDao es nuestra primera opción en caso de que funcione
      */
-    public ManagerCombat(ObjectsJsonDao itemsJsonDao) {
-        this.itemsJsonDao = itemsJsonDao;
+    public ManagerCombat(ObjectsJsonDao objectsJsonDao, ObjectsApiDao objectsApiDao) {
+        if (objectsApiDao.checkAvailable()){
+            this.objectsDao = objectsApiDao;
+        } else if (objectsJsonDao.checkAvailable()) {
+            this.objectsDao = objectsJsonDao;
+        }
     }
 
     /**
@@ -27,7 +35,7 @@ public class ManagerCombat {
      * @param teamsSelected es la lista de equipos seleccionados
      * @return Combat
      */
-    public Combat initCombat(List<Team> teamsSelected) {
+    public Combat initCombat(List<Team> teamsSelected) throws ApiException {
         teamsSelected = matchRandomWeaponArmour(teamsSelected.get(0), teamsSelected.get(1));
         return new Combat(teamsSelected.get(0), teamsSelected.get(1));
     }
@@ -38,9 +46,9 @@ public class ManagerCombat {
      * @param team1 es el primer equipo
      * @return List<Team>
      */
-    public List<Team> matchRandomWeaponArmour(Team team1, Team team2){
+    public List<Team> matchRandomWeaponArmour(Team team1, Team team2) throws ApiException {
         List<Team> teamsCombat = new ArrayList<>();
-        List<Item> items = itemsJsonDao.readObjects();
+        List<Item> items = objectsDao.readObjects();
         List<Character> members1 = team1.getMembers();
         List<Character> members2 = team2.getMembers();
         String type = "";
