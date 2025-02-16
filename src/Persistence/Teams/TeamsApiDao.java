@@ -1,21 +1,17 @@
 package src.Persistence.Teams;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import edu.salle.url.api.ApiHelper;
 import edu.salle.url.api.exception.ApiException;
-import src.Bussines.Item;
 import src.Bussines.Team;
-
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TeamsApiDao implements TeamsDao{
     private final static String url = "https://balandrau.salle.url.edu/dpoo/S1-Project_15/teams";
-    private static final Gson gson = new Gson();
+    private static final Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
     private boolean status = false;
     private final ApiHelper apiHelper;
 
@@ -34,8 +30,9 @@ public class TeamsApiDao implements TeamsDao{
         // Primero nos conectamos a la API y obtenemos los datos a través del ApiHelper, el cual nos devuelve un String con formato JSON
         String jsonFormat = apiHelper.getFromUrl(url);
         // A continuación, convertimos el String JSON a una lista de objetos de tipo Character
-        Type itemListType = new TypeToken<ArrayList<Team>>(){}.getType();
-        teams = gson.fromJson(jsonFormat, itemListType);
+        Type itemListType = new TypeToken<List<Team>>(){}.getType();
+        String unwrappedJson = jsonFormat.substring(1, jsonFormat.length() - 1);
+        teams = gson.fromJson(unwrappedJson, itemListType);
         return teams;
     }
 
@@ -47,11 +44,14 @@ public class TeamsApiDao implements TeamsDao{
     public void writeTeams (List<Team> teams) {
         deleteTeams();
         try {
-            apiHelper.postToUrl(url, gson.toJson(teams));
+            Type teamListType = new TypeToken<List<Team>>() {}.getType();
+            String json = gson.toJson(teams, teamListType);
+            apiHelper.postToUrl(url, json);
         } catch (ApiException e) {
             // Logic to handle the error
         }
     }
+
 
     /**
      * Esta función borra todos los equipos de la API, en caso de que se pueda acceder a ella
@@ -60,8 +60,7 @@ public class TeamsApiDao implements TeamsDao{
         try {
             apiHelper.deleteFromUrl(url);
         } catch (ApiException e) {
-            System.out.println("Error: The teams couldn't be deleted from the API.\n");
-            System.out.println("Shutting down.\n");
+            // Logic to handle the error
         }
     }
 
