@@ -136,7 +136,7 @@ public class UI {
         if (character.getArmour() != null && showObjects) {
             System.out.print(" - " + character.getArmour().getName());
         } else if (showObjects) {
-            System.out.print(" - no armour");
+            System.out.print(" - no armor");
         }
         System.out.println();
     }

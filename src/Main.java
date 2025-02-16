@@ -33,7 +33,7 @@ public class Main {
         ManagerCharacter ManagerCharacter = new ManagerCharacter(charactersJsonDao, charactersApiDao);
         ManagerTeam ManagerTeam = new ManagerTeam(teamsJsonDao, statsJsonDao, teamsApiDao, statsApiDao);
         ManagerObject ManagerObject = new ManagerObject(objectsJsonDao, objectsApiDao);
-        ManagerCombat ManagerCombat = new ManagerCombat(objectsJsonDao, objectsApiDao);
+        ManagerCombat ManagerCombat = new ManagerCombat(objectsJsonDao, objectsApiDao, ManagerObject);
 
         // Instanciamos el ManagerLSBRO con los Managers anteriores como parámetros
         ManagerLSBRO managerLSBRO = new ManagerLSBRO(ManagerCharacter, ManagerTeam, ManagerObject, ManagerCombat);

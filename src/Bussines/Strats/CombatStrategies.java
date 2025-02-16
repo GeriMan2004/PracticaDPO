@@ -51,8 +51,8 @@ public abstract class CombatStrategies implements Strategy {
         if (attacker.getWeapon() != null) {
             attacker.getWeapon().decreaseDurability();
         }
-        if (defender.getWeapon() != null) {
-            defender.getWeapon().decreaseDurability();
+        if (defender.getArmour() != null) {
+            defender.getArmour().decreaseDurability();
         }
     }
 

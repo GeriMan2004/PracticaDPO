@@ -15,13 +15,14 @@ import java.util.List;
 public class ManagerCombat {
 
     ObjectsDao objectsDao;
-
+    private final ManagerObject managerObject;
     /**
      * Constructor de la clase ManagerCombat
      * @param objectsJsonDao En caso de que el objectsApi Falle, utilizaremos este
      * @param objectsApiDao es nuestra primera opción en caso de que funcione
      */
-    public ManagerCombat(ObjectsJsonDao objectsJsonDao, ObjectsApiDao objectsApiDao) {
+    public ManagerCombat(ObjectsJsonDao objectsJsonDao, ObjectsApiDao objectsApiDao,  ManagerObject managerObject) {
+        this.managerObject = managerObject;
         if (objectsApiDao.checkAvailable()){
             this.objectsDao = objectsApiDao;
         } else if (objectsJsonDao.checkAvailable()) {
@@ -48,12 +49,26 @@ public class ManagerCombat {
      */
     public List<Team> matchRandomWeaponArmour(Team team1, Team team2) throws ApiException {
         List<Team> teamsCombat = new ArrayList<>();
-        List<Item> items = objectsDao.readObjects();
+        List<Item> items = managerObject.uploadObjects();
         List<Character> members1 = team1.getMembers();
         List<Character> members2 = team2.getMembers();
         String type = "";
         int randomNumber;
 
+        asignRandom(items, members1);
+        asignRandom(items, members2);
+        team1.setMembers(members1);
+        team2.setMembers(members2);
+
+        teamsCombat.add(team1);
+        teamsCombat.add(team2);
+
+        return teamsCombat;
+    }
+
+    private void asignRandom(List<Item> items, List<Character> members1) {
+        int randomNumber;
+        String type;
         for(Character character: members1){
             do{
                 randomNumber = new Random().nextInt(items.size());
@@ -66,24 +81,5 @@ public class ManagerCombat {
             } while (!type.equals("Weapon"));
             character.setWeapon(items.get(randomNumber));
         }
-        for(Character character: members2){
-            do{
-                randomNumber = new Random().nextInt(items.size());
-                type = items.get(randomNumber).getObject_type();
-            } while (!type.equals("Armor"));
-            character.setArmour(items.get(randomNumber));
-            do {
-                randomNumber = new Random().nextInt(items.size());
-                type = items.get(randomNumber).getObject_type();
-            } while (!type.equals("Weapon"));
-            character.setWeapon(items.get(randomNumber));
-        }
-        team1.setMembers(members1);
-        team2.setMembers(members2);
-
-        teamsCombat.add(team1);
-        teamsCombat.add(team2);
-
-        return teamsCombat;
     }
 }

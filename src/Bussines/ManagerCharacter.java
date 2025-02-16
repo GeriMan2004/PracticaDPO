@@ -57,7 +57,6 @@ public class ManagerCharacter {
      * por el ataque de un personaje
      * @param defender es el personaje que ataca
      * @param attack es el daño base hecho por el ataque
-     * @param attackerWeight es el peso del atacante
      * @return double
      */
     public double reciveDamage(Character defender, double attack) {
@@ -67,9 +66,7 @@ public class ManagerCharacter {
 
         if(defender.getArmour() != null) {
             if(defender.getArmour() instanceof Armor) {
-                armorEffective = ((Armor) defender.getArmour()).getEffectiveArmor(defenderWeight);
-            } else {
-                armorEffective = defender.getArmour().getPowerValue() / 20.0;
+                armorEffective = defender.getArmour().getEffectiveArmor(defenderWeight);
             }
         }
 
@@ -98,9 +95,6 @@ public class ManagerCharacter {
             // We assume that attacker.getWeapon() now returns an instance of Weapon (or SuperWeapon)
             if (attacker.getWeapon() instanceof Weapon) {
                 weaponEffectiveAttack = ((Weapon) attacker.getWeapon()).getEffectiveAttack(attackerWeight);
-            } else {
-                // fallback if needed
-                weaponEffectiveAttack = attacker.getWeapon().getPowerValue() / 20.0;
             }
         }
 
