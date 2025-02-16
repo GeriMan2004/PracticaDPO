@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ObjectsApiDao implements ObjectsDao{
-    private final static String url = "https://balandrau.salle.url.edu/dpoo/items";
+    private final static String url = "https://balandrau.salle.url.edu/dpoo/shared/items";
     private static final Gson gson = new Gson();
     private boolean status = false;
     private final ApiHelper apiHelper;

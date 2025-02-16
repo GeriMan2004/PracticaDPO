@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Esta clase se encarga de las instancias de objetos en el juego, como armas y armaduras
  */
-public abstract class Item {
+public class Item {
     private final long id;
     private final String name;
     @SerializedName("class")
@@ -27,6 +27,16 @@ public abstract class Item {
         this.class_name = class_name;
         this.power = power;
         this.durability = durability;
+    }
+
+    // Método "por defecto" para obtener el poder efectivo en ataque, en caso de que
+    public double getEffectiveAttack(double attackerWeight) {
+        return power / 20.0;
+    }
+
+    // Método "por defecto" para obtener el valor efectivo de la armadura
+    public double getEffectiveArmor(double attackerWeight) {
+        return power / 20.0;
     }
 
     /**

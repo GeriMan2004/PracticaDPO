@@ -58,7 +58,7 @@ public class Controller {
 
     private boolean checkAPIstatus() throws ApiException {
         boolean menu = true;
-        if (managerLSBRO.getManagerCharacter().checkCharacterFile() != 1 || managerLSBRO.getManagerObject().checkItemFile() == 1) {
+        if (managerLSBRO.getManagerCharacter().checkCharacterFile() != 1 || managerLSBRO.getManagerObject().checkItemFile() != 1) {
             menu = false;
             UI.displayMessage("Error: The API isn’t available.");
         }
