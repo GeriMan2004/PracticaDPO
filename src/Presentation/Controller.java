@@ -197,15 +197,25 @@ public class Controller {
                 } while (!found);
                 do {
                     UI.displayMessage("Game strategy for character #" + (i + 1)
-                            + "\n\t" + "1)Balanced\n");
+                            + "\n\t" + "1)Balanced\n"
+                            + "\n\t" + "2)Offensive\n"
+                            + "\n\t" + "3)Defensive\n"
+                            + "\n\t" + "4)Sniper\n");
                     op = UI.askForInteger("\tChoose an option:");
-                    if (op != 1) {
+                    if (1>op || op>4) {
                         UI.displayMessage("\tOption not valid!");
                     }
                     if (op == 1) {
                         character.setStrategy("Balanced");
+                    } else if (op == 2) {
+                        character.setStrategy("Offensive");
+                    } else if (op == 3) {
+                        character.setStrategy("Defensive");
+                    } else if (op == 4) {
+                        character.setStrategy("Sniper");
+
                     }
-                } while (op != 1);
+                } while (op<1 || op>4);
                 members.add(character);
             }
             team.setMembers(members);
