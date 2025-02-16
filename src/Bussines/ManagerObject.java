@@ -1,12 +1,15 @@
 package src.Bussines;
 
 import edu.salle.url.api.exception.ApiException;
+import src.Bussines.ItemTypes.ItemFactory;
 import src.Persistence.Characters.CharactersApiDao;
 import src.Persistence.Characters.CharactersDao;
 import src.Persistence.Characters.CharactersJsonDao;
 import src.Persistence.Objects.ObjectsApiDao;
 import src.Persistence.Objects.ObjectsDao;
 import src.Persistence.Objects.ObjectsJsonDao;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,6 +53,11 @@ public class ManagerObject {
      * @return List<Item>
      */
     public List<Item> uploadObjects() throws ApiException {
-        return objectsDao.readObjects();
+        List<Item> rawItems = objectsDao.readObjects();
+        List<Item> items = new ArrayList<>();
+        for (Item baseItem : rawItems) {
+            items.add(ItemFactory.createItem(baseItem));
+        }
+        return items;
     }
 }
