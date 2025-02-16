@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Clase que se encarga de leer los equipos del fichero 'teams.json'
  */
-public class TeamsJsonDao {
+public class TeamsJsonDao implements TeamsDao{
 
     private static final String path = "data/teams.json";
     private static final Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
@@ -22,13 +22,12 @@ public class TeamsJsonDao {
      * Función que lee los equipos del fichero 'teams.json'
      * @return lista de equipos
      */
-    public static List<Team> readTeams() {
+    public List<Team> readTeams() {
         try (FileReader reader = new FileReader(path)) {
             Type teamListType = new TypeToken<List<Team>>() {}.getType();
             return gson.fromJson(reader, teamListType);
         } catch (IOException e) {
-            System.out.println("Error: The teams.json file can’t be accessed.\n");
-            System.out.println("Shutting down.\n");
+            // logic to handle error
             return null;
         }
     }
@@ -37,9 +36,11 @@ public class TeamsJsonDao {
      * Esta función sobreescribe los equipos en el fichero 'teams.json'
      * @param teams es la lista de equipos a escribir en el fichero
      */
-    public void writeTeams(List<Team> teams) throws IOException {
+    public void writeTeams(List<Team> teams) {
         try (FileWriter writer = new FileWriter(path)) {
             gson.toJson(teams, writer);
+        } catch (IOException e) {
+            // Logic to handle exception
         }
     }
 }

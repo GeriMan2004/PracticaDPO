@@ -49,8 +49,7 @@ public class ManagerObject {
      * Metodo para cargar los objetos
      * @return List<Item>
      */
-    public static List<Item> uploadObjects() {
-        ObjectsJsonDao ObjectsJsonDao = new ObjectsJsonDao();
-        return ObjectsJsonDao.readObjects();
+    public List<Item> uploadObjects() throws ApiException {
+        return objectsDao.readObjects();
     }
 }

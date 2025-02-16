@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Clase que se encarga de leer las estadísticas de los equipos del fichero 'stats.json'
  */
-public class StatsJsonDao {
+public class StatsJsonDao implements StatsDao{
     private final Gson gson = new Gson();
 
     /**
@@ -22,10 +22,8 @@ public class StatsJsonDao {
             String path = "data/stats.json";
             return gson.fromJson(new FileReader(path), new TypeToken<List<Team>>() {}.getType());
         } catch (IOException e) {
-            System.out.println("Error: The stats.json file can’t be accessed.\n");
-            System.out.println("Shutting down.\n");
+            // Logic to handle the error and return null
             return null;
         }
     }
-
 }

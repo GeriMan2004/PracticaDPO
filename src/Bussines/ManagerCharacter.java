@@ -21,7 +21,7 @@ public class ManagerCharacter {
         // En caso de que la API esté disponible, se utilizará para obtener los personajes, en caso contrario, se utilizará el fichero 'characters.json'
         if (charactersApiDao.checkAvailable()) {
             charactersDao = charactersApiDao;
-        } else {
+        } else if (charactersJsonDao.checkAvailable()) {
             charactersDao = charactersJsonDao;
         }
     }

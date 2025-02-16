@@ -1,7 +1,12 @@
 package src.Bussines;
 
+import edu.salle.url.api.exception.ApiException;
 import src.Persistence.Characters.CharactersJsonDao;
+import src.Persistence.Stats.StatsApiDao;
+import src.Persistence.Stats.StatsDao;
 import src.Persistence.Stats.StatsJsonDao;
+import src.Persistence.Teams.TeamsApiDao;
+import src.Persistence.Teams.TeamsDao;
 import src.Persistence.Teams.TeamsJsonDao;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,31 +18,35 @@ import java.util.List;
  */
 public class ManagerTeam {
 
-    TeamsJsonDao teamsJsonDao;
-    StatsJsonDao statsJsonDao;
+    TeamsDao teamsDao;
+    StatsDao statsDao;
 
     /**
      * Constructor de la clase ManagerTeam
      * @param teamsJsonDao es el objeto que se encarga de la persistencia de los equipos
      * @param statsJsonDao es el objeto que se encarga de la persistencia de las estadísticas
      */
-    public ManagerTeam(TeamsJsonDao teamsJsonDao, StatsJsonDao statsJsonDao) {
-        this.teamsJsonDao = teamsJsonDao;
-        this.statsJsonDao = statsJsonDao;
+    public ManagerTeam(TeamsJsonDao teamsJsonDao, StatsJsonDao statsJsonDao, TeamsApiDao teamsApiDao, StatsApiDao statsApiDao) {
+        if (teamsApiDao.checkAvailable()){
+            this.teamsDao = teamsApiDao;
+        } else {
+            this.teamsDao = teamsJsonDao;
+        }
+        if (statsApiDao.checkAvailable()){
+            this.statsDao = statsApiDao;
+        } else {
+            this.statsDao = statsJsonDao;
+        }
     }
 
     /**
      * Metodo para obtener los equipos
      * @return List<Team>
      */
-    public List<Team> getAllTeams()
-    {
-        TeamsJsonDao teamsJsonDao = new TeamsJsonDao();
-        StatsJsonDao statsJsonDao = new StatsJsonDao();
-        List<Team> teams = teamsJsonDao.readTeams();
-        List<Team> stats = statsJsonDao.readStats();
+    public List<Team> getAllTeams() throws ApiException {
+        List<Team> teams = teamsDao.readTeams();
+        List<Team> stats = statsDao.readStats();
         matchStats(teams, stats);
-
         return teams;
     }
 
@@ -46,9 +55,8 @@ public class ManagerTeam {
      * @param character es el personaje a vincular
      * @return List<Team>
      */
-    public List<Team> matchTeams(Character character){
-        TeamsJsonDao teamsJsonDao = new TeamsJsonDao();
-        List<Team> teams = TeamsJsonDao.readTeams();
+    public List<Team> matchTeams(Character character) throws ApiException {
+        List<Team> teams = teamsDao.readTeams();
         List<Team> matchedTeams = new ArrayList<>();
         if (teams != null) {
             for (Team team : teams) {
@@ -68,10 +76,9 @@ public class ManagerTeam {
      * @throws IOException
      */
     public void addTeam(Team team) throws IOException {
-        TeamsJsonDao teamsJsonDao = new TeamsJsonDao();
-        List<Team> teamsupdated = teamsJsonDao.readTeams();
+        List<Team> teamsupdated = teamsDao.readTeams();
         teamsupdated.add(team);
-        teamsJsonDao.writeTeams(teamsupdated);
+        teamsDao.writeTeams(teamsupdated);
     }
 
     /**
@@ -79,9 +86,8 @@ public class ManagerTeam {
      * @param teams es la lista de equipos a añadir
      * @throws IOException
      */
-    public void addTeams(List<Team> teams) throws IOException {
-        TeamsJsonDao teamsJsonDao = new TeamsJsonDao();
-        teamsJsonDao.writeTeams(teams);
+    public void addTeams(List<Team> teams) {
+        teamsDao.writeTeams(teams);
     }
 
     /**
@@ -116,8 +122,8 @@ public class ManagerTeam {
 
 
 
-    public boolean existTeam(String teamName) {
-        List<Team> teams = TeamsJsonDao.readTeams();
+    public boolean existTeam(String teamName) throws ApiException {
+        List<Team> teams = teamsDao.readTeams();
         assert teams != null;
         for (Team team : teams) {
             if (team.getName().equals(teamName)) {

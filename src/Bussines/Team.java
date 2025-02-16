@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import java.util.List;
 /**
  * Esta clase se encarga de las instancias de equipos en el juego, con
- * sus respectivos miembros, estadisticas y otros atributos utiles en el combate
+ * sus respectivos miembros, estadísticas y otros atributos útiles en el combate
  */
 public class Team {
     @Expose
@@ -16,9 +16,6 @@ public class Team {
     private int games_won;
     private int KO_done;
     private int KO_received;
-    private boolean combatDone;
-    @Expose
-    private String Strategy;
 
     /**
      * Constructor de la clase Team
@@ -35,7 +32,6 @@ public class Team {
         this.games_won = games_won;
         this.KO_done = KO_done;
         this.KO_received = KO_received;
-        this.combatDone = combatDone;
     }
 
     /**

@@ -28,8 +28,7 @@ public class CharactersJsonDao implements CharactersDao{
             Type characterListType = new TypeToken<ArrayList<Character>>(){}.getType();
             characters = gson.fromJson(reader, characterListType);
         } catch (IOException e) {
-            System.out.println("Error: The characters.json file can’t be accessed.\n");
-            System.out.println("Shutting down.\n");
+            // Logic to handle the error
         }
 
         return characters;

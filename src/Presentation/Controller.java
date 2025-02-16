@@ -141,9 +141,9 @@ public class Controller {
     /**
      * Metodo para listar objetos
      */
-    private void objectsList() {
+    private void objectsList() throws ApiException {
         int op;
-        List<Item> items = ManagerObject.uploadObjects();
+        List<Item> items = managerLSBRO.getManagerObject().uploadObjects();
 
         do {
             ui.printAllObjects();

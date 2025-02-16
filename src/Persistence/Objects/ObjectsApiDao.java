@@ -19,8 +19,6 @@ public class ObjectsApiDao implements ObjectsDao{
         this.apiHelper = new ApiHelper();
     }
 
-
-
     /**
      * Función que lee todos los personajes de la API con url '<a href="https://balandrau.salle.url.edu/dpoo/characters">...</a>'
      * En caso de que no se pueda acceder a la API, se lanzará una excepción, lo que significará que no se puede acceder a la API

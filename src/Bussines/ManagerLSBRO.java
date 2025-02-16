@@ -1,6 +1,7 @@
 package src.Bussines;
 
 import edu.salle.url.api.exception.ApiException;
+import src.Bussines.Strats.CombatStrategiesFactory;
 import src.Persistence.Characters.CharactersJsonDao;
 
 import java.util.ArrayList;
@@ -40,11 +41,11 @@ public class ManagerLSBRO {
      * @param combat - El combate a simular
      * @return List<Object> - El objeto Combat modificado y el mensaje de la ronda
      */
-    public List<Object> simulateRound(Combat combat) {
+    public List<Object> simulateRound(Combat combat) throws ApiException {
         List<Object> result = new ArrayList<>();
 
         // Obtén la lista de ítems disponibles
-        List<Item> items = ManagerObject.uploadObjects();
+        List<Item> items = managerObject.uploadObjects();
         StringBuilder messageRound = new StringBuilder();
 
         // Obtén los equipos para no tener que acceder a ellos continuamente con la función getTeams
@@ -131,74 +132,16 @@ public class ManagerLSBRO {
      * Esta función simula los ataques de los personajes de un equipo a los personajes de otro equipo
      * @param items - La lista de ítems disponibles
      * @param messageRound - El mensaje de la ronda
-     * @param team1 - El equipo atacante
-     * @param team2 - El equipo defensor
+     * @param attackingTeam - Equipo atacante
+     * @param defendingTeam - Equipo defensor
      */
-    private void attacks(List<Item> items, StringBuilder messageRound, Team team1, Team team2) {
-        int randomNumber;
+    private void attacks(List<Item> items, StringBuilder messageRound, Team attackingTeam, Team defendingTeam) {
         int messageLength = messageRound.length();
-        String type;
-        for (Character member : team1.getMembers()) {
-            // Si el personaje no tiene arma y no está KO, busca un arma aleatoria
-            if (member.getWeapon() == null && !member.isKnockedOut()) {
-                do {
-                    randomNumber = new Random().nextInt(items.size());
-                    type = items.get(randomNumber).getObject_type();
-                } while (!type.equals("Weapon"));
-
-                member.setWeapon(items.get(randomNumber));
-                messageRound.append(member.getName())
-                        .append(" RECEIVED WEAPON ")
-                        .append(member.getWeapon().getName()).append("\n");
-                // De lo contrario, si no está en modo defensa y no está KO, ataca
-            } else if (!member.getDeffendingMode() && !member.isKnockedOut()) {
-                // Elige un oponente vivo al azar en el equipo contrario
-                Character defender;
-                do {
-                    randomNumber = new Random().nextInt(team2.getMembers().size());
-                    defender = team2.getMembers().get(randomNumber);
-                } while (defender.isKnockedOut());
-                defender.setAttacked(true);
-
-                // Calcula el daño base del ataque del atacante
-                double baseDamage = managerCharacter.attack(member);
-
-                messageRound.append(member.getName())
-                        .append(" ATTACKS ")
-                        .append(defender.getName())
-                        .append(" WITH ")
-                        .append(member.getWeapon() != null ? member.getWeapon().getName() : "FISTS")
-                        .append(" FOR ")
-                        .append(String.format("%.1f", baseDamage))
-                        .append(" DAMAGE!\n");
-
-                double finalDamage = managerCharacter.reciveDamage(defender, baseDamage);
-                // Si el defensor está en modo defensa, se aplica la reducción de daño
-                if (defender.getDeffendingMode()) {
-                    messageRound.append("\t")
-                            .append(defender.getName())
-                            .append(" REDUCES damage by ")
-                            .append(String.format("%.2f", member.getDamage_reduction()))
-                            .append(" using defending mode.\n");
-                }
-
-                // Aplica el daño acumulándolo en el atributo damage_received
-                defender.setDamage_received(defender.getDamage_received() + finalDamage);
-
-                messageRound.append("\t")
-                        .append(defender.getName())
-                        .append(" RECEIVES ")
-                        .append(String.format("%.2f", finalDamage))
-                        .append(" DAMAGE.\n");
-
-                // Disminuye la durabilidad del arma del atacante, si existe
-                if (member.getWeapon() != null) {
-                    member.getWeapon().decreaseDurability();
-                }
-                // Disminuye la durabilidad del arma del defensor, si existe
-                if (defender.getWeapon() != null) {
-                    defender.getWeapon().decreaseDurability();
-                }
+        for (Character member : attackingTeam.getMembers()) {
+            if (!member.isKnockedOut()) {
+                // Get the appropriate combat strategy based on the character's strategy attribute
+                Strategy strategy = CombatStrategiesFactory.getStrategy(member.getStrategy());
+                strategy.performAction(member, items, defendingTeam, messageRound, managerCharacter);
             }
         }
         if (messageRound.length() > messageLength) {

@@ -17,7 +17,6 @@ public class ObjectsJsonDao implements ObjectsDao {
     private final String path = "data/items.json";
     private final Gson gson = new Gson();
 
-
     /**
      * Función que lee todos los objetos del fichero 'items.json'
      * @return lista de objetos
@@ -31,8 +30,7 @@ public class ObjectsJsonDao implements ObjectsDao {
             }.getType();
             items = gson.fromJson(reader, itemListType);
         } catch (IOException e) {
-            System.out.println("Error: The objects.json file can’t be accessed.\n");
-            System.out.println("Shutting down.\n");
+            // Logic to handle the error
         }
 
         return items;

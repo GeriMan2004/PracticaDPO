@@ -5,7 +5,9 @@ import src.Persistence.Characters.CharactersApiDao;
 import src.Persistence.Characters.CharactersJsonDao;
 import src.Persistence.Objects.ObjectsApiDao;
 import src.Persistence.Objects.ObjectsJsonDao;
+import src.Persistence.Stats.StatsApiDao;
 import src.Persistence.Stats.StatsJsonDao;
+import src.Persistence.Teams.TeamsApiDao;
 import src.Persistence.Teams.TeamsJsonDao;
 import src.Presentation.Controller;
 
@@ -24,10 +26,12 @@ public class Main {
         TeamsJsonDao teamsJsonDao = new TeamsJsonDao();
         CharactersApiDao charactersApiDao = new CharactersApiDao();
         ObjectsApiDao objectsApiDao = new ObjectsApiDao();
+        TeamsApiDao teamsApiDao = new TeamsApiDao();
+        StatsApiDao statsApiDao = new StatsApiDao();
 
         // Instanciamos los Managers
         ManagerCharacter ManagerCharacter = new ManagerCharacter(charactersJsonDao, charactersApiDao);
-        ManagerTeam ManagerTeam = new ManagerTeam(teamsJsonDao, statsJsonDao);
+        ManagerTeam ManagerTeam = new ManagerTeam(teamsJsonDao, statsJsonDao, teamsApiDao, statsApiDao);
         ManagerObject ManagerObject = new ManagerObject(objectsJsonDao, objectsApiDao);
         ManagerCombat ManagerCombat = new ManagerCombat(objectsJsonDao, objectsApiDao);
 
