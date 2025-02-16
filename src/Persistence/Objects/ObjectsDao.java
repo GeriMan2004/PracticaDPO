@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ObjectsDao {
     List<Item> readObjects() throws ApiException;
+
 }

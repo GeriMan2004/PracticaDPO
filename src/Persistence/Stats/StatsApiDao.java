@@ -4,8 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import edu.salle.url.api.ApiHelper;
 import edu.salle.url.api.exception.ApiException;
+import src.Bussines.Stats;
 import src.Bussines.Team;
 
+import java.io.FileWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,51 @@ public class StatsApiDao implements StatsDao{
         return teams;
     }
 
+    /**
+     * Función que actualiza las estadísticas de los equipos en la API
+     *
+     * @param team1 estadísticas del equipo 1
+     * @param team2 estadísticas del equipo 2
+     */
+    public void updateStats(Stats team1, Stats team2) throws ApiException {
+        List<Team> teams = readStats();
+        List<Stats> stats = new ArrayList<>(teams.size());
+
+        for (Team team : teams) {
+            if (team.getName().equals(team1.getTeam_name())) {
+                new Stats(team1.getTeam_name(), team1.getGames_won(),
+                        team1.getGames_played(), team1.getKO_done(), team1.getKO_received());
+            } else if (team.getName().equals(team2.getTeam_name())) {
+                new Stats(team2.getTeam_name(), team2.getGames_won(),
+                        team2.getGames_played(), team2.getKO_done(), team2.getKO_received());
+            }
+        }
+
+        deleteTeams();
+
+        try {
+            apiHelper.postToUrl(url, gson.toJson(stats));
+        } catch (ApiException e) {
+            // Logic to handle the error
+        }
+
+    }
+
+    /**
+     * Función que elimina los datos de la API
+     */
+    private void deleteTeams() {
+        try {
+            apiHelper.deleteFromUrl(url);
+        } catch (ApiException e) {
+            // Logic to handle the error
+        }
+    }
+
+    /**
+     * Función que verifica si la API está disponible
+     * @return boolean
+     */
     public boolean checkAvailable() {
         try {
             apiHelper.getFromUrl(url);
