@@ -8,4 +8,5 @@ import java.util.List;
 public interface StatsDao {
     List<Team> readStats() throws ApiException;
     void updateStats(Stats team1, Stats team2) throws ApiException;
+    boolean checkAvailable();
 }

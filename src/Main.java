@@ -34,6 +34,7 @@ public class Main {
         ManagerTeam ManagerTeam = new ManagerTeam(teamsJsonDao, statsJsonDao, teamsApiDao, statsApiDao);
         ManagerObject ManagerObject = new ManagerObject(objectsJsonDao, objectsApiDao);
         ManagerCombat ManagerCombat = new ManagerCombat(objectsJsonDao, objectsApiDao, ManagerObject);
+        ManagerStats ManagerStats = new ManagerStats(statsJsonDao, statsApiDao);
 
         // Instanciamos el ManagerLSBRO con los Managers anteriores como parámetros
         ManagerLSBRO managerLSBRO = new ManagerLSBRO(ManagerCharacter, ManagerTeam, ManagerObject, ManagerCombat);

@@ -10,6 +10,10 @@ public class ManagerStats {
 
     StatsDao statsJsonDao;
 
+    public ManagerStats(StatsDao statsJsonDao, StatsDao statsJsonDao1) {
+        this.statsJsonDao = statsJsonDao;
+
+    }
     public void updateStats(Combat combat, int countKo, int teamKo) throws ApiException {
         Team team1 = combat.getTeam1();
         Team team2 = combat.getTeam2();

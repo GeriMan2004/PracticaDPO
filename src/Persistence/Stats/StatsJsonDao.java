@@ -16,6 +16,8 @@ import java.util.List;
 public class StatsJsonDao implements StatsDao{
     private final Gson gson = new Gson();
     private final Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
+    private final String path = "data/stats.json";
+
 
     /**
      * Función que lee las estadísticas de los equipos del fichero 'stats.json'
@@ -23,7 +25,7 @@ public class StatsJsonDao implements StatsDao{
      */
     public List<Team> readStats () {
         try {
-            String path = "data/stats.json";
+
             return gson.fromJson(new FileReader(path), new TypeToken<List<Team>>() {}.getType());
         } catch (IOException e) {
             // Logic to handle the error and return null
@@ -58,6 +60,18 @@ public class StatsJsonDao implements StatsDao{
         } catch (IOException e) {
             System.out.println("Error: The stats.json file can’t be accessed.\n");
             System.out.println("Shutting down.\n");
+        }
+    }
+    /**
+     * Función que verifica si el fichero 'items.json' existe
+     * @return boolean
+     */
+    public boolean checkAvailable()
+    {
+        try (FileReader _ = new FileReader(path)) {
+            return true;
+        } catch (IOException e) {
+            return false;
         }
     }
 }
